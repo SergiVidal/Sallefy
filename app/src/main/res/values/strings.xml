@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name">SallefyV1</string>
+    <string name="track_list">Lista</string>
+
+
+    <!-- DEFAULT TRACK -->
+    <string name="default_track_title">Título canción</string>
+    <string name="default_track_author">Autor/a</string>
+
+    <!-- DEFAULT PLAYLIST -->
+    <string name="default_playlist_title">Título playlist</string>
+
+    <!-- ACTION -->
+    <string name="action_login">Iniciar sesión</string>
+    <string name="action_logout">Cerrar sesión</string>
+    <string name="action_register">Registrarse</string>
+    <string name="action_advance_list">Mostrat Tracks (avanzado)</string>
+    <string name="action_list">Mostrar Tracks</string>
+    <string name="create_playlist">Crear Playlist</string>
+    <string name="name">Nombre</string>
+    <string name="track_name">Nombre Track</string>
+    <string name="playlist_name">Nombre Playlist</string>
+    <string name="add_track_to_playlist">Añadir una canción a una Playlist</string>
+    <string name="add_track">Añadir una canción</string>
+    <string name="display_playlist_musics">Consultar canciones</string>
+
+
+    <!-- INFO STATE -->
+    <string name="state_wait">Porfavor espere..</string>
+    <string name="state_task_in_progress">Tarea en proceso</string>
+    <string name="state_error_connexion">Error de conexión!</string>
+    <string name="state_success_title">Éxito</string>
+    <string name="state_task_completed">Tarea completada con éxito!</string>
+    <string name="state_error_title">Error</string>
+    <string name="state_error_default">Algo salió mal!</string>
+
+
+    <!-- ACTIVITY [ Login ] -->
+    <string name="login_username">Nombre usuario</string>
+    <string name="login_password">Contraseña</string>
+    <string name="login_email">Correo electrónico</string>
+    <string name="login_yetIdentified">Todavía no estás registrad@ ?</string>
+    <string name="login_register_here">Regístrate aquí</string>
+
+</resources>
