@@ -1,4 +1,6 @@
 # Sallefy
+Proyecto Sallefy - Desarrollo en dispositivos móviles
+
 ## Table of contents
 * [Mockups](#mockups)
 
