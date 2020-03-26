@@ -13,8 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".controller.activity.ProfileActivity"></activity>
+        <activity android:name=".controller.activity.LibraryActivity" />
+        <activity android:name=".controller.activity.SearchActivity" />
         <activity android:name=".controller.activity.LoginActivity">
-<!--             <activity android:name=".controller.activity.DisplayPlaylistTracksActivity">-->
+
+            <!-- <activity android:name=".controller.activity.DisplayPlaylistTracksActivity"> -->
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,7 +33,6 @@
         <activity android:name=".controller.activity.CreatePlaylistActivity" />
         <activity android:name=".controller.activity.AddTrackActivity" />
         <activity android:name=".controller.activity.DisplayPlaylistTracksActivity" />
-
     </application>
 
 </manifest>

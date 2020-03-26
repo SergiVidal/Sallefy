@@ -2,10 +2,15 @@ package vidal.sergi.sallefyv1.controller.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
 
@@ -26,6 +31,9 @@ public class MainActivity extends AppCompatActivity implements UserCallback {
     private Button mGetPlaylist;
 
     private User user;
+
+    private BottomNavigationView mNav;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,34 +61,60 @@ public class MainActivity extends AppCompatActivity implements UserCallback {
     }
 
     private void initViews() {
-        mList = findViewById(R.id.show_tracks);
-        mList.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), ListActivity.class);
-            startActivity(intent);
-        });
+//        mList = findViewById(R.id.show_tracks);
+//        mList.setOnClickListener(v -> {
+//            Intent intent = new Intent(getApplicationContext(), ListActivity.class);
+//            startActivity(intent);
+//        });
+//
+//        mAdvancedList = findViewById(R.id.show_advanced_tracks);
+//        mAdvancedList.setOnClickListener(v -> {
+//            Intent intent = new Intent(getApplicationContext(), AdvancedListActivity.class);
+//            startActivity(intent);
+//        });
+//
+//        mCreatePlaylist = findViewById(R.id.create_new_playlist);
+//        mCreatePlaylist.setOnClickListener(v -> {
+//            Intent intent = new Intent(getApplicationContext(), CreatePlaylistActivity.class);
+//            startActivity(intent);
+//        });
+//
+//        mAddTrackToPlaylist = findViewById(R.id.add_track_to_playlist);
+//        mAddTrackToPlaylist.setOnClickListener(view -> {
+//            Intent intent = new Intent(getApplicationContext(), AddTrackActivity.class);
+//            startActivity(intent);
+//        });
+//
+//        mGetPlaylist = findViewById(R.id.show_playlist_musics);
+//        mGetPlaylist.setOnClickListener(view -> {
+//            Intent intent = new Intent(getApplicationContext(), DisplayPlaylistTracksActivity.class);
+//            startActivity(intent);
+//        });
 
-        mAdvancedList = findViewById(R.id.show_advanced_tracks);
-        mAdvancedList.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), AdvancedListActivity.class);
-            startActivity(intent);
-        });
+        mNav = findViewById(R.id.bottom_navigation);
+        mNav.setOnNavigationItemSelectedListener(menuItem -> {
+            Intent intent;
+            switch (menuItem.getItemId()) {
+                case R.id.action_home:
+                    intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                    break;
+                case R.id.action_search:
+                    intent = new Intent(getApplicationContext(), SearchActivity.class);
+                    startActivity(intent);
+                    break;
+                case R.id.action_library:
+                    intent = new Intent(getApplicationContext(), LibraryActivity.class);
+                    startActivity(intent);
+                    break;
+                case R.id.action_profile:
+                    intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                    startActivity(intent);
+                    break;
 
-        mCreatePlaylist = findViewById(R.id.create_new_playlist);
-        mCreatePlaylist.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), CreatePlaylistActivity.class);
-            startActivity(intent);
-        });
-
-        mAddTrackToPlaylist = findViewById(R.id.add_track_to_playlist);
-        mAddTrackToPlaylist.setOnClickListener(view -> {
-            Intent intent = new Intent(getApplicationContext(), AddTrackActivity.class);
-            startActivity(intent);
-        });
-
-        mGetPlaylist = findViewById(R.id.show_playlist_musics);
-        mGetPlaylist.setOnClickListener(view -> {
-            Intent intent = new Intent(getApplicationContext(), DisplayPlaylistTracksActivity.class);
-            startActivity(intent);
+            }
+//                replaceFragment(fragment);
+            return true;
         });
     }
 
