@@ -42,4 +42,12 @@
     <string name="login_yetIdentified">Todavía no estás registrad@ ?</string>
     <string name="login_register_here">Regístrate aquí</string>
 
+    <!-- ACTIVITY [ Search ] -->
+    <string name="search">Buscar</string>
+    <string name="search_bar">Autor/Canción</string>
+    <string name="search_button">BUSCAR</string>
+    <string name="search_genre">Género</string>
+    <string name="default_genres">Géneros</string>
+
+
 </resources>
