@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements UserCallback, Pla
 
     private BottomNavigationView mNav;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -218,6 +217,15 @@ public class MainActivity extends AppCompatActivity implements UserCallback, Pla
 
     @Override
     public void onFollowingList(ArrayList<Playlist> playlists) {
+
+    }
+
+    @Override
+    public void onFollowingPlaylist(Playlist playlist) {
+    }
+
+    @Override
+    public void onIsFollowingPlaylist(Playlist playlist) {
 
     }
 

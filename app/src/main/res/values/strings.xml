@@ -63,6 +63,7 @@
     <string name="playlist_detail">Playlist</string>
     <string name="playlist_author">Author</string>
     <string name="playlist_follow">Seguir</string>
+    <string name="playlist_unfollow">Dejar de Seguir</string>
     <string name="playlist_random">Aleatorio</string>
 
 </resources>
