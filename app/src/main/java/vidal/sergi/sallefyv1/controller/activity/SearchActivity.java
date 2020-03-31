@@ -1,5 +1,6 @@
 package vidal.sergi.sallefyv1.controller.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,6 +10,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +39,7 @@ public class SearchActivity extends AppCompatActivity implements PlaylistCallbac
     private RecyclerView mRecyclerView;
     private RecyclerView mGenresView;
     private GenresAdapter mGenresAdapter;
+    private BottomNavigationView mNav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +72,33 @@ public class SearchActivity extends AppCompatActivity implements PlaylistCallbac
         mGenresView = (RecyclerView) findViewById(R.id.search_genres_recyclerview);
         mGenresView.setLayoutManager(managerGenres);
         mGenresView.setAdapter(mGenresAdapter);
+
+        mNav = findViewById(R.id.bottom_navigation);
+        mNav.setSelectedItemId(R.id.action_search);
+        mNav.setOnNavigationItemSelectedListener(menuItem -> {
+            Intent intent;
+            switch (menuItem.getItemId()) {
+                case R.id.action_home:
+                    intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                    break;
+//                case R.id.action_search:
+//                    intent = new Intent(getApplicationContext(), SearchActivity.class);
+//                    startActivity(intent);
+//                    break;
+                case R.id.action_library:
+                    intent = new Intent(getApplicationContext(), LibraryActivity.class);
+                    startActivity(intent);
+                    break;
+                case R.id.action_profile:
+                    intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                    startActivity(intent);
+                    break;
+
+            }
+//                replaceFragment(fragment);
+            return true;
+        });
     }
 
     private void displayTracks(String playlistName) {
@@ -132,6 +163,26 @@ public class SearchActivity extends AppCompatActivity implements PlaylistCallbac
 
     @Override
     public void onGetPlaylistReceivedFailure(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onPlaylistById(Playlist playlist) {
+
+    }
+
+    @Override
+    public void onPlaylistsByUser(ArrayList<Playlist> playlists) {
+
+    }
+
+    @Override
+    public void onAllList(ArrayList<Playlist> playlists) {
+
+    }
+
+    @Override
+    public void onFollowingList(ArrayList<Playlist> playlists) {
 
     }
 

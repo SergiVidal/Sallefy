@@ -1,50 +1,58 @@
 package vidal.sergi.sallefyv1.model;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 
-public class Playlist {
+public class Playlist implements Serializable {
+
+    @SerializedName("cover")
+    private String cover;
+
+    @SerializedName("description")
+    private String description;
+
     @SerializedName("id")
-    @Expose
     private Integer id;
 
     @SerializedName("name")
-    @Expose
     private String name;
 
-    @SerializedName("description")
-    @Expose
-    private String description;
-
-    @SerializedName("cover")
-    @Expose
-    private String cover;
-
-    @SerializedName("thumbnail")
-    @Expose
-    private String thumbnail;
-
-    @SerializedName("publicAccessible")
-    @Expose
+    @SerializedName("public")
     private Boolean publicAccessible;
 
+    @SerializedName("thumbnail")
+    private String thumbnail;
+
     @SerializedName("owner")
-    @Expose
-    private Owner owner;
+    private User user;
 
     @SerializedName("tracks")
-    @Expose
     private List<Track> tracks = null;
+
+    private boolean followed;
 
     public Playlist() {
     }
 
     public Playlist(String name) {
         this.name = name;
-        tracks = new ArrayList<>();
+    }
+
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Integer getId() {
@@ -63,20 +71,12 @@ public class Playlist {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public Boolean getPublicAccessible() {
+        return publicAccessible;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getCover() {
-        return cover;
-    }
-
-    public void setCover(String cover) {
-        this.cover = cover;
+    public void setPublicAccessible(Boolean publicAccessible) {
+        this.publicAccessible = publicAccessible;
     }
 
     public String getThumbnail() {
@@ -87,20 +87,21 @@ public class Playlist {
         this.thumbnail = thumbnail;
     }
 
-    public Boolean getPublicAccessible() {
-        return publicAccessible;
+    public User getUser() {
+        return user;
     }
 
-    public void setPublicAccessible(Boolean publicAccessible) {
-        this.publicAccessible = publicAccessible;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Owner getOwner() {
-        return owner;
+    public String getUserLogin() {
+        return user.getLogin();
     }
 
-    public void setOwner(Owner owner) {
-        this.owner = owner;
+    public void setUserLogin(String userLogin) {
+        if (user == null) { user = new User(); }
+        user.setLogin(userLogin);
     }
 
     public List<Track> getTracks() {
@@ -111,17 +112,26 @@ public class Playlist {
         this.tracks = tracks;
     }
 
+    public boolean isFollowed() {
+        return followed;
+    }
+
+    public void setFollowed(boolean followed) {
+        this.followed = followed;
+    }
+
     @Override
     public String toString() {
         return "Playlist{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+                "cover='" + cover + '\'' +
                 ", description='" + description + '\'' +
-                ", cover='" + cover + '\'' +
-                ", thumbnail='" + thumbnail + '\'' +
+                ", id=" + id +
+                ", name='" + name + '\'' +
                 ", publicAccessible=" + publicAccessible +
-                ", owner=" + owner +
+                ", thumbnail='" + thumbnail + '\'' +
+                ", user=" + user +
                 ", tracks=" + tracks +
+                ", followed=" + followed +
                 '}';
     }
 }

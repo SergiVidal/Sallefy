@@ -1,5 +1,7 @@
 package vidal.sergi.sallefyv1.restapi.service;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -18,4 +20,7 @@ public interface PlaylistService {
 
     @PUT("playlists")
     Call<Playlist> addTrackToPlaylist(@Header("Authorization") String token, @Body Playlist playlist);
+
+    @GET("playlists")
+    Call<List<Playlist>> getAllPlaylists(@Header("Authorization") String token);
 }

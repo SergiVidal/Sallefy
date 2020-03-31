@@ -22,6 +22,17 @@
         <item name="android:fontFamily">@font/gotham_medium</item>
         <item name="android:textColor">@color/colorWhite</item>
     </style>
+    <style name="ItemAuthorTheme" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:fontFamily">@font/gotham_book</item>
+    </style>
+    <style name="ItemTitleTheme" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:fontFamily">@font/gotham_book</item>
+    </style>
 
     <style name="SongTitleTheme" parent="TextAppearance.AppCompat">
         <item name="android:textSize">18sp</item>
@@ -36,7 +47,12 @@
         <item name="android:textColor">@color/colorWhite</item>
         <item name="android:fontFamily">@font/gotham_narrow_thin</item>
     </style>
-
+    <style name="fragmentTitle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">35sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:fontFamily">@font/gotham_book</item>
+    </style>
     <style name="settings_title" parent="TextAppearance.AppCompat">
         <item name="android:textSize">24sp</item>
         <item name="android:textStyle">bold</item>

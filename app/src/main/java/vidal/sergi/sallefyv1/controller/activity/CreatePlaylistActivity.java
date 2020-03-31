@@ -47,9 +47,9 @@ public class CreatePlaylistActivity extends AppCompatActivity implements Playlis
 
         mRecyclerView = findViewById(R.id.rvPlaylist);
         LinearLayoutManager manager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
-        PlaylistListAdapter adapter = new PlaylistListAdapter(this, playlistList);
+//        PlaylistListAdapter adapter = new PlaylistListAdapter(this, playlistList);
         mRecyclerView.setLayoutManager(manager);
-        mRecyclerView.setAdapter(adapter);
+//        mRecyclerView.setAdapter(adapter);
     }
 
     private void createPlaylist(Playlist playlist) {
@@ -63,8 +63,8 @@ public class CreatePlaylistActivity extends AppCompatActivity implements Playlis
         Toast.makeText(getApplicationContext(), "onCreatePlaylist Success", Toast.LENGTH_LONG).show();
 
 
-        PlaylistListAdapter adapter = new PlaylistListAdapter(this, playlistList);
-        mRecyclerView.setAdapter(adapter);
+//        PlaylistListAdapter adapter = new PlaylistListAdapter(this, playlistList);
+//        mRecyclerView.setAdapter(adapter);
 
     }
 
@@ -91,6 +91,26 @@ public class CreatePlaylistActivity extends AppCompatActivity implements Playlis
 
     @Override
     public void onGetPlaylistReceivedFailure(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onPlaylistById(Playlist playlist) {
+
+    }
+
+    @Override
+    public void onPlaylistsByUser(ArrayList<Playlist> playlists) {
+
+    }
+
+    @Override
+    public void onAllList(ArrayList<Playlist> playlists) {
+
+    }
+
+    @Override
+    public void onFollowingList(ArrayList<Playlist> playlists) {
 
     }
 

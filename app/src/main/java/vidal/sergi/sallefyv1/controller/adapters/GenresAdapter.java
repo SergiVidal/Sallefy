@@ -1,24 +1,16 @@
 package vidal.sergi.sallefyv1.controller.adapters;
 
-
-
-
-import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import vidal.sergi.sallefyv1.R;
-import vidal.sergi.sallefyv1.model.Playlist;
 
 public class GenresAdapter extends RecyclerView.Adapter<GenresAdapter.ViewHolder> {
 

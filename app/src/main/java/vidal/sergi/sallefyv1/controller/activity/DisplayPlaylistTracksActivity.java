@@ -121,6 +121,26 @@ public class DisplayPlaylistTracksActivity extends AppCompatActivity implements 
     }
 
     @Override
+    public void onPlaylistById(Playlist playlist) {
+
+    }
+
+    @Override
+    public void onPlaylistsByUser(ArrayList<Playlist> playlists) {
+
+    }
+
+    @Override
+    public void onAllList(ArrayList<Playlist> playlists) {
+
+    }
+
+    @Override
+    public void onFollowingList(ArrayList<Playlist> playlists) {
+
+    }
+
+    @Override
     public void onFailure(Throwable throwable) {
 
     }

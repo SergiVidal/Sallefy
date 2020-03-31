@@ -7,10 +7,12 @@ import vidal.sergi.sallefyv1.model.User;
 import vidal.sergi.sallefyv1.model.UserToken;
 
 public interface UserCallback extends FailureCallback {
-    void onLoginSuccess(String username, UserToken userToken);
+    void onLoginSuccess(UserToken userToken);
     void onLoginFailure(Throwable throwable);
     void onRegisterSuccess();
     void onRegisterFailure(Throwable throwable);
     void onUserInfoReceived(User userData);
-    void onUserPlaylistsReceived(List<Playlist> playlistList);
+    void onUsersReceived(List<User> users);
+    void onUsersFailure(Throwable throwable);;
+
 }

@@ -19,6 +19,7 @@ import vidal.sergi.sallefyv1.model.UserRegister;
 import vidal.sergi.sallefyv1.model.UserToken;
 import vidal.sergi.sallefyv1.restapi.callback.UserCallback;
 import vidal.sergi.sallefyv1.restapi.manager.UserManager;
+import vidal.sergi.sallefyv1.utils.PreferenceUtils;
 import vidal.sergi.sallefyv1.utils.Session;
 
 
@@ -35,6 +36,7 @@ public class RegisterActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         initViews();
+        checkSavedData();
     }
 
     private void initViews () {
@@ -60,11 +62,23 @@ public class RegisterActivity extends AppCompatActivity
         UserManager.getInstance(getApplicationContext())
                 .loginAttempt(username, userpassword, RegisterActivity.this);
     }
-
+    private void checkSavedData() {
+        if (checkExistingPreferences()) {
+            etLogin.setText(PreferenceUtils.getUser(this));
+            etPassword.setText(PreferenceUtils.getPassword(this));
+        }
+    }
+    private boolean checkExistingPreferences () {
+        return PreferenceUtils.getUser(this) != null
+                && PreferenceUtils.getPassword(this) != null;
+    }
     @Override
-    public void onLoginSuccess(String username, UserToken userToken) {
-        Session.getInstance(getApplicationContext()).setUserToken(userToken);
-        Session.getInstance(getApplicationContext()).setUser(new User(username));
+    public void onLoginSuccess(UserToken userToken) {
+        Session.getInstance(getApplicationContext())
+                .setUserToken(userToken);
+        PreferenceUtils.saveUser(this, etLogin.getText().toString());
+        PreferenceUtils.savePassword(this, etPassword.getText().toString());
+        UserManager.getInstance(this).getUserData(etLogin.getText().toString(), this);
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
     }
@@ -91,14 +105,21 @@ public class RegisterActivity extends AppCompatActivity
 
     @Override
     public void onUserInfoReceived(User userData) {
+        Session.getInstance(getApplicationContext())
+                .setUser(userData);
+        Intent intent= new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onUsersReceived(List<User> users) {
 
     }
 
     @Override
-    public void onUserPlaylistsReceived(List<Playlist> playlistList) {
+    public void onUsersFailure(Throwable throwable) {
 
     }
-
 
     @Override
     public void onFailure(Throwable throwable) {

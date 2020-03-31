@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/colorPrimary"
     tools:context=".controller.activity.MainActivity">
 
     <com.scwang.wave.MultiWaveHeader
@@ -21,19 +21,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginStart="0dp"
             android:layout_marginTop="60dp"
             android:text="@string/search_button"
             android:textColor="@color/colorWhite"
-            android:textSize="50sp"
-            android:layout_gravity="center"
-            />
+            android:textSize="50sp" />
 
         <TextView
             style="@style/settings_title"
@@ -47,21 +48,23 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
-            android:ems="10"
-            android:background="@drawable/login_edit_text" />
+            android:background="@drawable/login_edit_text"
+            android:ems="10" />
+
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="horizontal"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_height="wrap_content">
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/item_genre_btn"
+                style="@style/genre_item_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                style="@style/genre_item_text"
-                android:text="@string/search_genre"/>
+                android:text="@string/search_genre" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -84,32 +87,38 @@
             </LinearLayout>
 
 
-
         </LinearLayout>
 
         <Button
             android:id="@+id/display_tracks_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
             android:layout_marginTop="30dp"
             android:background="@drawable/login_btn"
-            android:textColor="@color/colorWhite"
-            android:textStyle="bold"
-            android:textSize="20sp"
             android:fontFamily="@font/gotham_bold"
-            android:text="@string/search"/>
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:text="@string/search"
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvTracks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"/>
+            android:orientation="vertical" />
 
     </LinearLayout>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/colorPrimary"
+        app:itemIconTint="@color/colorWhite"
+        app:itemTextColor="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/nav_items" />
 
-
-<!--    </LinearLayout>-->
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

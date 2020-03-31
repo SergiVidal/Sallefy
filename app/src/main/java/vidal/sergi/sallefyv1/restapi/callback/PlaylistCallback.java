@@ -1,5 +1,7 @@
 package vidal.sergi.sallefyv1.restapi.callback;
 
+import java.util.ArrayList;
+
 import vidal.sergi.sallefyv1.model.Playlist;
 
 public interface PlaylistCallback extends FailureCallback {
@@ -11,4 +13,12 @@ public interface PlaylistCallback extends FailureCallback {
 
     void onGetPlaylistReceivedSuccess(Playlist playlist);
     void onGetPlaylistReceivedFailure(Throwable throwable);
+
+    void onPlaylistById(Playlist playlist);
+
+    void onPlaylistsByUser(ArrayList<Playlist> playlists);
+
+    void onAllList(ArrayList<Playlist> playlists);
+
+    void onFollowingList(ArrayList<Playlist> playlists);
 }

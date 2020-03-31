@@ -1,82 +1,87 @@
 package vidal.sergi.sallefyv1.controller.adapters;
 
-
-
-
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import vidal.sergi.sallefyv1.R;
+import vidal.sergi.sallefyv1.controller.callbacks.PlaylistAdapterCallback;
 import vidal.sergi.sallefyv1.model.Playlist;
 
 public class PlaylistListAdapter extends RecyclerView.Adapter<PlaylistListAdapter.ViewHolder> {
 
-    private static final String TAG = "PlaylistListAdapter";
-    private List<Playlist> playlistList;
+    public static final String TAG = PlaylistListAdapter.class.getName();
+    private ArrayList<Playlist> mPlaylists;
     private Context mContext;
+    private PlaylistAdapterCallback mCallback;
+    private int layoutId;
 
-    public PlaylistListAdapter(Context context, List<Playlist> playlistList) {
+
+    public PlaylistListAdapter(ArrayList<Playlist> playlists, Context context, PlaylistAdapterCallback callback, int layoutId) {
+        mPlaylists = playlists;
         mContext = context;
-        this.playlistList = playlistList;
+        mCallback = callback;
+        this.layoutId = layoutId;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Log.d(TAG, "onCreateViewHolder: called.");
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.playlist_item, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
         return new PlaylistListAdapter.ViewHolder(itemView);
     }
 
+    @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-
-        String name = "Name: " + playlistList.get(position).getName();
-        String id = "ID: " + playlistList.get(position).getId();
-        holder.tvPlaylistTitle.setText(name);
-        holder.tvPlaylistId.setText(id);
-//        holder.tvAuthor.setText(playlistList.get(position).getUserLogin());
-//        if (playlistList.get(position).getThumbnail() != null) {
-//            Glide.with(mContext)
-//                    .asBitmap()
-//                    .placeholder(R.drawable.ic_audiotrack)
-//                    .load(playlistList.get(position).getThumbnail())
-//                    .into(holder.ivPicture);
-//        }
+        if (mPlaylists != null && mPlaylists.size() > 0) {
+            holder.mLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mCallback != null)
+                        mCallback.onPlaylistClick(mPlaylists.get(position));
+                }
+            });
+            holder.mTitle.setText(mPlaylists.get(position).getName());
+            holder.mAuthor.setText(mPlaylists.get(position).getUser().getLogin());
+            if (mPlaylists.get(position).getThumbnail() != null) {
+                Glide.with(mContext)
+                        .asBitmap()
+                        .placeholder(R.drawable.ic_audiotrack)
+                        .load(mPlaylists.get(position).getThumbnail())
+                        .into(holder.mPhoto);
+            }
+        }
     }
 
     @Override
     public int getItemCount() {
-        return playlistList != null ? playlistList.size() : 0;
+        return (mPlaylists != null ? mPlaylists.size() : 0);
     }
 
-//    public void updateTrackLikeStateIcon(int position, boolean isLiked) {
-//        mTracks.get(position).setLiked(isLiked);
-//        notifyDataSetChanged();
-//    }
-
     public class ViewHolder extends RecyclerView.ViewHolder {
-
-        TextView tvPlaylistTitle;
-        TextView tvPlaylistId;
-
-//        TextView tvAuthor;
-//        ImageView ivPicture;
+        LinearLayout mLayout;
+        ImageView mPhoto;
+        TextView mTitle;
+        TextView mAuthor;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvPlaylistTitle = (TextView) itemView.findViewById(R.id.playlist_title);
-            tvPlaylistId = (TextView) itemView.findViewById(R.id.playlist_id);
-//            tvAuthor = (TextView) itemView.findViewById(R.id.track_author);
-//            ivPicture = (ImageView) itemView.findViewById(R.id.track_img);
+            mLayout = (LinearLayout) itemView.findViewById(R.id.item_playlist_layout);
+            mPhoto = (ImageView) itemView.findViewById(R.id.item_playlist_photo);
+            mTitle = (TextView) itemView.findViewById(R.id.item_playlist_title);
+            mAuthor = (TextView) itemView.findViewById(R.id.item_playlist_author);
         }
     }
 }

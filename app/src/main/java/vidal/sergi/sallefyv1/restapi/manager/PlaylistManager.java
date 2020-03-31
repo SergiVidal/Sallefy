@@ -3,6 +3,7 @@ package vidal.sergi.sallefyv1.restapi.manager;
 import android.content.Context;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -23,6 +24,7 @@ public class PlaylistManager {
     private static PlaylistManager sPlaylistManager;
     private Retrofit mRetrofit;
     private PlaylistService mPlaylistService;
+    private UserToken userToken;
 
 
     public static PlaylistManager getInstance (Context context) {
@@ -42,11 +44,43 @@ public class PlaylistManager {
                 .build();
 
         mPlaylistService = mRetrofit.create(PlaylistService.class);
+        this.userToken = Session.getInstance(mContext).getUserToken();
+
     }
 
+    /**********************
+     * Get all playlist of backend
+     **********************/
+    public synchronized void getListOfPlaylist (final PlaylistCallback playlistCallback) {
+
+        Call<List<Playlist>> call = mPlaylistService.getAllPlaylists("Bearer " + userToken.getIdToken());
+
+        call.enqueue(new Callback<List<Playlist>>() {
+            @Override
+            public void onResponse(Call<List<Playlist>> call, Response<List<Playlist>> response) {
+
+                int code = response.code();
+                ArrayList<Playlist> data = (ArrayList<Playlist>) response.body();
+
+                if (response.isSuccessful()) {
+                    playlistCallback.onAllList(data);
+                    Log.d(TAG, "getList");
+
+                } else {
+                    Log.d(TAG, "Error: " + code);
+                    playlistCallback.onFailure(new Throwable("ERROR " + code + ", " + response.raw().message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Playlist>> call, Throwable t) {
+                Log.d(TAG, "Error: " + t.getMessage());
+                playlistCallback.onFailure(t);
+            }
+        });
+    }
     /********************   CREATE PLAYLIST    ********************/
     public synchronized void getPlaylistAttempt (long id, final PlaylistCallback playlistCallback) {
-        UserToken userToken = Session.getInstance(mContext).getUserToken();
 
         Call<Playlist> call = mPlaylistService.getPlaylist("Bearer " + userToken.getIdToken(), id);
         call.enqueue(new Callback<Playlist>() {
@@ -68,7 +102,6 @@ public class PlaylistManager {
 
     /********************   ADD TRACK TO PLAYLIST    ********************/
     public synchronized void addTrackToPlaylistAttempt (Playlist playlist, final PlaylistCallback playlistCallback) {
-        UserToken userToken = Session.getInstance(mContext).getUserToken();
 
         Call<Playlist> call = mPlaylistService.addTrackToPlaylist("Bearer " + userToken.getIdToken(), playlist);
         call.enqueue(new Callback<Playlist>() {
@@ -90,7 +123,6 @@ public class PlaylistManager {
 
     /********************   CREATE PLAYLIST    ********************/
     public synchronized void createPlaylistAttempt (Playlist playlist, final PlaylistCallback playlistCallback) {
-        UserToken userToken = Session.getInstance(mContext).getUserToken();
 
         Call<Playlist> call = mPlaylistService.createPlaylist("Bearer " + userToken.getIdToken(), playlist);
         call.enqueue(new Callback<Playlist>() {

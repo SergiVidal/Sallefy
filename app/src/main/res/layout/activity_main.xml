@@ -2,12 +2,15 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
-    tools:context=".controller.activity.MainActivity">
+    android:gravity="center"
+    android:background="@color/colorPrimary">
+
 
     <com.scwang.wave.MultiWaveHeader
+        android:id="@+id/search_multiWaveHeader"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:rotation="-20"
@@ -17,84 +20,95 @@
         app:mwhCloseColor="@color/colorSecondary"
         app:mwhStartColor="@color/colorPrimary" />
 
-    <com.scwang.wave.MultiWaveHeader
+    <TextView
+        android:id="@+id/textView"
+        style="@style/fragmentTitle"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:scaleX="2"
-        android:rotation="-20"
-        android:scaleY="-1.7"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:mwhCloseColor="@color/colorSecondary"
-        app:mwhStartColor="@color/colorPrimary" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/menu_home"
+        android:textAlignment="center"
+        app:layout_constraintTop_toTopOf="@+id/search_multiWaveHeader" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="10dp"
+        android:padding="10dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/textView">
 
-        <Button
-            android:id="@+id/show_tracks"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:background="@drawable/login_edit_text"
-            android:text="@string/action_list" />
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/show_advanced_tracks"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:background="@drawable/login_edit_text"
-            android:text="@string/action_advance_list" />
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-        <Button
-            android:id="@+id/create_new_playlist"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:background="@drawable/login_edit_text"
-            android:text="@string/create_playlist" />
+                <TextView
+                    style="@style/settings_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/default_usernames" />
 
-        <Button
-            android:id="@+id/add_track_to_playlist"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:background="@drawable/login_edit_text"
-            android:text="@string/add_track_to_playlist" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/search_users_recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-        <Button
-            android:id="@+id/show_playlist_musics"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:background="@drawable/login_edit_text"
-            android:text="@string/display_playlist_musics" />
-    </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
+                <TextView
+                    style="@style/settings_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/default_playlists" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/search_playlists_recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
+                <TextView
+                    style="@style/settings_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/default_genres" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/search_genres_recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"

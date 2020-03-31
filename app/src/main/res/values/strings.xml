@@ -6,6 +6,10 @@
     <!-- DEFAULT TRACK -->
     <string name="default_track_title">Título canción</string>
     <string name="default_track_author">Autor/a</string>
+    <string name="default_username">Usuario</string>
+    <string name="default_usernames">Usuarios</string>
+    <string name="default_playlists">Playlists</string>
+    <string name="default_songs">Canciones</string>
 
     <!-- DEFAULT PLAYLIST -->
     <string name="default_playlist_title">Título playlist</string>
