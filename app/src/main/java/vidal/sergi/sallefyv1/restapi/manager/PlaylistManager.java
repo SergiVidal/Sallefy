@@ -79,7 +79,7 @@ public class PlaylistManager {
             }
         });
     }
-    /********************   CREATE PLAYLIST    ********************/
+    /********************   GET PLAYLIST    ********************/
     public synchronized void getPlaylistAttempt (long id, final PlaylistCallback playlistCallback) {
 
         Call<Playlist> call = mPlaylistService.getPlaylist("Bearer " + userToken.getIdToken(), id);
@@ -99,7 +99,42 @@ public class PlaylistManager {
             }
         });
     }
+    /********************   ADD FOLLOW PLAYLIST    ********************/
+    public synchronized void addFollowPlaylist (long id, final PlaylistCallback playlistCallback) {
 
+        Call<Playlist> call = mPlaylistService.addFollowPlaylist("Bearer " + userToken.getIdToken(), id);
+        call.enqueue(new Callback<Playlist>() {
+            @Override
+            public void onResponse(Call<Playlist> call, Response<Playlist> response) {
+                if (response.isSuccessful()){}
+                    playlistCallback.onFollowingPlaylist(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Playlist> call, Throwable t) {
+                playlistCallback.onFailure(t);
+            }
+        });
+    }
+    /********************   IS FOLLOW PLAYLIST    ********************/
+    public synchronized void isFollowingPlaylist (long id, final PlaylistCallback playlistCallback) {
+
+        Call<Playlist> call = mPlaylistService.isFollowingPlaylist("Bearer " + userToken.getIdToken(), id);
+        call.enqueue(new Callback<Playlist>() {
+            @Override
+            public void onResponse(Call<Playlist> call, Response<Playlist> response) {
+                if (response.isSuccessful()) {
+                    System.out.println("isFollowing? " +response.body());
+                    playlistCallback.onIsFollowingPlaylist(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Playlist> call, Throwable t) {
+                playlistCallback.onFailure(t);
+            }
+        });
+    }
     /********************   ADD TRACK TO PLAYLIST    ********************/
     public synchronized void addTrackToPlaylistAttempt (Playlist playlist, final PlaylistCallback playlistCallback) {
 

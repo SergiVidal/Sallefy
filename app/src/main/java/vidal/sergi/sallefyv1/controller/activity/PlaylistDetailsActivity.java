@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
@@ -29,15 +31,18 @@ import vidal.sergi.sallefyv1.controller.music.MusicCallback;
 import vidal.sergi.sallefyv1.controller.music.MusicService;
 import vidal.sergi.sallefyv1.model.Playlist;
 import vidal.sergi.sallefyv1.model.Track;
+import vidal.sergi.sallefyv1.restapi.callback.PlaylistCallback;
+import vidal.sergi.sallefyv1.restapi.manager.PlaylistManager;
 
 //TODO: Cuando termina 1 canción, no se modifica el texto de la nueva canción ni se augmenta la posicion de la cancion actual de esta Activity, de MusicService si
 
-public class PlaylistDetailsActivity extends AppCompatActivity implements TrackListCallback, MusicCallback {
+public class PlaylistDetailsActivity extends AppCompatActivity implements TrackListCallback, MusicCallback, PlaylistCallback {
 
     private Playlist playlist;
     private ImageView ivPhoto;
     private TextView tvPlaylistName;
     private TextView tvAuthor;
+    private Button bFollow;
 
     private RecyclerView mTracksView;
     private TrackListAdapter mTracksAdapter;
@@ -66,6 +71,11 @@ public class PlaylistDetailsActivity extends AppCompatActivity implements TrackL
 
     private ArrayList<Track> mTracks;
     private int currentTrack = 0;
+
+    private BottomNavigationView mNav;
+
+    boolean following;
+
 
     private ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
@@ -145,6 +155,15 @@ public class PlaylistDetailsActivity extends AppCompatActivity implements TrackL
                     .into(ivPhoto);
         }
 
+        PlaylistManager.getInstance(getApplicationContext())
+                .isFollowingPlaylist(playlist.getId(), this);
+        bFollow = findViewById(R.id.bFollow);
+        bFollow.setOnClickListener(v -> {
+            PlaylistManager.getInstance(getApplicationContext())
+                    .addFollowPlaylist(playlist.getId(), this);
+        });
+        isFollowingPlaylist(playlist);
+
         LinearLayoutManager managerTracks = new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL, false);
         mTracksAdapter = new TrackListAdapter(this, getApplicationContext(), mTracks);
         mTracksView = (RecyclerView) findViewById(R.id.search_tracks_recyclerview);
@@ -208,6 +227,32 @@ public class PlaylistDetailsActivity extends AppCompatActivity implements TrackL
             public void onStopTrackingTouch(SeekBar seekBar) {
 
             }
+        });
+
+        mNav = findViewById(R.id.bottom_navigation);
+        mNav.setSelectedItemId(R.id.action_home);
+        mNav.setOnNavigationItemSelectedListener(menuItem -> {
+            Intent intent;
+            switch (menuItem.getItemId()) {
+                case R.id.action_home:
+                    intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                    break;
+                case R.id.action_search:
+                    intent = new Intent(getApplicationContext(), SearchActivity.class);
+                    startActivity(intent);
+                    break;
+                case R.id.action_library:
+                    intent = new Intent(getApplicationContext(), LibraryActivity.class);
+                    startActivity(intent);
+                    break;
+                case R.id.action_profile:
+                    intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                    startActivity(intent);
+                    break;
+
+            }
+            return true;
         });
     }
     private void startStreamingService () {
@@ -278,6 +323,18 @@ public class PlaylistDetailsActivity extends AppCompatActivity implements TrackL
     }
 
 
+    private void isFollowingPlaylist(Playlist playlist){
+        following = playlist.isFollowed();
+        System.out.println("Following? " + following);
+        if(following){
+            bFollow.setBackgroundResource(R.drawable.btn_following);
+            bFollow.setText(getString(R.string.playlist_unfollow));
+        }else {
+            bFollow.setBackgroundResource(R.drawable.btn_follow);
+            bFollow.setText(getString(R.string.playlist_follow));
+        }
+    }
+
     /**********************************************************************************************
      *   *   *   *   *   *   *   *   TrackCallback   *   *   *   *   *   *   *   *   *
      **********************************************************************************************/
@@ -304,6 +361,73 @@ public class PlaylistDetailsActivity extends AppCompatActivity implements TrackL
         mSeekBar.setMax(mBoundService.getMaxDuration());
         mDuration =  mBoundService.getMaxDuration();
         playAudio();
+
+    }
+    /**********************************************************************************************
+     *   *   *   *   *   *   *   *   PlaylistCallback   *   *   *   *   *   *   *   *   *
+     **********************************************************************************************/
+    @Override
+    public void onCreatePlaylistSuccess(Playlist playlist) {
+
+    }
+
+    @Override
+    public void onCreatePlaylistFailure(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onAddTrackToPlaylistSuccess(Playlist playlist) {
+
+    }
+
+    @Override
+    public void onAddTrackToPlaylistFailure(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onGetPlaylistReceivedSuccess(Playlist playlist) {
+
+    }
+
+    @Override
+    public void onGetPlaylistReceivedFailure(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onPlaylistById(Playlist playlist) {
+
+    }
+
+    @Override
+    public void onPlaylistsByUser(ArrayList<Playlist> playlists) {
+
+    }
+
+    @Override
+    public void onAllList(ArrayList<Playlist> playlists) {
+
+    }
+
+    @Override
+    public void onFollowingList(ArrayList<Playlist> playlists) {
+
+    }
+
+    @Override
+    public void onFollowingPlaylist(Playlist playlist) {
+       isFollowingPlaylist(playlist);
+    }
+
+    @Override
+    public void onIsFollowingPlaylist(Playlist playlist) {
+        isFollowingPlaylist(playlist);
+    }
+
+    @Override
+    public void onFailure(Throwable throwable) {
 
     }
 }
