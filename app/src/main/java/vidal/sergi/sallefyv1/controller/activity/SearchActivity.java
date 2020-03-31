@@ -22,24 +22,33 @@ import vidal.sergi.sallefyv1.controller.adapters.GenresAdapter;
 import vidal.sergi.sallefyv1.controller.adapters.TrackListAdapter;
 import vidal.sergi.sallefyv1.model.Genre;
 import vidal.sergi.sallefyv1.model.Playlist;
+import vidal.sergi.sallefyv1.model.Search;
 import vidal.sergi.sallefyv1.model.Track;
+import vidal.sergi.sallefyv1.model.User;
+import vidal.sergi.sallefyv1.model.UserToken;
 import vidal.sergi.sallefyv1.restapi.callback.PlaylistCallback;
+import vidal.sergi.sallefyv1.restapi.callback.GenreCallback;
+import vidal.sergi.sallefyv1.restapi.callback.SearchCallback;
+import vidal.sergi.sallefyv1.restapi.callback.UserCallback;
+import vidal.sergi.sallefyv1.restapi.manager.GenreManager;
 import vidal.sergi.sallefyv1.restapi.manager.PlaylistManager;
+import vidal.sergi.sallefyv1.restapi.manager.SearchManager;
+import vidal.sergi.sallefyv1.restapi.manager.UserManager;
 import vidal.sergi.sallefyv1.utils.Session;
 
-public class SearchActivity extends AppCompatActivity implements PlaylistCallback {
+public class SearchActivity extends AppCompatActivity implements UserCallback, GenreCallback, SearchCallback {
 
-    private EditText etPlaylistName;
-    private Button bDisplayPlaylist;
     private List<Playlist> playlistList;
     private ArrayList<Track> tracks;
-
     private Playlist p;
+    private EditText etKeyword;
 
     private RecyclerView mRecyclerView;
     private RecyclerView mGenresView;
     private GenresAdapter mGenresAdapter;
     private BottomNavigationView mNav;
+    private Search search;
+    private Button bSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,19 +56,25 @@ public class SearchActivity extends AppCompatActivity implements PlaylistCallbac
         setContentView(R.layout.activity_search);
 
         tracks = new ArrayList<>();
-
+        getData();
         playlistList = Session.getInstance(getApplicationContext()).getPlaylistList();
         initViews();
 
     }
 
     private void initViews() {
-        etPlaylistName = findViewById(R.id.playlist_to_display);
-        bDisplayPlaylist = findViewById(R.id.display_tracks_btn);
-        bDisplayPlaylist.setOnClickListener(v -> {
-            displayTracks(etPlaylistName.getText().toString());
-        });
 
+        LinearLayoutManager managerGenres = new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false);
+        mGenresAdapter = new GenresAdapter(null);
+        mGenresView = (RecyclerView) findViewById(R.id.search_genres_recyclerview);
+        mGenresView.setLayoutManager(managerGenres);
+        mGenresView.setAdapter(mGenresAdapter);
+
+        etKeyword = (EditText) findViewById(R.id.keyword);
+        bSearch = findViewById(R.id.search_btn);
+        bSearch.setOnClickListener(v -> {
+            SearchManager.getInstance(this).getSearch(etKeyword.getText().toString(),this);
+        });
 
         mRecyclerView = findViewById(R.id.rvTracks);
         LinearLayoutManager manager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
@@ -67,11 +82,6 @@ public class SearchActivity extends AppCompatActivity implements PlaylistCallbac
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(adapter);
 
-        LinearLayoutManager managerGenres = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
-        mGenresAdapter = new GenresAdapter(null);
-        mGenresView = (RecyclerView) findViewById(R.id.search_genres_recyclerview);
-        mGenresView.setLayoutManager(managerGenres);
-        mGenresView.setAdapter(mGenresAdapter);
 
         mNav = findViewById(R.id.bottom_navigation);
         mNav.setSelectedItemId(R.id.action_search);
@@ -101,42 +111,12 @@ public class SearchActivity extends AppCompatActivity implements PlaylistCallbac
         });
     }
 
-    private void displayTracks(String playlistName) {
-        p = new Playlist();
 
-        for(Playlist playlist: playlistList){
-            if(playlist.getName().equals(playlistName)){
-                p = playlist;
-            }
-        }
-
-        if (p.getName() != null) {
-            PlaylistManager.getInstance(getApplicationContext())
-                    .getPlaylistAttempt(p.getId(), SearchActivity.this);
-        } else {
-            Toast.makeText(getApplicationContext(), "Datos incorrectos!", Toast.LENGTH_LONG).show();
-
-        }
-    }
-
-    @Override
-    public void onCreatePlaylistSuccess(Playlist playlist) {
-
-    }
-
-    @Override
-    public void onCreatePlaylistFailure(Throwable throwable) {
-
-    }
-
-    @Override
-    public void onAddTrackToPlaylistSuccess(Playlist playlist) {
-
-    }
-
-    @Override
-    public void onAddTrackToPlaylistFailure(Throwable throwable) {
-
+    private void getData() {
+        UserManager.getInstance(getApplicationContext())
+                .getUsers(this);
+        GenreManager.getInstance(getApplicationContext())
+                .getAllGenres(this);
     }
 
     public void onGenresReceive(ArrayList<Genre> genres) {
@@ -144,50 +124,62 @@ public class SearchActivity extends AppCompatActivity implements PlaylistCallbac
         mGenresAdapter = new GenresAdapter(genresString);
         mGenresView.setAdapter(mGenresAdapter);
     }
-    @Override
-    public void onGetPlaylistReceivedSuccess(Playlist playlist) {
-
-        if(p.getTracks().size() == 0) {
-            TrackListAdapter adapter = new TrackListAdapter(this, null);
-            mRecyclerView.setAdapter(adapter);
-            Toast.makeText(getApplicationContext(), "Esta playlist no dispone de canciones!", Toast.LENGTH_LONG).show();
-
-        }else if (!p.getName().equals("")) {
-            Toast.makeText(getApplicationContext(), "GetPlaylistReceived success", Toast.LENGTH_LONG).show();
-            this.tracks = (ArrayList) p.getTracks();
-            TrackListAdapter adapter = new TrackListAdapter(this, tracks);
-            mRecyclerView.setAdapter(adapter);
-
-        }
-    }
 
     @Override
-    public void onGetPlaylistReceivedFailure(Throwable throwable) {
-
-    }
-
-    @Override
-    public void onPlaylistById(Playlist playlist) {
-
-    }
-
-    @Override
-    public void onPlaylistsByUser(ArrayList<Playlist> playlists) {
-
-    }
-
-    @Override
-    public void onAllList(ArrayList<Playlist> playlists) {
-
-    }
-
-    @Override
-    public void onFollowingList(ArrayList<Playlist> playlists) {
+    public void onTracksByGenre(ArrayList<Track> tracks) {
 
     }
 
     @Override
     public void onFailure(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onLoginSuccess(UserToken userToken) {
+
+    }
+
+    @Override
+    public void onLoginFailure(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onRegisterSuccess() {
+
+    }
+
+    @Override
+    public void onRegisterFailure(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onUserInfoReceived(User userData) {
+
+    }
+
+    @Override
+    public void onUsersReceived(List<User> users) {
+
+    }
+
+    @Override
+    public void onUsersFailure(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onGetSearchReceivedSuccess(Search s) {
+        search = s;
+        TrackListAdapter adapter = new TrackListAdapter(this, (ArrayList<Track>) search.getTracks());
+        mRecyclerView.setAdapter(adapter);
+
+    }
+
+    @Override
+    public void onGetSearchReceivedFailure(Throwable throwable) {
 
     }
 }
