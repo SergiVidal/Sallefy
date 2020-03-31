@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import vidal.sergi.sallefyv1.R;
 import vidal.sergi.sallefyv1.controller.adapters.TrackListAdapter;
@@ -43,6 +44,7 @@ public class PlaylistDetailsActivity extends AppCompatActivity implements TrackL
     private TextView tvPlaylistName;
     private TextView tvAuthor;
     private Button bFollow;
+    private Button bRandom;
 
     private RecyclerView mTracksView;
     private TrackListAdapter mTracksAdapter;
@@ -162,7 +164,14 @@ public class PlaylistDetailsActivity extends AppCompatActivity implements TrackL
             PlaylistManager.getInstance(getApplicationContext())
                     .addFollowPlaylist(playlist.getId(), this);
         });
-        isFollowingPlaylist(playlist);
+
+
+        bRandom = findViewById(R.id.bRandom);
+        bRandom.setOnClickListener(v ->{
+            currentTrack = new Random().nextInt(mTracks.size());
+            System.out.println("Random: " + currentTrack);
+            updateTrack(currentTrack);
+        });
 
         LinearLayoutManager managerTracks = new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL, false);
         mTracksAdapter = new TrackListAdapter(this, getApplicationContext(), mTracks);
