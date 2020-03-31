@@ -34,9 +34,9 @@ public class AdvancedListActivity extends AppCompatActivity implements TrackCall
     private void initViews() {
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         LinearLayoutManager manager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
-        TrackListAdapter adapter = new TrackListAdapter(this, null);
-        mRecyclerView.setLayoutManager(manager);
-        mRecyclerView.setAdapter(adapter);
+//        TrackListAdapter adapter = new TrackListAdapter(this, null);
+//        mRecyclerView.setLayoutManager(manager);
+//        mRecyclerView.setAdapter(adapter);
     }
 
     private void getData() {
@@ -47,8 +47,8 @@ public class AdvancedListActivity extends AppCompatActivity implements TrackCall
     @Override
     public void onTracksReceived(List<Track> tracks) {
         mTracks = (ArrayList) tracks;
-        TrackListAdapter adapter = new TrackListAdapter(this, mTracks);
-        mRecyclerView.setAdapter(adapter);
+//        TrackListAdapter adapter = new TrackListAdapter(this, mTracks);
+//        mRecyclerView.setAdapter(adapter);
     }
 
     @Override

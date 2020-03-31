@@ -55,9 +55,9 @@ public class DisplayPlaylistTracksActivity extends AppCompatActivity implements 
 
         mRecyclerView = findViewById(R.id.rvTracks);
         LinearLayoutManager manager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
-        TrackListAdapter adapter = new TrackListAdapter(this, null);
-        mRecyclerView.setLayoutManager(manager);
-        mRecyclerView.setAdapter(adapter);
+//        TrackListAdapter adapter = new TrackListAdapter(this, null);
+//        mRecyclerView.setLayoutManager(manager);
+//        mRecyclerView.setAdapter(adapter);
     }
 
     private void displayTracks(String playlistName) {
@@ -101,18 +101,18 @@ public class DisplayPlaylistTracksActivity extends AppCompatActivity implements 
     @Override
     public void onGetPlaylistReceivedSuccess(Playlist playlist) {
 
-        if(p.getTracks().size() == 0) {
-            TrackListAdapter adapter = new TrackListAdapter(this, null);
-            mRecyclerView.setAdapter(adapter);
-            Toast.makeText(getApplicationContext(), "Esta playlist no dispone de canciones!", Toast.LENGTH_LONG).show();
-
-        }else if (!p.getName().equals("")) {
-            Toast.makeText(getApplicationContext(), "GetPlaylistReceived success", Toast.LENGTH_LONG).show();
-            this.tracks = (ArrayList) p.getTracks();
-            TrackListAdapter adapter = new TrackListAdapter(this, tracks);
-            mRecyclerView.setAdapter(adapter);
-
-        }
+//        if(p.getTracks().size() == 0) {
+//            TrackListAdapter adapter = new TrackListAdapter(this, null);
+//            mRecyclerView.setAdapter(adapter);
+//            Toast.makeText(getApplicationContext(), "Esta playlist no dispone de canciones!", Toast.LENGTH_LONG).show();
+//
+//        }else if (!p.getName().equals("")) {
+//            Toast.makeText(getApplicationContext(), "GetPlaylistReceived success", Toast.LENGTH_LONG).show();
+//            this.tracks = (ArrayList) p.getTracks();
+//            TrackListAdapter adapter = new TrackListAdapter(this, tracks);
+//            mRecyclerView.setAdapter(adapter);
+//
+//        }
     }
 
     @Override

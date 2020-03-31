@@ -59,5 +59,10 @@
     <string name="search_genre">Género</string>
     <string name="default_genres">Géneros</string>
 
+    <!-- ACTIVITY [ Search ] -->
+    <string name="playlist_detail">Playlist</string>
+    <string name="playlist_author">Author</string>
+    <string name="playlist_follow">Seguir</string>
+    <string name="playlist_random">Aleatorio</string>
 
 </resources>
