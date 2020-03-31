@@ -30,6 +30,8 @@ import vidal.sergi.sallefyv1.controller.music.MusicService;
 import vidal.sergi.sallefyv1.model.Playlist;
 import vidal.sergi.sallefyv1.model.Track;
 
+//TODO: Cuando termina 1 canción, no se modifica el texto de la nueva canción ni se augmenta la posicion de la cancion actual de esta Activity, de MusicService si
+
 public class PlaylistDetailsActivity extends AppCompatActivity implements TrackListCallback, MusicCallback {
 
     private Playlist playlist;
@@ -90,8 +92,6 @@ public class PlaylistDetailsActivity extends AppCompatActivity implements TrackL
         mTracks = (ArrayList) playlist.getTracks();
         initViews();
         startStreamingService();
-
-
     }
     @Override
     public void onResume() {

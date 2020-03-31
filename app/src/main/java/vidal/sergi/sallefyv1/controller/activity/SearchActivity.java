@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 import vidal.sergi.sallefyv1.R;
 import vidal.sergi.sallefyv1.controller.adapters.GenresAdapter;
 import vidal.sergi.sallefyv1.controller.adapters.TrackListAdapter;
+import vidal.sergi.sallefyv1.controller.callbacks.TrackListCallback;
 import vidal.sergi.sallefyv1.model.Genre;
 import vidal.sergi.sallefyv1.model.Playlist;
 import vidal.sergi.sallefyv1.model.Search;
@@ -36,7 +37,7 @@ import vidal.sergi.sallefyv1.restapi.manager.SearchManager;
 import vidal.sergi.sallefyv1.restapi.manager.UserManager;
 import vidal.sergi.sallefyv1.utils.Session;
 
-public class SearchActivity extends AppCompatActivity implements UserCallback, GenreCallback, SearchCallback {
+public class SearchActivity extends AppCompatActivity implements UserCallback, GenreCallback, SearchCallback, TrackListCallback {
 
     private List<Playlist> playlistList;
     private ArrayList<Track> tracks;
@@ -78,9 +79,9 @@ public class SearchActivity extends AppCompatActivity implements UserCallback, G
 
         mRecyclerView = findViewById(R.id.rvTracks);
         LinearLayoutManager manager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
-//        TrackListAdapter adapter = new TrackListAdapter(this, null);
-//        mRecyclerView.setLayoutManager(manager);
-//        mRecyclerView.setAdapter(adapter);
+        TrackListAdapter adapter = new TrackListAdapter(this, getApplicationContext(), null);
+        mRecyclerView.setLayoutManager(manager);
+        mRecyclerView.setAdapter(adapter);
 
 
         mNav = findViewById(R.id.bottom_navigation);
@@ -173,13 +174,23 @@ public class SearchActivity extends AppCompatActivity implements UserCallback, G
     @Override
     public void onGetSearchReceivedSuccess(Search s) {
         search = s;
-//        TrackListAdapter adapter = new TrackListAdapter(this, (ArrayList<Track>) search.getTracks());
-//        mRecyclerView.setAdapter(adapter);
+        TrackListAdapter adapter = new TrackListAdapter(this, getApplicationContext(), (ArrayList<Track>) search.getTracks());
+        mRecyclerView.setAdapter(adapter);
 
     }
 
     @Override
     public void onGetSearchReceivedFailure(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onTrackSelected(Track track) {
+
+    }
+
+    @Override
+    public void onTrackSelected(int index) {
 
     }
 }
