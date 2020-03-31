@@ -78,9 +78,9 @@ public class SearchActivity extends AppCompatActivity implements UserCallback, G
 
         mRecyclerView = findViewById(R.id.rvTracks);
         LinearLayoutManager manager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
-        TrackListAdapter adapter = new TrackListAdapter(this, null);
-        mRecyclerView.setLayoutManager(manager);
-        mRecyclerView.setAdapter(adapter);
+//        TrackListAdapter adapter = new TrackListAdapter(this, null);
+//        mRecyclerView.setLayoutManager(manager);
+//        mRecyclerView.setAdapter(adapter);
 
 
         mNav = findViewById(R.id.bottom_navigation);
@@ -173,8 +173,8 @@ public class SearchActivity extends AppCompatActivity implements UserCallback, G
     @Override
     public void onGetSearchReceivedSuccess(Search s) {
         search = s;
-        TrackListAdapter adapter = new TrackListAdapter(this, (ArrayList<Track>) search.getTracks());
-        mRecyclerView.setAdapter(adapter);
+//        TrackListAdapter adapter = new TrackListAdapter(this, (ArrayList<Track>) search.getTracks());
+//        mRecyclerView.setAdapter(adapter);
 
     }
 

@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name=" android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 
     <application
         android:allowBackup="true"
@@ -13,11 +15,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".controller.activity.PlaylistDetailsActivity"></activity>
+
+        <service
+            android:name="vidal.sergi.sallefyv1.controller.music.MusicService"
+            android:enabled="true"
+            android:exported="true">
+        </service>
+
+
         <activity android:name=".controller.activity.LoginActivity">
-
-            <!-- <activity android:name=".controller.activity.DisplayPlaylistTracksActivity"> -->
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,6 +40,7 @@
         <activity android:name=".controller.activity.ProfileActivity" />
         <activity android:name=".controller.activity.LibraryActivity" />
         <activity android:name=".controller.activity.SearchActivity" />
+        <activity android:name=".controller.activity.PlaylistDetailsActivity" />
     </application>
 
 </manifest>
