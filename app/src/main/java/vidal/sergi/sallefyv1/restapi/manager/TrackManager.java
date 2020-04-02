@@ -27,7 +27,7 @@ public class TrackManager {
     private TrackService mTrackService;
 
 
-    public static TrackManager getInstance (Context context) {
+    public static TrackManager getInstance(Context context) {
         if (sTrackManager == null) {
             sTrackManager = new TrackManager(context);
         }
@@ -49,7 +49,7 @@ public class TrackManager {
     public synchronized void getAllTracks(final TrackCallback trackCallback) {
         UserToken userToken = Session.getInstance(mContext).getUserToken();
 
-        Call<List<Track>> call = mTrackService.getAllTracks( "Bearer " + userToken.getIdToken());
+        Call<List<Track>> call = mTrackService.getAllTracks("Bearer " + userToken.getIdToken());
         call.enqueue(new Callback<List<Track>>() {
             @Override
             public void onResponse(Call<List<Track>> call, Response<List<Track>> response) {
@@ -120,5 +120,43 @@ public class TrackManager {
         });
     }
 
+    /********************   ADD LIKE TRACK    ********************/
+    public synchronized void addLikeTrack(long id, final TrackCallback trackCallback) {
+        UserToken userToken = Session.getInstance(mContext).getUserToken();
+        Call<Track> call = mTrackService.addLikeTrack("Bearer " + userToken.getIdToken(), id);
+        call.enqueue(new Callback<Track>() {
+            @Override
+            public void onResponse(Call<Track> call, Response<Track> response) {
+                if (response.isSuccessful()) {
+                    System.out.println("addLikeTrack()");
+                    trackCallback.onLikedTrack(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Track> call, Throwable t) {
+                trackCallback.onFailure(t);
+            }
+        });
+    }
+
+    /********************   IS LIKED TRACK    ********************/
+    public synchronized void isLikedTrack(long id, final TrackCallback trackCallback) {
+        UserToken userToken = Session.getInstance(mContext).getUserToken();
+
+        Call<Track> call = mTrackService.isLikedTrack("Bearer " + userToken.getIdToken(), id);
+        call.enqueue(new Callback<Track>() {
+            @Override
+            public void onResponse(Call<Track> call, Response<Track> response) {
+                if (response.isSuccessful())
+                    trackCallback.onIsLikedTrack(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Track> call, Throwable t) {
+                trackCallback.onFailure(t);
+            }
+        });
+    }
 }
 

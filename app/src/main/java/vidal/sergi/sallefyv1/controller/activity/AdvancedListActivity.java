@@ -17,7 +17,7 @@ import vidal.sergi.sallefyv1.model.Track;
 import vidal.sergi.sallefyv1.restapi.callback.TrackCallback;
 import vidal.sergi.sallefyv1.restapi.manager.TrackManager;
 
-public class AdvancedListActivity extends AppCompatActivity implements TrackCallback {
+public class AdvancedListActivity extends AppCompatActivity {//implements TrackCallback {
 
     private RecyclerView mRecyclerView;
     private ArrayList<Track> mTracks;
@@ -28,7 +28,7 @@ public class AdvancedListActivity extends AppCompatActivity implements TrackCall
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_advanced_list);
         initViews();
-        getData();
+//        getData();
     }
 
     private void initViews() {
@@ -39,35 +39,35 @@ public class AdvancedListActivity extends AppCompatActivity implements TrackCall
 //        mRecyclerView.setAdapter(adapter);
     }
 
-    private void getData() {
-        TrackManager.getInstance(this).getAllTracks(this);
-        mTracks = new ArrayList<>();
-    }
-
-    @Override
-    public void onTracksReceived(List<Track> tracks) {
-        mTracks = (ArrayList) tracks;
-//        TrackListAdapter adapter = new TrackListAdapter(this, mTracks);
-//        mRecyclerView.setAdapter(adapter);
-    }
-
-    @Override
-    public void onNoTracks(Throwable throwable) {
-
-    }
-
-    @Override
-    public void onPersonalTracksReceived(List<Track> tracks) {
-
-    }
-
-    @Override
-    public void onUserTracksReceived(List<Track> tracks) {
-
-    }
-
-    @Override
-    public void onFailure(Throwable throwable) {
-
-    }
+//    private void getData() {
+//        TrackManager.getInstance(this).getAllTracks(this);
+//        mTracks = new ArrayList<>();
+//    }
+//
+//    @Override
+//    public void onTracksReceived(List<Track> tracks) {
+//        mTracks = (ArrayList) tracks;
+////        TrackListAdapter adapter = new TrackListAdapter(this, mTracks);
+////        mRecyclerView.setAdapter(adapter);
+//    }
+//
+//    @Override
+//    public void onNoTracks(Throwable throwable) {
+//
+//    }
+//
+//    @Override
+//    public void onPersonalTracksReceived(List<Track> tracks) {
+//
+//    }
+//
+//    @Override
+//    public void onUserTracksReceived(List<Track> tracks) {
+//
+//    }
+//
+//    @Override
+//    public void onFailure(Throwable throwable) {
+//
+//    }
 }

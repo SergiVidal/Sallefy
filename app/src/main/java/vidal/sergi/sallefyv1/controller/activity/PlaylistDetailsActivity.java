@@ -8,6 +8,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -23,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import vidal.sergi.sallefyv1.R;
@@ -33,11 +35,13 @@ import vidal.sergi.sallefyv1.controller.music.MusicService;
 import vidal.sergi.sallefyv1.model.Playlist;
 import vidal.sergi.sallefyv1.model.Track;
 import vidal.sergi.sallefyv1.restapi.callback.PlaylistCallback;
+import vidal.sergi.sallefyv1.restapi.callback.TrackCallback;
 import vidal.sergi.sallefyv1.restapi.manager.PlaylistManager;
+import vidal.sergi.sallefyv1.restapi.manager.TrackManager;
 
 //TODO: Cuando termina 1 canción, no se modifica el texto de la nueva canción ni se augmenta la posicion de la cancion actual de esta Activity, de MusicService si
-
-public class PlaylistDetailsActivity extends AppCompatActivity implements TrackListCallback, MusicCallback, PlaylistCallback {
+//TODO: CUando una canción tiene un like, al entrar en la activity la estrella no esta de color verde, cuando le das like si, pero no se mantiene cada vez que entras
+public class PlaylistDetailsActivity extends AppCompatActivity implements TrackListCallback, MusicCallback, PlaylistCallback, TrackCallback {
 
     private Playlist playlist;
     private ImageView ivPhoto;
@@ -76,8 +80,7 @@ public class PlaylistDetailsActivity extends AppCompatActivity implements TrackL
 
     private BottomNavigationView mNav;
 
-    boolean following;
-
+    private int pos;
 
     private ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
@@ -100,7 +103,6 @@ public class PlaylistDetailsActivity extends AppCompatActivity implements TrackL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist_details);
         playlist = (Playlist) getIntent().getSerializableExtra("Playlist");
-        System.out.println("detailsOnCreate() " + playlist);
         mTracks = (ArrayList) playlist.getTracks();
         initViews();
         startStreamingService();
@@ -333,15 +335,18 @@ public class PlaylistDetailsActivity extends AppCompatActivity implements TrackL
 
 
     private void isFollowingPlaylist(Playlist playlist){
-        following = playlist.isFollowed();
-        System.out.println("Following? " + following);
-        if(following){
+        if(playlist.isFollowed()){
             bFollow.setBackgroundResource(R.drawable.btn_following);
             bFollow.setText(getString(R.string.playlist_unfollow));
         }else {
             bFollow.setBackgroundResource(R.drawable.btn_follow);
             bFollow.setText(getString(R.string.playlist_follow));
         }
+    }
+
+    private void isLikedTrack(Track track){
+        playlist.getTracks().get(pos).setLiked(track.isLiked());
+        mTracksAdapter.updateTrackLikeStateIcon(pos, track.isLiked());
     }
 
     /**********************************************************************************************
@@ -358,6 +363,13 @@ public class PlaylistDetailsActivity extends AppCompatActivity implements TrackL
     public void onTrackSelected(int index) {
         System.out.println("Index song: " + index);
         updateTrack(index);
+    }
+
+    @Override
+    public void onLikeTrackSelected(int index) {
+        pos=index;
+        TrackManager.getInstance(getApplicationContext())
+                .addLikeTrack(mTracks.get(index).getId(), this);
     }
 
 
@@ -438,5 +450,37 @@ public class PlaylistDetailsActivity extends AppCompatActivity implements TrackL
     @Override
     public void onFailure(Throwable throwable) {
 
+    }
+    /**********************************************************************************************
+     *   *   *   *   *   *   *   *   TrackCallback   *   *   *   *   *   *   *   *   *
+     **********************************************************************************************/
+    @Override
+    public void onTracksReceived(List<Track> tracks) {
+
+    }
+
+    @Override
+    public void onNoTracks(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onPersonalTracksReceived(List<Track> tracks) {
+
+    }
+
+    @Override
+    public void onUserTracksReceived(List<Track> tracks) {
+
+    }
+
+    @Override
+    public void onLikedTrack(Track track) {
+        isLikedTrack(track);
+    }
+
+    @Override
+    public void onIsLikedTrack(Track track) {
+        isLikedTrack(track);
     }
 }

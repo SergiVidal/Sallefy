@@ -106,7 +106,7 @@ public class PlaylistManager {
         call.enqueue(new Callback<Playlist>() {
             @Override
             public void onResponse(Call<Playlist> call, Response<Playlist> response) {
-                if (response.isSuccessful()){}
+                if (response.isSuccessful())
                     playlistCallback.onFollowingPlaylist(response.body());
             }
 
@@ -123,10 +123,8 @@ public class PlaylistManager {
         call.enqueue(new Callback<Playlist>() {
             @Override
             public void onResponse(Call<Playlist> call, Response<Playlist> response) {
-                if (response.isSuccessful()) {
-                    System.out.println("isFollowing? " +response.body());
+                if (response.isSuccessful())
                     playlistCallback.onIsFollowingPlaylist(response.body());
-                }
             }
 
             @Override

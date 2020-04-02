@@ -193,4 +193,9 @@ public class SearchActivity extends AppCompatActivity implements UserCallback, G
     public void onTrackSelected(int index) {
 
     }
+
+    @Override
+    public void onLikeTrackSelected(int index) {
+
+    }
 }

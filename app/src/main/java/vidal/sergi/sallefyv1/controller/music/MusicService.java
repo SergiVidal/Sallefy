@@ -118,6 +118,7 @@ public class MusicService extends Service {
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
+                //AQUI DEBERIA AVISAR A LA ACTIVITY
                 updateTrack(1);
             }
         });

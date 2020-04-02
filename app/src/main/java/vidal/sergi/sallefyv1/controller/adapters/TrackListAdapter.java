@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -66,6 +67,20 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
                     .load(mTracks.get(position).getThumbnail())
                     .into(holder.ivPicture);
         }
+
+//        TrackManager.getInstance(mContext)
+//                .isLikedTrack(mTracks.get(position).getId(), this);
+
+        holder.ibFollowTrack.setOnClickListener(v ->{
+                mCallback.onLikeTrackSelected(position);
+        });
+
+        if(mTracks.get(position).isLiked()){
+            holder.ibFollowTrack.setBackgroundResource(R.drawable.ic_star_green);
+        }else{
+            holder.ibFollowTrack.setBackgroundResource(R.drawable.ic_star_border_black);
+
+        }
     }
 
     @Override
@@ -73,6 +88,7 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
         return mTracks != null ? mTracks.size():0;
     }
 
+//    //Todo: Reutilitzar este codigo?
     public void updateTrackLikeStateIcon(int position, boolean isLiked) {
         mTracks.get(position).setLiked(isLiked);
         notifyDataSetChanged();
@@ -84,13 +100,16 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
         TextView tvTitle;
         TextView tvAuthor;
         ImageView ivPicture;
-
+        ImageButton ibFollowTrack;
+        ImageButton ibMoreTrack;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mLayout = itemView.findViewById(R.id.track_item_layout);
             tvTitle = (TextView) itemView.findViewById(R.id.track_title);
             tvAuthor = (TextView) itemView.findViewById(R.id.track_author);
             ivPicture = (ImageView) itemView.findViewById(R.id.track_img);
+            ibFollowTrack = itemView.findViewById(R.id.ibFollowTrack);
+            ibMoreTrack = itemView.findViewById(R.id.ibMoreTrack);
         }
     }
 }
