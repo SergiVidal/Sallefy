@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:background="@color/colorPrimary"
-    tools:context=".controller.activity.LibraryActivity">
+    tools:context=".controller.activity.TrackLibraryActivity">
 
     <com.scwang.wave.MultiWaveHeader
         android:id="@+id/multiWaveHeader2"
@@ -95,13 +95,108 @@
                 app:layout_constraintBottom_toTopOf="@+id/bottom_navigation">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/search_playlists_recyclerview"
+                    android:id="@+id/search_tracks_recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/colorSecondaryDark"
+        tools:layout_editor_absoluteX="15dp"
+        app:layout_constraintBottom_toBottomOf="@id/linearLayout1"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation">
+
+        <SeekBar
+            android:id="@+id/dynamic_seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:backgroundTint="@color/colorWhite"
+            android:progressBackgroundTint="@color/colorWhite" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/dynamic_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:fadingEdge="horizontal"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:maxWidth="200dp"
+                    android:scrollHorizontally="true"
+                    android:singleLine="true"
+                    android:text="@string/default_track_title"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/dynamic_artist"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/default_track_author"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/dynamic_backward_btn"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_skip_previous" />
+
+                <ImageButton
+                    android:id="@+id/dynamic_play_btn"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_play" />
+
+                <ImageButton
+                    android:id="@+id/dynamic_forward_btn"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_skip_next" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

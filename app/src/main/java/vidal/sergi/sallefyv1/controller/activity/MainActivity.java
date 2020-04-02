@@ -230,6 +230,21 @@ public class MainActivity extends AppCompatActivity implements UserCallback, Pla
     }
 
     @Override
+    public void onNoPlaylist(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onPersonalPlaylistReceived(ArrayList<Playlist> tracks) {
+
+    }
+
+    @Override
+    public void onUserPlaylistReceived(ArrayList<Playlist> tracks) {
+
+    }
+
+    @Override
     public void onFailure(Throwable throwable) {
 
     }

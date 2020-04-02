@@ -1,5 +1,6 @@
 package vidal.sergi.sallefyv1.controller.activity;
 
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,14 +9,11 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,17 +37,8 @@ import vidal.sergi.sallefyv1.restapi.callback.TrackCallback;
 import vidal.sergi.sallefyv1.restapi.manager.PlaylistManager;
 import vidal.sergi.sallefyv1.restapi.manager.TrackManager;
 
-//TODO: Cuando termina 1 canción, no se modifica el texto de la nueva canción ni se augmenta la posicion de la cancion actual de esta Activity, de MusicService si
-//TODO: CUando una canción tiene un like, al entrar en la activity la estrella no esta de color verde, cuando le das like si, pero no se mantiene cada vez que entras
-public class PlaylistDetailsActivity extends AppCompatActivity implements TrackListCallback, MusicCallback, PlaylistCallback, TrackCallback {
-
-    private Playlist playlist;
-    private ImageView ivPhoto;
-    private TextView tvPlaylistName;
-    private TextView tvAuthor;
-    private Button bFollow;
-    private Button bRandom;
-
+public class TrackLibraryActivity extends AppCompatActivity implements TrackListCallback, MusicCallback, PlaylistCallback, TrackCallback {
+    private BottomNavigationView mNav;
     private RecyclerView mTracksView;
     private TrackListAdapter mTracksAdapter;
 
@@ -78,7 +67,6 @@ public class PlaylistDetailsActivity extends AppCompatActivity implements TrackL
     private ArrayList<Track> mTracks;
     private int currentTrack = 0;
 
-    private BottomNavigationView mNav;
 
     private int pos;
 
@@ -87,7 +75,7 @@ public class PlaylistDetailsActivity extends AppCompatActivity implements TrackL
         public void onServiceConnected(ComponentName name, IBinder service) {
             MusicService.MusicBinder binder = (MusicService.MusicBinder)service;
             mBoundService = binder.getService();
-            mBoundService.setCallback(PlaylistDetailsActivity.this);
+            mBoundService.setCallback(TrackLibraryActivity.this);
             mServiceBound = true;
             updateSeekBar();
         }
@@ -98,14 +86,14 @@ public class PlaylistDetailsActivity extends AppCompatActivity implements TrackL
         }
     };
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_playlist_details);
-        playlist = (Playlist) getIntent().getSerializableExtra("Playlist");
-        mTracks = (ArrayList) playlist.getTracks();
+        setContentView(R.layout.activity_library);
+        getData();
         initViews();
-        startStreamingService();
+
     }
     @Override
     public void onResume() {
@@ -119,7 +107,6 @@ public class PlaylistDetailsActivity extends AppCompatActivity implements TrackL
             }
         }
     }
-
 
     @Override
     public void onPause() {
@@ -137,44 +124,16 @@ public class PlaylistDetailsActivity extends AppCompatActivity implements TrackL
             mServiceBound = false;
         }
     }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
     }
 
+
+    private void getData() {
+        TrackManager.getInstance(getApplicationContext()).getOwnTracks(this);
+    }
+
     private void initViews() {
-        tvPlaylistName = findViewById(R.id.tvPlaylistName);
-        tvPlaylistName.setText(playlist.getName());
-
-        tvAuthor = findViewById(R.id.tvAuthor);
-        tvAuthor.setText(playlist.getUser().getLogin());
-
-        ivPhoto = findViewById(R.id.ivPlaylistPhoto);
-        if (playlist.getThumbnail() != null) {
-            Glide.with(getApplicationContext())
-                    .asBitmap()
-                    .placeholder(R.drawable.ic_audiotrack)
-                    .load(playlist.getThumbnail())
-                    .into(ivPhoto);
-        }
-
-        PlaylistManager.getInstance(getApplicationContext())
-                .isFollowingPlaylist(playlist.getId(), this);
-        bFollow = findViewById(R.id.bFollow);
-        bFollow.setOnClickListener(v -> {
-            PlaylistManager.getInstance(getApplicationContext())
-                    .addFollowPlaylist(playlist.getId(), this);
-        });
-
-
-        bRandom = findViewById(R.id.bRandom);
-        bRandom.setOnClickListener(v ->{
-            currentTrack = new Random().nextInt(mTracks.size());
-            System.out.println("Random: " + currentTrack);
-            updateTrack(currentTrack);
-        });
-
         LinearLayoutManager managerTracks = new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL, false);
         mTracksAdapter = new TrackListAdapter(this, getApplicationContext(), mTracks);
         mTracksView = (RecyclerView) findViewById(R.id.search_tracks_recyclerview);
@@ -238,32 +197,6 @@ public class PlaylistDetailsActivity extends AppCompatActivity implements TrackL
             public void onStopTrackingTouch(SeekBar seekBar) {
 
             }
-        });
-
-        mNav = findViewById(R.id.bottom_navigation);
-        mNav.setSelectedItemId(R.id.action_home);
-        mNav.setOnNavigationItemSelectedListener(menuItem -> {
-            Intent intent;
-            switch (menuItem.getItemId()) {
-                case R.id.action_home:
-                    intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
-                    break;
-                case R.id.action_search:
-                    intent = new Intent(getApplicationContext(), SearchActivity.class);
-                    startActivity(intent);
-                    break;
-                case R.id.action_library:
-                    intent = new Intent(getApplicationContext(), LibraryActivity.class);
-                    startActivity(intent);
-                    break;
-                case R.id.action_profile:
-                    intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                    startActivity(intent);
-                    break;
-
-            }
-            return true;
         });
     }
     private void startStreamingService () {
@@ -333,22 +266,10 @@ public class PlaylistDetailsActivity extends AppCompatActivity implements TrackL
         }
     }
 
-
-    private void isFollowingPlaylist(Playlist playlist){
-        if(playlist.isFollowed()){
-            bFollow.setBackgroundResource(R.drawable.btn_following);
-            bFollow.setText(getString(R.string.playlist_unfollow));
-        }else {
-            bFollow.setBackgroundResource(R.drawable.btn_follow);
-            bFollow.setText(getString(R.string.playlist_follow));
-        }
-    }
-
     private void isLikedTrack(Track track){
-        playlist.getTracks().get(pos).setLiked(track.isLiked());
-        mTracksAdapter.updateTrackLikeStateIcon(pos, track.isLiked());
+//        playlist.getTracks().get(pos).setLiked(track.isLiked());
+//        mTracksAdapter.updateTrackLikeStateIcon(pos, track.isLiked());
     }
-
     /**********************************************************************************************
      *   *   *   *   *   *   *   *   TrackCallback   *   *   *   *   *   *   *   *   *
      **********************************************************************************************/
@@ -439,12 +360,12 @@ public class PlaylistDetailsActivity extends AppCompatActivity implements TrackL
 
     @Override
     public void onFollowingPlaylist(Playlist playlist) {
-       isFollowingPlaylist(playlist);
+
     }
 
     @Override
     public void onIsFollowingPlaylist(Playlist playlist) {
-        isFollowingPlaylist(playlist);
+
     }
 
     @Override
@@ -481,6 +402,8 @@ public class PlaylistDetailsActivity extends AppCompatActivity implements TrackL
 
     @Override
     public void onPersonalTracksReceived(List<Track> tracks) {
+        mTracksAdapter = new TrackListAdapter(this, getApplicationContext(), mTracks);
+        mTracksView.setAdapter(mTracksAdapter);
 
     }
 
@@ -499,3 +422,4 @@ public class PlaylistDetailsActivity extends AppCompatActivity implements TrackL
         isLikedTrack(track);
     }
 }
+

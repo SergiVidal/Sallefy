@@ -25,4 +25,11 @@ public interface PlaylistCallback extends FailureCallback {
     void onFollowingPlaylist(Playlist playlist);
     void onIsFollowingPlaylist(Playlist playlist);
 
+    void onNoPlaylist(Throwable throwable);
+    void onPersonalPlaylistReceived(ArrayList<Playlist> tracks);
+
+    void onUserPlaylistReceived(ArrayList<Playlist> tracks);
+
+
+
 }

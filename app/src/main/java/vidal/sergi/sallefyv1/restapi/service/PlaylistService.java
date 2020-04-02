@@ -29,4 +29,7 @@ public interface PlaylistService {
 
     @GET("playlists/{id}/follow")
     Call<Playlist> isFollowingPlaylist(@Header("Authorization") String token, @Path("id") long id);
+
+    @GET("me/playlists")
+    Call<List<Playlist>> getOwnPlayList(@Header("Authorization") String token);
 }
