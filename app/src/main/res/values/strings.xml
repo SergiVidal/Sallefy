@@ -59,6 +59,12 @@
     <string name="search_genre">Género</string>
     <string name="default_genres">Géneros</string>
 
+    <!-- ACTIVITY [ Library ] -->
+    <string name="music_title">Música</string>
+    <string name="playlist_button">Playlist</string>
+    <string name="artistas_button">Artistas</string>
+    <string name="canciones_button">Canciones</string>
+    <string name="add_playlist_button">+ Añadir una playlist</string>
     <!-- ACTIVITY [ Search ] -->
     <string name="playlist_detail">Playlist</string>
     <string name="playlist_author">Author</string>

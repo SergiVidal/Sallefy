@@ -2,10 +2,8 @@ package vidal.sergi.sallefyv1.controller.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,12 +25,10 @@ import vidal.sergi.sallefyv1.model.Search;
 import vidal.sergi.sallefyv1.model.Track;
 import vidal.sergi.sallefyv1.model.User;
 import vidal.sergi.sallefyv1.model.UserToken;
-import vidal.sergi.sallefyv1.restapi.callback.PlaylistCallback;
 import vidal.sergi.sallefyv1.restapi.callback.GenreCallback;
 import vidal.sergi.sallefyv1.restapi.callback.SearchCallback;
 import vidal.sergi.sallefyv1.restapi.callback.UserCallback;
 import vidal.sergi.sallefyv1.restapi.manager.GenreManager;
-import vidal.sergi.sallefyv1.restapi.manager.PlaylistManager;
 import vidal.sergi.sallefyv1.restapi.manager.SearchManager;
 import vidal.sergi.sallefyv1.restapi.manager.UserManager;
 import vidal.sergi.sallefyv1.utils.Session;
@@ -191,7 +187,9 @@ public class SearchActivity extends AppCompatActivity implements UserCallback, G
 
     @Override
     public void onTrackSelected(int index) {
-
+        Intent intent = new Intent(getApplicationContext(), PlaySongActivity.class);
+        intent.putExtra("track", search.getTracks().get(index));
+        startActivity(intent);
     }
 
     @Override
