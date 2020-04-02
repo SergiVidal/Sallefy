@@ -11,7 +11,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
+        <com.scwang.wave.MultiWaveHeader
+            android:id="@+id/search_multiWaveHeader"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:rotation="-20"
+            android:scaleX="2"
+            android:scaleY="1.7"
+            app:layout_constraintTop_toTopOf="parent"
+            app:mwhCloseColor="@color/colorSecondary"
+            app:mwhStartColor="@color/colorPrimary" />
+        
         <com.gauravk.audiovisualizer.visualizer.CircleLineVisualizer
             android:id="@+id/circleVisualizer"
             android:layout_width="550dp"
