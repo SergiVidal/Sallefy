@@ -19,6 +19,7 @@ import com.gauravk.audiovisualizer.visualizer.CircleLineVisualizer;
 import java.io.IOException;
 
 import vidal.sergi.sallefyv1.R;
+import vidal.sergi.sallefyv1.model.Track;
 
 
 public class PlaySongActivity extends AppCompatActivity {
@@ -37,11 +38,12 @@ public class PlaySongActivity extends AppCompatActivity {
     private SeekBar mSeekBar;
     private Handler mHandler;
     private Runnable mRunnable;
+    private Track track;
 
     private CircleLineVisualizer mVisualizer;
 
     private MediaPlayer mPlayer;
-    private final static String url = "https://res.cloudinary.com/jcarri/video/upload/v1568737044/simon-garfunkel-the-boxer-audio_whwaox.mp3";
+    private String url;
     //private final static String url = "https://soundcloud.com/lionelrichieofficial/all-night-long-all-night-album";
 
 
@@ -50,6 +52,8 @@ public class PlaySongActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        track = (Track) getIntent().getSerializableExtra("track");
+        url = track.getUrl();
         Log.d("Static: ", "Enter onCreate " + this.hashCode());
         setContentView(R.layout.activity_play_song);
         initViews();
@@ -70,6 +74,7 @@ public class PlaySongActivity extends AppCompatActivity {
     private void initViews() {
         mVisualizer = findViewById(R.id.circleVisualizer);
 
+
         try {
             mPlayer = new MediaPlayer();
             mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -80,8 +85,9 @@ public class PlaySongActivity extends AppCompatActivity {
                     mSeekBar.setMax(mPlayer.getDuration());
 
                     int audioSessionId = mPlayer.getAudioSessionId();
-                    if (audioSessionId != -1)
-                        mVisualizer.setAudioSessionId(audioSessionId);
+                    if (audioSessionId != -1){
+//                        mVisualizer.setAudioSessionId(audioSessionId);
+                    }
                 }
             });
             mHandler = new Handler();
@@ -104,8 +110,9 @@ public class PlaySongActivity extends AppCompatActivity {
 
         tvAuthor = findViewById(R.id.music_artist_2);
         tvTitle = findViewById(R.id.music_title_2);
-
-
+        tvTitle.setText(track.getName());
+        tvAuthor.setText(track.getUser().getLogin());
+        ivPhoto = findViewById(R.id.ivPlaylistPhoto);
         btnBackward = (ImageButton)findViewById(R.id.music_backward_btn_2);
         btnForward = (ImageButton)findViewById(R.id.music_forward_btn_2);
 
