@@ -21,4 +21,8 @@ public interface PlaylistCallback extends FailureCallback {
     void onAllList(ArrayList<Playlist> playlists);
 
     void onFollowingList(ArrayList<Playlist> playlists);
+
+    void onFollowingPlaylist(Playlist playlist);
+    void onIsFollowingPlaylist(Playlist playlist);
+
 }

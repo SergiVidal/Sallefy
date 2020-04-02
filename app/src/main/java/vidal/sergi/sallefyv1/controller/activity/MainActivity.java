@@ -2,8 +2,6 @@ package vidal.sergi.sallefyv1.controller.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,7 +29,6 @@ import vidal.sergi.sallefyv1.restapi.callback.UserCallback;
 import vidal.sergi.sallefyv1.restapi.manager.GenreManager;
 import vidal.sergi.sallefyv1.restapi.manager.PlaylistManager;
 import vidal.sergi.sallefyv1.restapi.manager.UserManager;
-import vidal.sergi.sallefyv1.utils.Session;
 
 public class MainActivity extends AppCompatActivity implements UserCallback, PlaylistCallback, PlaylistAdapterCallback, GenreCallback {
 
@@ -54,7 +51,6 @@ public class MainActivity extends AppCompatActivity implements UserCallback, Pla
     private GenresAdapter mGenresAdapter;
 
     private BottomNavigationView mNav;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements UserCallback, Pla
         mUsersView.setAdapter(mUserAdapter);
 
         LinearLayoutManager managerPlaylists = new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false);
-        mPlaylistAdapter = new PlaylistListAdapter(null, getApplicationContext(), null, R.layout.item_playlist_short);
+        mPlaylistAdapter = new PlaylistListAdapter(null, getApplicationContext(), this, R.layout.item_playlist_short);
         mPlaylistsView = (RecyclerView) findViewById(R.id.search_playlists_recyclerview);
         mPlaylistsView.setLayoutManager(managerPlaylists);
         mPlaylistsView.setAdapter(mPlaylistAdapter);
@@ -154,7 +150,6 @@ public class MainActivity extends AppCompatActivity implements UserCallback, Pla
                     break;
 
             }
-//                replaceFragment(fragment);
             return true;
         });
     }
@@ -215,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements UserCallback, Pla
 
     @Override
     public void onAllList(ArrayList<Playlist> playlists) {
-        mPlaylistAdapter = new PlaylistListAdapter(playlists, getApplicationContext(), null, R.layout.item_playlist_short);
+        mPlaylistAdapter = new PlaylistListAdapter(playlists, getApplicationContext(), this, R.layout.item_playlist_short);
         mPlaylistsView.setAdapter(mPlaylistAdapter);
         //Toast.makeText(getContext(), "Playlists received", Toast.LENGTH_LONG).show();
     }
@@ -226,12 +221,23 @@ public class MainActivity extends AppCompatActivity implements UserCallback, Pla
     }
 
     @Override
+    public void onFollowingPlaylist(Playlist playlist) {
+    }
+
+    @Override
+    public void onIsFollowingPlaylist(Playlist playlist) {
+
+    }
+
+    @Override
     public void onFailure(Throwable throwable) {
 
     }
     @Override
     public void onPlaylistClick(Playlist playlist) {
-
+        Intent intent = new Intent(getApplicationContext(), PlaylistDetailsActivity.class);
+        intent.putExtra("Playlist", playlist);
+        startActivity(intent);
     }
     /**********************************************************************************************
      *   *   *   *   *   *   *   *   UserCallback   *   *   *   *   *   *   *   *   *

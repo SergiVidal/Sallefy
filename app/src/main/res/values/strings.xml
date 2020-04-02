@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SallefyV1</string>
+    <string name="app_name">Sallefy</string>
     <string name="track_list">Lista</string>
 
 
@@ -65,5 +65,11 @@
     <string name="artistas_button">Artistas</string>
     <string name="canciones_button">Canciones</string>
     <string name="add_playlist_button">+ Añadir una playlist</string>
+    <!-- ACTIVITY [ Search ] -->
+    <string name="playlist_detail">Playlist</string>
+    <string name="playlist_author">Author</string>
+    <string name="playlist_follow">Seguir</string>
+    <string name="playlist_unfollow">Dejar de Seguir</string>
+    <string name="playlist_random">Aleatorio</string>
 
 </resources>
