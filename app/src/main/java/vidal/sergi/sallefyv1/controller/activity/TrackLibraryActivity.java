@@ -37,7 +37,7 @@ import vidal.sergi.sallefyv1.restapi.callback.TrackCallback;
 import vidal.sergi.sallefyv1.restapi.manager.PlaylistManager;
 import vidal.sergi.sallefyv1.restapi.manager.TrackManager;
 
-public class TrackLibraryActivity extends AppCompatActivity implements TrackListCallback, MusicCallback, PlaylistCallback, TrackCallback {
+public class TrackLibraryActivity extends AppCompatActivity implements TrackListCallback, MusicCallback, TrackCallback {
     private BottomNavigationView mNav;
     private RecyclerView mTracksView;
     private TrackListAdapter mTracksAdapter;
@@ -198,6 +198,31 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
 
             }
         });
+        mNav = findViewById(R.id.bottom_navigation);
+        mNav.setSelectedItemId(R.id.action_home);
+        mNav.setOnNavigationItemSelectedListener(menuItem -> {
+            Intent intent;
+            switch (menuItem.getItemId()) {
+               case R.id.action_home:
+                   intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                    break;
+                case R.id.action_search:
+                    intent = new Intent(getApplicationContext(), SearchActivity.class);
+                    startActivity(intent);
+                    break;
+//                case R.id.action_library:
+ //                   intent = new Intent(getApplicationContext(), LibraryActivity.class);
+ //                   startActivity(intent);
+ //                   break;
+                case R.id.action_profile:
+                    intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                    startActivity(intent);
+                    break;
+
+            }
+            return true;
+        });
     }
     private void startStreamingService () {
         Intent intent = new Intent(getApplicationContext(), MusicService.class);
@@ -305,88 +330,7 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
         playAudio();
 
     }
-    /**********************************************************************************************
-     *   *   *   *   *   *   *   *   PlaylistCallback   *   *   *   *   *   *   *   *   *
-     **********************************************************************************************/
-    @Override
-    public void onCreatePlaylistSuccess(Playlist playlist) {
 
-    }
-
-    @Override
-    public void onCreatePlaylistFailure(Throwable throwable) {
-
-    }
-
-    @Override
-    public void onAddTrackToPlaylistSuccess(Playlist playlist) {
-
-    }
-
-    @Override
-    public void onAddTrackToPlaylistFailure(Throwable throwable) {
-
-    }
-
-    @Override
-    public void onGetPlaylistReceivedSuccess(Playlist playlist) {
-
-    }
-
-    @Override
-    public void onGetPlaylistReceivedFailure(Throwable throwable) {
-
-    }
-
-    @Override
-    public void onPlaylistById(Playlist playlist) {
-
-    }
-
-    @Override
-    public void onPlaylistsByUser(ArrayList<Playlist> playlists) {
-
-    }
-
-    @Override
-    public void onAllList(ArrayList<Playlist> playlists) {
-
-    }
-
-    @Override
-    public void onFollowingList(ArrayList<Playlist> playlists) {
-
-    }
-
-    @Override
-    public void onFollowingPlaylist(Playlist playlist) {
-
-    }
-
-    @Override
-    public void onIsFollowingPlaylist(Playlist playlist) {
-
-    }
-
-    @Override
-    public void onNoPlaylist(Throwable throwable) {
-
-    }
-
-    @Override
-    public void onPersonalPlaylistReceived(ArrayList<Playlist> tracks) {
-
-    }
-
-    @Override
-    public void onUserPlaylistReceived(ArrayList<Playlist> tracks) {
-
-    }
-
-    @Override
-    public void onFailure(Throwable throwable) {
-
-    }
     /**********************************************************************************************
      *   *   *   *   *   *   *   *   TrackCallback   *   *   *   *   *   *   *   *   *
      **********************************************************************************************/
@@ -420,6 +364,11 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
     @Override
     public void onIsLikedTrack(Track track) {
         isLikedTrack(track);
+    }
+
+    @Override
+    public void onFailure(Throwable throwable) {
+
     }
 }
 

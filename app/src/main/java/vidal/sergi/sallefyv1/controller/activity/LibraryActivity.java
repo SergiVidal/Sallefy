@@ -72,6 +72,31 @@ public class LibraryActivity extends AppCompatActivity implements PlaylistCallba
         mPlaylistsView = (RecyclerView) findViewById(R.id.search_playlists_recyclerview);
         mPlaylistsView.setLayoutManager(managerPlaylists);
         mPlaylistsView.setAdapter(mPlaylistAdapter);
+        mNav = findViewById(R.id.bottom_navigation);
+        mNav.setSelectedItemId(R.id.action_home);
+        mNav.setOnNavigationItemSelectedListener(menuItem -> {
+            Intent intent;
+            switch (menuItem.getItemId()) {
+                case R.id.action_home:
+                    intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                    break;
+                case R.id.action_search:
+                    intent = new Intent(getApplicationContext(), SearchActivity.class);
+                    startActivity(intent);
+                    break;
+//                case R.id.action_library:
+//                   intent = new Intent(getApplicationContext(), LibraryActivity.class);
+//                   startActivity(intent);
+//                   break;
+                case R.id.action_profile:
+                    intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                    startActivity(intent);
+                    break;
+
+            }
+            return true;
+        });
 
     }
 
