@@ -39,13 +39,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.tvUsername.setText(mUsers.get(position).getLogin());
-        if (mUsers.get(position).getImageUrl() != null) {
+//        if (mUsers.get(position).getImageUrl() != null && !mUsers.get(position).getImageUrl().equals("")) {
             Glide.with(mContext)
                     .asBitmap()
-//                    .placeholder(R.drawable.ic_user_thumbnail)
+                    .placeholder(R.drawable.ic_account_circle_black)
                     .load(mUsers.get(position).getImageUrl())
                     .into(holder.ivPhoto);
-        }
+//        }
     }
 
     @Override

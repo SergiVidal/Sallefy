@@ -138,6 +138,7 @@ public class PlaylistDetailsActivity extends AppCompatActivity implements TrackL
 
     @Override
     public void onDestroy() {
+        System.out.println("onDestroy()");
         super.onDestroy();
     }
 

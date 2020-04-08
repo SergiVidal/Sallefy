@@ -3,6 +3,7 @@ package vidal.sergi.sallefyv1.controller.activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,15 +33,6 @@ import vidal.sergi.sallefyv1.restapi.manager.UserManager;
 
 public class MainActivity extends AppCompatActivity implements UserCallback, PlaylistCallback, PlaylistAdapterCallback, GenreCallback {
 
-//    private Button mList;
-//    private Button mAdvancedList;
-//    private Button mCreatePlaylist;
-//    private Button mAddTrackToPlaylist;
-//    private Button mGetPlaylist;
-//
-//    private User user;
-
-
     private RecyclerView mUsersView;
     private UserAdapter mUserAdapter;
 
@@ -56,24 +48,17 @@ public class MainActivity extends AppCompatActivity implements UserCallback, Pla
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-//        user = Session.getInstance(getApplicationContext()).getUser();
-//        UserManager.getInstance(getApplicationContext()).getUserData(user.getLogin(), this);
-//        UserManager.getInstance(getApplicationContext()).getUserPlaylists(user.getLogin(), this);
-
-
         initViews();
         getData();
-
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-//        getData();
-        PlaylistManager.getInstance(getApplicationContext())
-                .getListOfPlaylist(this);
+//        mPlaylistAdapter = new PlaylistListAdapter(null, getApplicationContext(), this, R.layout.item_playlist_short);
+//        mPlaylistsView.setAdapter(mPlaylistAdapter);
+        getData();
     }
 
     @Override
@@ -99,36 +84,6 @@ public class MainActivity extends AppCompatActivity implements UserCallback, Pla
         mGenresView = (RecyclerView) findViewById(R.id.search_genres_recyclerview);
         mGenresView.setLayoutManager(managerGenres);
         mGenresView.setAdapter(mGenresAdapter);
-
-//        mList = findViewById(R.id.show_tracks);
-//        mList.setOnClickListener(v -> {
-//            Intent intent = new Intent(getApplicationContext(), ListActivity.class);
-//            startActivity(intent);
-//        });
-//
-//        mAdvancedList = findViewById(R.id.show_advanced_tracks);
-//        mAdvancedList.setOnClickListener(v -> {
-//            Intent intent = new Intent(getApplicationContext(), AdvancedListActivity.class);
-//            startActivity(intent);
-//        });
-//
-//        mCreatePlaylist = findViewById(R.id.create_new_playlist);
-//        mCreatePlaylist.setOnClickListener(v -> {
-//            Intent intent = new Intent(getApplicationContext(), CreatePlaylistActivity.class);
-//            startActivity(intent);
-//        });
-//
-//        mAddTrackToPlaylist = findViewById(R.id.add_track_to_playlist);
-//        mAddTrackToPlaylist.setOnClickListener(view -> {
-//            Intent intent = new Intent(getApplicationContext(), AddTrackActivity.class);
-//            startActivity(intent);
-//        });
-//
-//        mGetPlaylist = findViewById(R.id.show_playlist_musics);
-//        mGetPlaylist.setOnClickListener(view -> {
-//            Intent intent = new Intent(getApplicationContext(), DisplayPlaylistTracksActivity.class);
-//            startActivity(intent);
-//        });
 
         mNav = findViewById(R.id.bottom_navigation);
         mNav.setSelectedItemId(R.id.action_home);
@@ -167,8 +122,6 @@ public class MainActivity extends AppCompatActivity implements UserCallback, Pla
     }
 
 
-
-
     /**********************************************************************************************
      *   *   *   *   *   *   *   *   PlaylistCallback   *   *   *   *   *   *   *   *   *
      **********************************************************************************************/
@@ -201,6 +154,7 @@ public class MainActivity extends AppCompatActivity implements UserCallback, Pla
     public void onGetPlaylistReceivedFailure(Throwable throwable) {
 
     }
+
     @Override
     public void onPlaylistById(Playlist playlist) {
 
@@ -215,7 +169,6 @@ public class MainActivity extends AppCompatActivity implements UserCallback, Pla
     public void onAllList(ArrayList<Playlist> playlists) {
         mPlaylistAdapter = new PlaylistListAdapter(playlists, getApplicationContext(), this, R.layout.item_playlist_short);
         mPlaylistsView.setAdapter(mPlaylistAdapter);
-        //Toast.makeText(getContext(), "Playlists received", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -251,12 +204,21 @@ public class MainActivity extends AppCompatActivity implements UserCallback, Pla
     public void onFailure(Throwable throwable) {
 
     }
+
     @Override
     public void onPlaylistClick(Playlist playlist) {
         Intent intent = new Intent(getApplicationContext(), PlaylistDetailsActivity.class);
         intent.putExtra("Playlist", playlist);
         startActivity(intent);
+        //startActivityForResult para recuperar
+        //
     }
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//    }
+
     /**********************************************************************************************
      *   *   *   *   *   *   *   *   UserCallback   *   *   *   *   *   *   *   *   *
      **********************************************************************************************/
@@ -312,6 +274,4 @@ public class MainActivity extends AppCompatActivity implements UserCallback, Pla
     public void onTracksByGenre(ArrayList<Track> tracks) {
 
     }
-
-
 }
