@@ -331,6 +331,11 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
 
     }
 
+    @Override
+    public void onTrackChanged(int index) {
+
+    }
+
     /**********************************************************************************************
      *   *   *   *   *   *   *   *   TrackCallback   *   *   *   *   *   *   *   *   *
      **********************************************************************************************/
