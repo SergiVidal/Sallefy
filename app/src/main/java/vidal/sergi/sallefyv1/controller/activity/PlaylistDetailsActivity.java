@@ -39,8 +39,6 @@ import vidal.sergi.sallefyv1.restapi.callback.TrackCallback;
 import vidal.sergi.sallefyv1.restapi.manager.PlaylistManager;
 import vidal.sergi.sallefyv1.restapi.manager.TrackManager;
 
-//TODO: Cuando termina 1 canción, no se modifica el texto de la nueva canción ni se augmenta la posicion de la cancion actual de esta Activity, de MusicService si
-//TODO: CUando una canción tiene un like, al entrar en la activity la estrella no esta de color verde, cuando le das like si, pero no se mantiene cada vez que entras
 public class PlaylistDetailsActivity extends AppCompatActivity implements TrackListCallback, MusicCallback, PlaylistCallback, TrackCallback {
 
     private Playlist playlist;
@@ -384,6 +382,18 @@ public class PlaylistDetailsActivity extends AppCompatActivity implements TrackL
         playAudio();
 
     }
+
+    @Override
+    public void onTrackChanged(int index) {
+        Track track = mTracks.get(index);
+        currentTrack = index;
+        tvDynamic_title.setText(track.getName());
+        tvDynamic_artist.setText(track.getUserLogin());
+        btnPlayStop.setImageResource(R.drawable.ic_pause);
+        btnPlayStop.setTag(STOP_VIEW);
+        updateSeekBar();
+    }
+
     /**********************************************************************************************
      *   *   *   *   *   *   *   *   PlaylistCallback   *   *   *   *   *   *   *   *   *
      **********************************************************************************************/

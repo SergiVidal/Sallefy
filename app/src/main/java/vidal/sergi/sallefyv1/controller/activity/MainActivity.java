@@ -71,6 +71,9 @@ public class MainActivity extends AppCompatActivity implements UserCallback, Pla
     @Override
     protected void onResume() {
         super.onResume();
+//        getData();
+        PlaylistManager.getInstance(getApplicationContext())
+                .getListOfPlaylist(this);
     }
 
     @Override
