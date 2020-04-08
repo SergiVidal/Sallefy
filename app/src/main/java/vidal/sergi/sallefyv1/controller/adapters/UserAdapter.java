@@ -42,7 +42,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         if (mUsers.get(position).getImageUrl() != null) {
             Glide.with(mContext)
                     .asBitmap()
-                    //.placeholder(R.drawable.ic_user_thumbnail)
+//                    .placeholder(R.drawable.ic_user_thumbnail)
                     .load(mUsers.get(position).getImageUrl())
                     .into(holder.ivPhoto);
         }
