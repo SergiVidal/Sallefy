@@ -65,7 +65,7 @@
     <string name="artistas_button">Artistas</string>
     <string name="canciones_button">Canciones</string>
     <string name="add_playlist_button">+ Añadir una playlist</string>
-    <string name="add_song_button">+ Añadir una cancion</string>
+    <string name="add_song_button">+ Subir una canción</string>
 
     <!-- ACTIVITY [ Playlist Details ] -->
     <string name="playlist_detail">Playlist</string>
