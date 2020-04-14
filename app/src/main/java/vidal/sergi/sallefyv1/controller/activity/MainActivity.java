@@ -19,6 +19,7 @@ import vidal.sergi.sallefyv1.controller.adapters.GenresAdapter;
 import vidal.sergi.sallefyv1.controller.adapters.PlaylistListAdapter;
 import vidal.sergi.sallefyv1.controller.adapters.UserAdapter;
 import vidal.sergi.sallefyv1.controller.callbacks.PlaylistAdapterCallback;
+import vidal.sergi.sallefyv1.controller.callbacks.UserAdapterCallback;
 import vidal.sergi.sallefyv1.model.Genre;
 import vidal.sergi.sallefyv1.model.Playlist;
 import vidal.sergi.sallefyv1.model.Track;
@@ -31,7 +32,7 @@ import vidal.sergi.sallefyv1.restapi.manager.GenreManager;
 import vidal.sergi.sallefyv1.restapi.manager.PlaylistManager;
 import vidal.sergi.sallefyv1.restapi.manager.UserManager;
 
-public class MainActivity extends AppCompatActivity implements UserCallback, PlaylistCallback, PlaylistAdapterCallback, GenreCallback {
+public class MainActivity extends AppCompatActivity implements UserCallback, PlaylistCallback, PlaylistAdapterCallback, GenreCallback, UserAdapterCallback {
 
     private RecyclerView mUsersView;
     private UserAdapter mUserAdapter;
@@ -50,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements UserCallback, Pla
         setContentView(R.layout.activity_main);
         initViews();
         getData();
+        System.out.println("onCreate");
+
     }
 
 
@@ -68,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements UserCallback, Pla
 
     private void initViews() {
         LinearLayoutManager managerUsers = new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false);
-        mUserAdapter = new UserAdapter(null, getApplicationContext());
+        mUserAdapter = new UserAdapter(null, getApplicationContext(), this);
         mUsersView = (RecyclerView) findViewById(R.id.search_users_recyclerview);
         mUsersView.setLayoutManager(managerUsers);
         mUsersView.setAdapter(mUserAdapter);
@@ -250,13 +253,20 @@ public class MainActivity extends AppCompatActivity implements UserCallback, Pla
 
     @Override
     public void onUsersReceived(List<User> users) {
-        mUserAdapter = new UserAdapter((ArrayList<User>) users, getApplicationContext());
+        mUserAdapter = new UserAdapter((ArrayList<User>) users, getApplicationContext(), this);
         mUsersView.setAdapter(mUserAdapter);
     }
 
     @Override
     public void onUsersFailure(Throwable throwable) {
 
+    }
+
+    @Override
+    public void onUserClick(User user) {
+        Intent intent = new Intent(getApplicationContext(), UserDetailsActivity.class);
+        intent.putExtra("User", user);
+        startActivity(intent);
     }
 
     /**********************************************************************************************
