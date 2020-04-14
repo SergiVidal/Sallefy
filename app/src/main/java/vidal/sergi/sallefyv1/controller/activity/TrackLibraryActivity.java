@@ -1,10 +1,6 @@
 package vidal.sergi.sallefyv1.controller.activity;
 
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -13,36 +9,36 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import vidal.sergi.sallefyv1.R;
 import vidal.sergi.sallefyv1.controller.adapters.TrackListAdapter;
 import vidal.sergi.sallefyv1.controller.callbacks.TrackListCallback;
 import vidal.sergi.sallefyv1.controller.music.MusicCallback;
 import vidal.sergi.sallefyv1.controller.music.MusicService;
-import vidal.sergi.sallefyv1.model.Playlist;
 import vidal.sergi.sallefyv1.model.Track;
-import vidal.sergi.sallefyv1.restapi.callback.PlaylistCallback;
 import vidal.sergi.sallefyv1.restapi.callback.TrackCallback;
-import vidal.sergi.sallefyv1.restapi.manager.PlaylistManager;
 import vidal.sergi.sallefyv1.restapi.manager.TrackManager;
 
 public class TrackLibraryActivity extends AppCompatActivity implements TrackListCallback, MusicCallback, TrackCallback {
     private BottomNavigationView mNav;
     private RecyclerView mTracksView;
     private TrackListAdapter mTracksAdapter;
-
-
+    private Button bPlaylist;
+    private Button bUsers;
     private static final String PLAY_VIEW = "PlayIcon";
     private static final String STOP_VIEW = "StopIcon";
 
@@ -60,7 +56,6 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
     private int mDuration;
     private RecyclerView mRecyclerView;
 
-    // Service
     private MusicService mBoundService;
     private boolean mServiceBound = false;
 
@@ -90,9 +85,25 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_library);
+        setContentView(R.layout.activity_track_library);
         getData();
         initViews();
+        bUsers = (Button)findViewById(R.id.item_artistas_button);
+        bPlaylist =  (Button)findViewById(R.id.item_playlist_button);
+        bUsers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ArtistLibraryActivity.class);
+                startActivity(intent);
+            }
+        });
+        bPlaylist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), LibraryActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
     @Override
@@ -107,14 +118,12 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
             }
         }
     }
-
     @Override
     public void onPause() {
         super.onPause();
         if (mServiceBound) {
             //pauseAudio();
         }
-
     }
     @Override
     public void onStop() {
@@ -369,6 +378,11 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
     @Override
     public void onIsLikedTrack(Track track) {
         isLikedTrack(track);
+    }
+
+    @Override
+    public void onCreateTrack() {
+        
     }
 
     @Override

@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -22,17 +23,13 @@ import vidal.sergi.sallefyv1.restapi.manager.PlaylistManager;
 
 public class LibraryActivity extends AppCompatActivity implements PlaylistCallback, PlaylistAdapterCallback {
     private BottomNavigationView mNav;
-
     private RecyclerView mPlaylistsView;
     private PlaylistListAdapter mPlaylistAdapter;
     private ArrayList<Playlist> mPlaylist;
     private Button bPlaylist;
     private Button bArtistas;
     private Button bCanciones;
-
-
     private int pos;
-
 
 
     @Override
@@ -41,7 +38,22 @@ public class LibraryActivity extends AppCompatActivity implements PlaylistCallba
         setContentView(R.layout.activity_library);
         getData();
         initViews();
-
+        bArtistas= (Button)findViewById(R.id.item_artistas_button);
+        bCanciones=  (Button)findViewById(R.id.item_canciones_button);
+        bArtistas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ArtistLibraryActivity.class);
+                startActivity(intent);
+            }
+        });
+        bCanciones.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), TrackLibraryActivity.class);
+                startActivity(intent);
+            }
+        });
     }
     @Override
     public void onResume() {
@@ -171,14 +183,10 @@ public class LibraryActivity extends AppCompatActivity implements PlaylistCallba
 
     @Override
     public void onPersonalPlaylistReceived(ArrayList<Playlist> p) {
-
         mPlaylist = p;
         mPlaylistAdapter = new PlaylistListAdapter(mPlaylist, getApplicationContext(), this, R.layout.item_playlist_short);
         mPlaylistsView.setAdapter(mPlaylistAdapter);
-
-
     }
-
     @Override
     public void onUserPlaylistReceived(ArrayList<Playlist> tracks) {
 
@@ -195,4 +203,6 @@ public class LibraryActivity extends AppCompatActivity implements PlaylistCallba
         intent.putExtra("Playlist", playlist);
         startActivity(intent);
     }
+
+
 }

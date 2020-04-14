@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".controller.activity.UserDetailsActivity"></activity>
+        <activity android:name=".controller.activity.ArtistLibraryActivity"/>
+        <activity android:name=".controller.activity.UserDetailsActivity"/>
         <activity android:name=".controller.activity.TrackLibraryActivity" />
         <activity android:name=".controller.activity.TrackOptionsActivity" />
 
@@ -43,6 +44,7 @@
         <activity android:name=".controller.activity.SearchActivity" />
         <activity android:name=".controller.activity.PlaylistDetailsActivity" />
         <activity android:name=".controller.activity.PlaySongActivity" />
+        <activity android:name=".controller.activity.UploadActivity" />
     </application>
 
 </manifest>

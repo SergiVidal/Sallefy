@@ -21,7 +21,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:mwhCloseColor="@color/colorSecondary"
             app:mwhStartColor="@color/colorPrimary" />
-        
+
+
         <com.gauravk.audiovisualizer.visualizer.CircleLineVisualizer
             android:id="@+id/circleVisualizer"
             android:layout_width="550dp"
@@ -92,6 +93,7 @@
             <SeekBar
                 android:id="@+id/seekBar_2"
                 android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="30dp"
@@ -127,6 +129,7 @@
 
             </LinearLayout>
         </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

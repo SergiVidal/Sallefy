@@ -74,6 +74,21 @@
     <string name="playlist_unfollow">Dejar de Seguir</string>
     <string name="playlist_random">Aleatorio</string>
 
+    <!-- ACTIVITY [ Create Song ] -->
+    <string name="create_song_titulo">Título</string>
+    <string name="create_song_genre">Género</string>
+    <string name="create_song_artist">Autor/a</string>
+    <string name="create_song_file">Buscar fichero</string>
+
+    <!-- ACTION -->
+
+    <string name="action_accept">Aceptar</string>
+    <string name="action_decline">Cancelar</string>
+    <string name="action_static_playback">Static URL\nPlayback</string>
+    <string name="action_backend_playback">Backend Playback</string>
+    <string name="action_network_music">Music Service</string>
+    <string name="action_cloudinary">Subir canción</string>
+
     <!-- ACTIVITY [ User Details ] -->
     <string name="user_name">Username: </string>
     <string name="user_email">Email: </string>

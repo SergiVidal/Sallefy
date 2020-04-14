@@ -81,6 +81,7 @@
             android:orientation="vertical">
             <Button
                 android:layout_width="match_parent"
+                android:id="@+id/add_song"
                 android:layout_height="match_parent"
                 android:text="@string/add_playlist_button"
                 android:textAlignment="viewStart"

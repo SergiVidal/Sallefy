@@ -12,4 +12,5 @@ public interface TrackCallback extends FailureCallback{
 
     void onLikedTrack(Track track);
     void onIsLikedTrack(Track track);
+    void onCreateTrack();
 }
