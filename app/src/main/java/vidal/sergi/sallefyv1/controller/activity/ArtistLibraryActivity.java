@@ -28,7 +28,7 @@ public class ArtistLibraryActivity extends AppCompatActivity implements UserCall
     private UserAdapter mUserAdapter;
     private Button bPlaylist;
     private Button bCanciones;
-    private Button baddSong;
+
 
     private int pos;
 
@@ -42,7 +42,7 @@ public class ArtistLibraryActivity extends AppCompatActivity implements UserCall
 
         bPlaylist= (Button)findViewById(R.id.item_playlist_button);
         bCanciones=  (Button)findViewById(R.id.item_canciones_button);
-        baddSong = (Button)findViewById(R.id.add_song);
+
         bPlaylist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,13 +57,7 @@ public class ArtistLibraryActivity extends AppCompatActivity implements UserCall
                 startActivity(intent);
             }
         });
-        baddSong.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), UploadActivity.class);
-                startActivity(intent);
-            }
-        });
+
 
     }
     @Override

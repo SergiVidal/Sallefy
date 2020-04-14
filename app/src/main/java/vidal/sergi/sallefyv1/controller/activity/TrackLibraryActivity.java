@@ -39,6 +39,7 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
     private TrackListAdapter mTracksAdapter;
     private Button bPlaylist;
     private Button bUsers;
+    private Button baddSong;
     private static final String PLAY_VIEW = "PlayIcon";
     private static final String STOP_VIEW = "StopIcon";
 
@@ -90,6 +91,7 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
         initViews();
         bUsers = (Button)findViewById(R.id.item_artistas_button);
         bPlaylist =  (Button)findViewById(R.id.item_playlist_button);
+        baddSong = (Button)findViewById(R.id.add_song);
         bUsers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,7 +106,13 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
                 startActivity(intent);
             }
         });
-
+        baddSong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), UploadActivity.class);
+                startActivity(intent);
+            }
+        });
     }
     @Override
     public void onResume() {
