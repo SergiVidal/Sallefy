@@ -46,7 +46,7 @@ public class ArtistLibraryActivity extends AppCompatActivity implements UserCall
         bPlaylist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ArtistLibraryActivity.class);
+                Intent intent = new Intent(getApplicationContext(), LibraryActivity.class);
                 startActivity(intent);
             }
         });
