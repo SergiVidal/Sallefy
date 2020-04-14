@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -41,8 +42,8 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
     private BottomNavigationView mNav;
     private RecyclerView mTracksView;
     private TrackListAdapter mTracksAdapter;
-
-
+    private Button bPlaylist;
+    private Button bUsers;
     private static final String PLAY_VIEW = "PlayIcon";
     private static final String STOP_VIEW = "StopIcon";
 
@@ -60,7 +61,6 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
     private int mDuration;
     private RecyclerView mRecyclerView;
 
-    // Service
     private MusicService mBoundService;
     private boolean mServiceBound = false;
 
@@ -90,9 +90,25 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_library);
+        setContentView(R.layout.activity_track_library);
         getData();
         initViews();
+        bUsers = (Button)findViewById(R.id.item_artistas_button);
+        bPlaylist =  (Button)findViewById(R.id.item_playlist_button);
+        bUsers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ArtistLibraryActivity.class);
+                startActivity(intent);
+            }
+        });
+        bPlaylist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), LibraryActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
     @Override
@@ -107,14 +123,12 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
             }
         }
     }
-
     @Override
     public void onPause() {
         super.onPause();
         if (mServiceBound) {
             //pauseAudio();
         }
-
     }
     @Override
     public void onStop() {
