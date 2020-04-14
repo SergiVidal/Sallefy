@@ -25,14 +25,15 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/bottom_navigation">
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/ivUserPhoto"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center"
-            android:background="@drawable/ic_account_circle_black"
+            android:background="@drawable/ic_user_thumbnail"
             android:scaleType="centerCrop" />
 
         <LinearLayout
@@ -43,15 +44,15 @@
             android:orientation="horizontal">
 
             <TextView
-                style="@style/SubtitlesTheme"
-                android:layout_width="match_parent"
+                style="@style/UserDetail"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/user_name"
-                android:textAlignment="center" />
+                android:textAlignment="center"  />
 
             <TextView
                 android:id="@+id/tvUsername"
-                style="@style/SubtitlesTheme"
+                style="@style/UserDetail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/user_none"
@@ -66,86 +67,16 @@
             android:orientation="horizontal">
 
             <TextView
-                style="@style/SubtitlesTheme"
+                style="@style/UserDetail"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/user_email"
-                android:textAlignment="center" />
-
-            <TextView
-                android:id="@+id/tvEmail"
-                style="@style/SubtitlesTheme"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/user_none"
-                android:textAlignment="center" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                style="@style/SubtitlesTheme"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/user_numPlaylist"
-                android:textAlignment="center" />
-
-            <TextView
-                android:id="@+id/tvNumPlaylist"
-                style="@style/SubtitlesTheme"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/user_none"
-                android:textAlignment="center" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                style="@style/SubtitlesTheme"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/user_numTracks"
-                android:textAlignment="center" />
-
-            <TextView
-                android:id="@+id/tvNumTracks"
-                style="@style/SubtitlesTheme"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/user_none"
-                android:textAlignment="center" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                style="@style/SubtitlesTheme"
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/user_numFollowers"
                 android:textAlignment="center" />
 
             <TextView
                 android:id="@+id/tvNumFollowers"
-                style="@style/SubtitlesTheme"
-                android:layout_width="match_parent"
+                style="@style/UserDetail"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/user_none"
                 android:textAlignment="center" />
@@ -159,20 +90,73 @@
             android:orientation="horizontal">
 
             <TextView
-                style="@style/SubtitlesTheme"
-                android:layout_width="match_parent"
+                style="@style/UserDetail"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/user_numFollowing"
                 android:textAlignment="center" />
 
             <TextView
                 android:id="@+id/tvNumFollowing"
-                style="@style/SubtitlesTheme"
-                android:layout_width="match_parent"
+                style="@style/UserDetail"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/user_none"
                 android:textAlignment="center" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/UserDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_numPlaylist"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/tvNumPlaylist"
+                style="@style/UserDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_none"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+<!--        TODO: AQUI IRA RECYRCLER VIEW PLAYLIST -->
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/UserDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_numTracks"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/tvNumTracks"
+                style="@style/UserDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_none"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <!--        TODO: AQUI IRA RECYRCLER VIEW TRACKS -->
+
+
     </LinearLayout>
 
 

@@ -94,7 +94,12 @@
         <item name="android:padding">5dp</item>
     </style>
 
-
+    <style name="UserDetail" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/gotham_medium</item>
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
 
 </resources>
 
