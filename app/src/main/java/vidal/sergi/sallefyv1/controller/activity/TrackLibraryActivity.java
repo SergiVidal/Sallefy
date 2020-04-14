@@ -1,10 +1,6 @@
 package vidal.sergi.sallefyv1.controller.activity;
 
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -18,23 +14,22 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import vidal.sergi.sallefyv1.R;
 import vidal.sergi.sallefyv1.controller.adapters.TrackListAdapter;
 import vidal.sergi.sallefyv1.controller.callbacks.TrackListCallback;
 import vidal.sergi.sallefyv1.controller.music.MusicCallback;
 import vidal.sergi.sallefyv1.controller.music.MusicService;
-import vidal.sergi.sallefyv1.model.Playlist;
 import vidal.sergi.sallefyv1.model.Track;
-import vidal.sergi.sallefyv1.restapi.callback.PlaylistCallback;
 import vidal.sergi.sallefyv1.restapi.callback.TrackCallback;
-import vidal.sergi.sallefyv1.restapi.manager.PlaylistManager;
 import vidal.sergi.sallefyv1.restapi.manager.TrackManager;
 
 public class TrackLibraryActivity extends AppCompatActivity implements TrackListCallback, MusicCallback, TrackCallback {
@@ -369,6 +364,11 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
     @Override
     public void onIsLikedTrack(Track track) {
         isLikedTrack(track);
+    }
+
+    @Override
+    public void onCreateTrack() {
+        
     }
 
     @Override

@@ -42,6 +42,7 @@
         <activity android:name=".controller.activity.SearchActivity" />
         <activity android:name=".controller.activity.PlaylistDetailsActivity" />
         <activity android:name=".controller.activity.PlaySongActivity" />
+        <activity android:name=".controller.activity.UploadActivity" />
     </application>
 
 </manifest>
