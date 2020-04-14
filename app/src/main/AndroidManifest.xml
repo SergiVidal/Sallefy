@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".controller.activity.TrackLibraryActivity"></activity>
+        <activity android:name=".controller.activity.UserDetailsActivity"></activity>
+        <activity android:name=".controller.activity.TrackLibraryActivity" />
         <activity android:name=".controller.activity.TrackOptionsActivity" />
 
         <service
