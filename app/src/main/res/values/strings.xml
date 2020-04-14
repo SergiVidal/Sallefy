@@ -67,12 +67,20 @@
     <string name="add_playlist_button">+ Añadir una playlist</string>
     <string name="add_song_button">+ Añadir una cancion</string>
 
-    <!-- ACTIVITY [ Search ] -->
+    <!-- ACTIVITY [ Playlist Details ] -->
     <string name="playlist_detail">Playlist</string>
     <string name="playlist_author">Author</string>
     <string name="playlist_follow">Seguir</string>
     <string name="playlist_unfollow">Dejar de Seguir</string>
     <string name="playlist_random">Aleatorio</string>
 
+    <!-- ACTIVITY [ User Details ] -->
+    <string name="user_name">Username: </string>
+    <string name="user_email">Email: </string>
+    <string name="user_numPlaylist">Playlist: </string>
+    <string name="user_numTracks">Tracks: </string>
+    <string name="user_numFollowers">Followers: </string>
+    <string name="user_numFollowing">Following: </string>
+    <string name="user_none">None</string>
 
 </resources>
