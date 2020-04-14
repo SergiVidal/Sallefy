@@ -150,6 +150,7 @@ public class MusicService extends Service {
     public void updateTrack(int offset) {
         currentTrack = ((currentTrack+offset)%(mTracks.size()));
         currentTrack = currentTrack >= mTracks.size() ? 0:currentTrack;
+        mCallback.onTrackChanged(currentTrack);
 
         String newUrl = mTracks.get(currentTrack).getUrl();
         try {

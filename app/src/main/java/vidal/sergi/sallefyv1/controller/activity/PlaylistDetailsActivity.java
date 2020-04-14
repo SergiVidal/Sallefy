@@ -1,14 +1,9 @@
 package vidal.sergi.sallefyv1.controller.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -19,6 +14,10 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -39,8 +38,6 @@ import vidal.sergi.sallefyv1.restapi.callback.TrackCallback;
 import vidal.sergi.sallefyv1.restapi.manager.PlaylistManager;
 import vidal.sergi.sallefyv1.restapi.manager.TrackManager;
 
-//TODO: Cuando termina 1 canción, no se modifica el texto de la nueva canción ni se augmenta la posicion de la cancion actual de esta Activity, de MusicService si
-//TODO: CUando una canción tiene un like, al entrar en la activity la estrella no esta de color verde, cuando le das like si, pero no se mantiene cada vez que entras
 public class PlaylistDetailsActivity extends AppCompatActivity implements TrackListCallback, MusicCallback, PlaylistCallback, TrackCallback {
 
     private Playlist playlist;
@@ -140,6 +137,7 @@ public class PlaylistDetailsActivity extends AppCompatActivity implements TrackL
 
     @Override
     public void onDestroy() {
+        System.out.println("onDestroy()");
         super.onDestroy();
     }
 
@@ -384,6 +382,18 @@ public class PlaylistDetailsActivity extends AppCompatActivity implements TrackL
         playAudio();
 
     }
+
+    @Override
+    public void onTrackChanged(int index) {
+        Track track = mTracks.get(index);
+        currentTrack = index;
+        tvDynamic_title.setText(track.getName());
+        tvDynamic_artist.setText(track.getUserLogin());
+        btnPlayStop.setImageResource(R.drawable.ic_pause);
+        btnPlayStop.setTag(STOP_VIEW);
+        updateSeekBar();
+    }
+
     /**********************************************************************************************
      *   *   *   *   *   *   *   *   PlaylistCallback   *   *   *   *   *   *   *   *   *
      **********************************************************************************************/
@@ -497,5 +507,10 @@ public class PlaylistDetailsActivity extends AppCompatActivity implements TrackL
     @Override
     public void onIsLikedTrack(Track track) {
         isLikedTrack(track);
+    }
+
+    @Override
+    public void onCreateTrack() {
+
     }
 }
