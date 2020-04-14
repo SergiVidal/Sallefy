@@ -16,12 +16,13 @@ import java.util.List;
 
 import vidal.sergi.sallefyv1.R;
 import vidal.sergi.sallefyv1.controller.adapters.UserAdapter;
+import vidal.sergi.sallefyv1.controller.callbacks.UserAdapterCallback;
 import vidal.sergi.sallefyv1.model.User;
 import vidal.sergi.sallefyv1.model.UserToken;
 import vidal.sergi.sallefyv1.restapi.callback.UserCallback;
 import vidal.sergi.sallefyv1.restapi.manager.UserManager;
 
-public class ArtistLibraryActivity extends AppCompatActivity implements UserCallback{
+public class ArtistLibraryActivity extends AppCompatActivity implements UserCallback, UserAdapterCallback {
     private BottomNavigationView mNav;
     private RecyclerView mUsersView;
     private UserAdapter mUserAdapter;
@@ -81,7 +82,7 @@ public class ArtistLibraryActivity extends AppCompatActivity implements UserCall
     private void initViews() {
 
         LinearLayoutManager managerPlaylists = new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false);
-        mUserAdapter = new UserAdapter(null, getApplicationContext());
+        mUserAdapter = new UserAdapter(null, getApplicationContext(),this );
         mUsersView = (RecyclerView) findViewById(R.id.search_users_recyclerview);
         mUsersView.setLayoutManager(managerPlaylists);
         mUsersView.setAdapter(mUserAdapter);
@@ -137,7 +138,7 @@ public class ArtistLibraryActivity extends AppCompatActivity implements UserCall
 
     @Override
     public void onUsersReceived(List<User> users) {
-        mUserAdapter = new UserAdapter((ArrayList<User>) users, getApplicationContext());
+        mUserAdapter = new UserAdapter((ArrayList<User>) users, getApplicationContext(), this);
         mUsersView.setAdapter(mUserAdapter);
     }
 
@@ -148,6 +149,11 @@ public class ArtistLibraryActivity extends AppCompatActivity implements UserCall
 
     @Override
     public void onFailure(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onUserClick(User user) {
 
     }
 }
