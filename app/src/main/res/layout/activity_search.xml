@@ -75,7 +75,8 @@
                         android:layout_height="wrap_content"
                         android:text="@string/song_check"
                         android:textColor="@color/colorWhite"
-                        android:onClick="onRadioButtonClicked"/>
+                        android:onClick="onRadioButtonClicked"
+                        android:checked="true" />
                     <RadioButton android:id="@+id/playlist_checkbox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
