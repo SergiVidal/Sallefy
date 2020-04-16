@@ -128,7 +128,10 @@
                 android:textAlignment="center" />
         </LinearLayout>
 
-<!--        TODO: AQUI IRA RECYRCLER VIEW PLAYLIST -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/search_users_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
 
         <LinearLayout

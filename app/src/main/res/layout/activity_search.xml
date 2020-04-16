@@ -62,20 +62,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 app:layout_constraintTop_toBottomOf="@+id/item_genre_btn">
 
-                <TextView
-                    style="@style/settings_title"
+                <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:text="@string/search_genre" />
+                    android:orientation="horizontal">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/search_genres_recyclerview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    <RadioButton android:id="@+id/songs_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/song_check"
+                        android:textColor="@color/colorWhite"
+                        android:onClick="onRadioButtonClicked"/>
+                    <RadioButton android:id="@+id/playlist_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/playlist_check"
+                        android:textColor="@color/colorWhite"
+                        android:onClick="onRadioButtonClicked"/>
+                    <RadioButton android:id="@+id/users_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/user_check"
+                        android:textColor="@color/colorWhite"
+                        android:onClick="onRadioButtonClicked"/>
+                </RadioGroup>
 
             </LinearLayout>
 
@@ -102,6 +115,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/search_playlists_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/search_users_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
 
     </LinearLayout>

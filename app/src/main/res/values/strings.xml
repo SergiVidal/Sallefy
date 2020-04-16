@@ -54,10 +54,13 @@
 
     <!-- ACTIVITY [ Search ] -->
     <string name="search">Buscar</string>
-    <string name="search_bar">Autor/Canción</string>
+    <string name="search_bar">Canción/Playlist/Usuario</string>
     <string name="search_button">BUSCAR</string>
     <string name="search_genre">Género</string>
     <string name="default_genres">Géneros</string>
+    <string name="song_check">Canciones</string>
+    <string name="playlist_check">Playlists</string>
+    <string name="user_check">Usuarios</string>
 
     <!-- ACTIVITY [ Library ] -->
     <string name="music_title">Música</string>
