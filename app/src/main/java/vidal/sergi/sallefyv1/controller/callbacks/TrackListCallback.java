@@ -8,4 +8,5 @@ public interface TrackListCallback {
     void onTrackSelected(int index);
 
     void onLikeTrackSelected(int index);
+    void onDetailsTrackSelected(int index);
 }

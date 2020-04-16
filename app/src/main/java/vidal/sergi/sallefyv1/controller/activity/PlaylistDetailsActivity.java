@@ -370,7 +370,10 @@ public class PlaylistDetailsActivity extends AppCompatActivity implements TrackL
                 .addLikeTrack(mTracks.get(index).getId(), this);
     }
 
+    @Override
+    public void onDetailsTrackSelected(int index) {
 
+    }
     /**********************************************************************************************
      *   *   *   *   *   *   *   *   MusicCallback   *   *   *   *   *   *   *   *   *
      **********************************************************************************************/

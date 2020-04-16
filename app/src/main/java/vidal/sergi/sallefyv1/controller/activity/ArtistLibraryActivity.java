@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -28,7 +29,7 @@ public class ArtistLibraryActivity extends AppCompatActivity implements UserCall
     private UserAdapter mUserAdapter;
     private Button bPlaylist;
     private Button bCanciones;
-
+    private Button bArtistas;
 
     private int pos;
 
@@ -40,7 +41,8 @@ public class ArtistLibraryActivity extends AppCompatActivity implements UserCall
         getData();
         initViews();
 
-        bPlaylist= (Button)findViewById(R.id.item_playlist_button);
+        bPlaylist = (Button)findViewById(R.id.item_playlist_button);
+        bArtistas= (Button)findViewById(R.id.item_artistas_button);
         bCanciones=  (Button)findViewById(R.id.item_canciones_button);
 
         bPlaylist.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +59,8 @@ public class ArtistLibraryActivity extends AppCompatActivity implements UserCall
                 startActivity(intent);
             }
         });
+        bArtistas.setEnabled(false);
+        bArtistas.setTextColor(Color.parseColor("#9E9E9E"));
 
 
     }

@@ -83,6 +83,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/add_playlist_button"
+                android:id="@+id/create_playlist"
                 android:textAlignment="viewStart"
                 android:background="#70FF0000"
                 android:textColor="@color/colorWhite"/>

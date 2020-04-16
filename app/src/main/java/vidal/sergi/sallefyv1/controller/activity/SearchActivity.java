@@ -234,6 +234,11 @@ public class SearchActivity extends AppCompatActivity implements UserCallback, S
     }
 
     @Override
+    public void onDetailsTrackSelected(int index) {
+
+    }
+
+    @Override
     public void onPlaylistClick(Playlist playlist) {
         Intent intent = new Intent(getApplicationContext(), PlaylistDetailsActivity.class);
         intent.putExtra("Playlist", playlist);

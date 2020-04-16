@@ -81,6 +81,9 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
             holder.ibFollowTrack.setBackgroundResource(R.drawable.ic_star_border_black);
 
         }
+        holder.ibMoreTrack.setOnClickListener(v ->{
+            mCallback.onDetailsTrackSelected(position);
+        });
     }
 
     @Override

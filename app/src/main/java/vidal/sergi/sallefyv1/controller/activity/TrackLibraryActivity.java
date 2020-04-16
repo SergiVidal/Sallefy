@@ -1,19 +1,19 @@
 package vidal.sergi.sallefyv1.controller.activity;
 
 
-import android.content.ComponentName;
-import android.content.Context;
+
 import android.content.Intent;
-import android.content.ServiceConnection;
+
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -40,47 +40,17 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
     private Button bPlaylist;
     private Button bUsers;
     private Button baddSong;
+    private Button bCanciones;
     private static final String PLAY_VIEW = "PlayIcon";
     private static final String STOP_VIEW = "StopIcon";
 
-    private TextView tvDynamic_title;
-    private TextView tvDynamic_artist;
-
-    private ImageButton btnBackward;
-    private ImageButton btnPlayStop;
-    private ImageButton btnForward;
-    private SeekBar mSeekBar;
-
-    private Handler mHandler;
-    private Runnable mRunnable;
-
-    private int mDuration;
     private RecyclerView mRecyclerView;
-
-    private MusicService mBoundService;
     private boolean mServiceBound = false;
 
-    private List<Track> mTracks;
+    private ArrayList<Track> mTracks;
     private int currentTrack = 0;
-
-
     private int pos;
 
-    private ServiceConnection mServiceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            MusicService.MusicBinder binder = (MusicService.MusicBinder)service;
-            mBoundService = binder.getService();
-            mBoundService.setCallback(TrackLibraryActivity.this);
-            mServiceBound = true;
-            updateSeekBar();
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            mServiceBound = false;
-        }
-    };
 
 
     @Override
@@ -89,6 +59,8 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
         setContentView(R.layout.activity_track_library);
         getData();
         initViews();
+
+        bCanciones=  (Button)findViewById(R.id.item_canciones_button);
         bUsers = (Button)findViewById(R.id.item_artistas_button);
         bPlaylist =  (Button)findViewById(R.id.item_playlist_button);
         baddSong = (Button)findViewById(R.id.add_song);
@@ -113,34 +85,12 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
                 startActivity(intent);
             }
         });
+        bCanciones.setEnabled(false);
+        bCanciones.setTextColor(Color.parseColor("#9E9E9E"));
     }
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mBoundService != null) {
-            resumeSongText();
-            if (mBoundService.isPlaying()) {
-                playAudio();
-            } else {
-                pauseAudio();
-            }
-        }
-    }
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (mServiceBound) {
-            //pauseAudio();
-        }
-    }
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mServiceBound) {
-            this.unbindService(mServiceConnection);
-            mServiceBound = false;
-        }
-    }
+
+
+
     public void onDestroy() {
         super.onDestroy();
     }
@@ -151,70 +101,13 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
     }
 
     private void initViews() {
+
         LinearLayoutManager managerTracks = new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL, false);
-        mTracksAdapter = new TrackListAdapter(this, getApplicationContext(), (ArrayList<Track>) mTracks);
+        mTracksAdapter = new TrackListAdapter(this, getApplicationContext(), mTracks);
         mTracksView = (RecyclerView) findViewById(R.id.search_tracks_recyclerview);
         mTracksView.setLayoutManager(managerTracks);
         mTracksView.setAdapter(mTracksAdapter);
 
-
-        mHandler = new Handler();
-
-        tvDynamic_title = findViewById(R.id.dynamic_title);
-        tvDynamic_artist = findViewById(R.id.dynamic_artist);
-
-        btnBackward = (ImageButton) findViewById(R.id.dynamic_backward_btn);
-        btnBackward.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                currentTrack = ((currentTrack-1)%(mTracks.size()));
-                currentTrack = currentTrack < 0 ? (mTracks.size()-1):currentTrack;
-                updateTrack(currentTrack);
-            }
-        });
-        btnForward = (ImageButton) findViewById(R.id.dynamic_forward_btn);
-        btnForward.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                currentTrack = ((currentTrack+1)%(mTracks.size()));
-                currentTrack = currentTrack >= mTracks.size() ? 0:currentTrack;
-                updateTrack(currentTrack);
-            }
-        });
-
-        btnPlayStop = (ImageButton) findViewById(R.id.dynamic_play_btn);
-        btnPlayStop.setTag(PLAY_VIEW);
-        btnPlayStop.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (btnPlayStop.getTag().equals(PLAY_VIEW)) {
-                    playAudio();
-                } else {
-                    pauseAudio();
-                }
-            }
-        });
-
-        mSeekBar = (SeekBar) findViewById(R.id.dynamic_seekBar);
-        mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (fromUser) {
-                    mBoundService.setCurrentDuration(progress);
-                }
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
         mNav = findViewById(R.id.bottom_navigation);
         mNav.setSelectedItemId(R.id.action_home);
         mNav.setOnNavigationItemSelectedListener(menuItem -> {
@@ -237,77 +130,8 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
             return true;
         });
     }
-    private void startStreamingService () {
-        Intent intent = new Intent(getApplicationContext(), MusicService.class);
-        this.bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE);
-    }
-
-    private void playAudio() {
-        if (!mBoundService.isPlaying()) { mBoundService.togglePlayer(); }
-        updateSeekBar();
-        btnPlayStop.setImageResource(R.drawable.ic_pause);
-        btnPlayStop.setTag(STOP_VIEW);
-        Toast.makeText(getApplicationContext(), "Playing Audio", Toast.LENGTH_SHORT).show();
-    }
-
-    private void pauseAudio() {
-        if (mBoundService.isPlaying()) { mBoundService.togglePlayer(); }
-        btnPlayStop.setImageResource(R.drawable.ic_play);
-        btnPlayStop.setTag(PLAY_VIEW);
-        Toast.makeText(getApplicationContext(), "Pausing Audio", Toast.LENGTH_SHORT).show();
-    }
-
-    public void updateSeekBar() {
-        System.out.println("max duration: " + mBoundService.getMaxDuration());
-        System.out.println("progress:" + mBoundService.getCurrrentPosition());
-        mSeekBar.setMax(mBoundService.getMaxDuration());
-        mSeekBar.setProgress(mBoundService.getCurrrentPosition());
-
-        if(mBoundService.isPlaying()) {
-            mRunnable = new Runnable() {
-                @Override
-                public void run() {
-                    updateSeekBar();
-                }
-            };
-            mHandler.postDelayed(mRunnable, 1000);
-        }
-    }
-
-    private void updateTrack(int index) {
-        Track track = mTracks.get(index);
-        currentTrack = index;
-        tvDynamic_title.setText(track.getName());
-        tvDynamic_artist.setText(track.getUserLogin());
-        mBoundService.playStream((ArrayList<Track>) mTracks, index);
-        btnPlayStop.setImageResource(R.drawable.ic_pause);
-        btnPlayStop.setTag(STOP_VIEW);
-        //updateSeekBar();
-    }
 
 
-    private void resumeSongView(boolean isPlaying) {
-        if (isPlaying) {
-            btnPlayStop.setImageResource(R.drawable.ic_pause);
-            btnPlayStop.setTag(STOP_VIEW);
-        } else {
-            btnPlayStop.setImageResource(R.drawable.ic_play);
-            btnPlayStop.setTag(PLAY_VIEW);
-        }
-    }
-
-    private void resumeSongText() {
-        Track track = mBoundService.getCurrentTrack();
-        if (track != null) {
-            tvDynamic_artist.setText(track.getUserLogin());
-            tvDynamic_title.setText(track.getName());
-        }
-    }
-
-    private void isLikedTrack(Track track){
-//        playlist.getTracks().get(pos).setLiked(track.isLiked());
-//        mTracksAdapter.updateTrackLikeStateIcon(pos, track.isLiked());
-    }
     /**********************************************************************************************
      *   *   *   *   *   *   *   *   TrackCallback   *   *   *   *   *   *   *   *   *
      **********************************************************************************************/
@@ -320,8 +144,9 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
 
     @Override
     public void onTrackSelected(int index) {
-        System.out.println("Index song: " + index);
-        updateTrack(index);
+        Intent intent = new Intent(getApplicationContext(), PlaySongActivity.class);
+        intent.putExtra("track", mTracks.get(index));
+        startActivity(intent);
     }
 
     @Override
@@ -331,22 +156,11 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
                 .addLikeTrack(mTracks.get(index).getId(), this);
     }
 
-
-    /**********************************************************************************************
-     *   *   *   *   *   *   *   *   MusicCallback   *   *   *   *   *   *   *   *   *
-     **********************************************************************************************/
     @Override
-    public void onMusicPlayerPrepared() {
-        System.out.println("Entra en el prepared");
-        mSeekBar.setMax(mBoundService.getMaxDuration());
-        mDuration =  mBoundService.getMaxDuration();
-        playAudio();
-
-    }
-
-    @Override
-    public void onTrackChanged(int index) {
-
+    public void onDetailsTrackSelected(int index) {
+        Intent intent = new Intent(getApplicationContext(), TrackOptionsActivity.class);
+        intent.putExtra("track", mTracks.get(index));
+        startActivity(intent);
     }
 
     /**********************************************************************************************
@@ -361,15 +175,13 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
     public void onNoTracks(Throwable throwable) {
 
     }
-
     @Override
     public void onPersonalTracksReceived(List<Track> tracks) {
-        mTracks = tracks;
-        mTracksAdapter = new TrackListAdapter(this, getApplicationContext(), (ArrayList<Track>) mTracks);
+        mTracks = (ArrayList<Track>) tracks;
+        mTracksAdapter = new TrackListAdapter(this, getApplicationContext(), mTracks);
         mTracksView.setAdapter(mTracksAdapter);
 
     }
-
     @Override
     public void onUserTracksReceived(List<Track> tracks) {
 
@@ -377,12 +189,12 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
 
     @Override
     public void onLikedTrack(Track track) {
-        isLikedTrack(track);
+
     }
 
     @Override
     public void onIsLikedTrack(Track track) {
-        isLikedTrack(track);
+
     }
 
     @Override
@@ -392,6 +204,16 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
 
     @Override
     public void onFailure(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onMusicPlayerPrepared() {
+
+    }
+
+    @Override
+    public void onTrackChanged(int index) {
 
     }
 }
