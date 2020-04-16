@@ -54,7 +54,7 @@
 
     <!-- ACTIVITY [ Search ] -->
     <string name="search">Buscar</string>
-    <string name="search_bar">Canción/Playlist/Usuario</string>
+    <string name="search_bar">Canción - Playlist - Usuario</string>
     <string name="search_button">BUSCAR</string>
     <string name="search_genre">Género</string>
     <string name="default_genres">Géneros</string>
