@@ -3,7 +3,6 @@ package vidal.sergi.sallefyv1.controller.activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,12 +11,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import vidal.sergi.sallefyv1.R;
 import vidal.sergi.sallefyv1.controller.adapters.GenresAdapter;
 import vidal.sergi.sallefyv1.controller.adapters.PlaylistListAdapter;
 import vidal.sergi.sallefyv1.controller.adapters.UserAdapter;
+import vidal.sergi.sallefyv1.controller.callbacks.GenreAdapterCallback;
 import vidal.sergi.sallefyv1.controller.callbacks.PlaylistAdapterCallback;
 import vidal.sergi.sallefyv1.controller.callbacks.UserAdapterCallback;
 import vidal.sergi.sallefyv1.model.Genre;
@@ -32,7 +31,7 @@ import vidal.sergi.sallefyv1.restapi.manager.GenreManager;
 import vidal.sergi.sallefyv1.restapi.manager.PlaylistManager;
 import vidal.sergi.sallefyv1.restapi.manager.UserManager;
 
-public class MainActivity extends AppCompatActivity implements UserCallback, PlaylistCallback, PlaylistAdapterCallback, GenreCallback, UserAdapterCallback {
+public class MainActivity extends AppCompatActivity implements UserCallback, PlaylistCallback, PlaylistAdapterCallback, GenreCallback, UserAdapterCallback, GenreAdapterCallback {
 
     private RecyclerView mUsersView;
     private UserAdapter mUserAdapter;
@@ -83,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements UserCallback, Pla
         mPlaylistsView.setAdapter(mPlaylistAdapter);
 
         LinearLayoutManager managerGenres = new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false);
-        mGenresAdapter = new GenresAdapter(null);
+        mGenresAdapter = new GenresAdapter(null,getApplicationContext(), this, R.layout.item_genre);
         mGenresView = (RecyclerView) findViewById(R.id.search_genres_recyclerview);
         mGenresView.setLayoutManager(managerGenres);
         mGenresView.setAdapter(mGenresAdapter);
@@ -275,13 +274,20 @@ public class MainActivity extends AppCompatActivity implements UserCallback, Pla
 
     @Override
     public void onGenresReceive(ArrayList<Genre> genres) {
-        ArrayList<String> genresString = (ArrayList<String>) genres.stream().map(Genre::getName).collect(Collectors.toList());
-        mGenresAdapter = new GenresAdapter(genresString);
+        //ArrayList<Genre> genresString = (ArrayList<String>) genres.stream().map(Genre::getName).collect(Collectors.toList());
+        mGenresAdapter = new GenresAdapter(genres,getApplicationContext(), this, R.layout.item_genre);
         mGenresView.setAdapter(mGenresAdapter);
     }
 
     @Override
     public void onTracksByGenre(ArrayList<Track> tracks) {
 
+    }
+
+    @Override
+    public void onGenreClick(Genre genre) {
+        Intent intent = new Intent(getApplicationContext(), GenreListActivity.class);
+        intent.putExtra("Genre", genre);
+        startActivity(intent);
     }
 }
