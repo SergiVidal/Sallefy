@@ -60,7 +60,7 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
     private MusicService mBoundService;
     private boolean mServiceBound = false;
 
-    private ArrayList<Track> mTracks;
+    private List<Track> mTracks;
     private int currentTrack = 0;
 
 
@@ -152,7 +152,7 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
 
     private void initViews() {
         LinearLayoutManager managerTracks = new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL, false);
-        mTracksAdapter = new TrackListAdapter(this, getApplicationContext(), mTracks);
+        mTracksAdapter = new TrackListAdapter(this, getApplicationContext(), (ArrayList<Track>) mTracks);
         mTracksView = (RecyclerView) findViewById(R.id.search_tracks_recyclerview);
         mTracksView.setLayoutManager(managerTracks);
         mTracksView.setAdapter(mTracksAdapter);
@@ -228,10 +228,6 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
                     intent = new Intent(getApplicationContext(), SearchActivity.class);
                     startActivity(intent);
                     break;
-//                case R.id.action_library:
- //                   intent = new Intent(getApplicationContext(), LibraryActivity.class);
- //                   startActivity(intent);
- //                   break;
                 case R.id.action_profile:
                     intent = new Intent(getApplicationContext(), ProfileActivity.class);
                     startActivity(intent);
@@ -283,7 +279,7 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
         currentTrack = index;
         tvDynamic_title.setText(track.getName());
         tvDynamic_artist.setText(track.getUserLogin());
-        mBoundService.playStream(mTracks, index);
+        mBoundService.playStream((ArrayList<Track>) mTracks, index);
         btnPlayStop.setImageResource(R.drawable.ic_pause);
         btnPlayStop.setTag(STOP_VIEW);
         //updateSeekBar();
@@ -368,7 +364,8 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
 
     @Override
     public void onPersonalTracksReceived(List<Track> tracks) {
-        mTracksAdapter = new TrackListAdapter(this, getApplicationContext(), mTracks);
+        mTracks = tracks;
+        mTracksAdapter = new TrackListAdapter(this, getApplicationContext(), (ArrayList<Track>) mTracks);
         mTracksView.setAdapter(mTracksAdapter);
 
     }
