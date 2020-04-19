@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -87,8 +88,7 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
             }
         });
         bCanciones.setEnabled(false);
-        bCanciones.setBackgroundResource(R.color.opacity);
-
+        bCanciones.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.opacity));
     }
 
 

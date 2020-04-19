@@ -1,5 +1,6 @@
 package vidal.sergi.sallefyv1.controller.activity;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -66,7 +67,7 @@ public class LibraryActivity extends AppCompatActivity implements PlaylistCallba
             }
         });
         bPlaylist.setEnabled(false);
-        bCanciones.setBackgroundResource(R.color.opacity);
+        bPlaylist.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.opacity));
     }
     @Override
     public void onResume() {

@@ -1,6 +1,7 @@
 package vidal.sergi.sallefyv1.controller.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -60,7 +61,7 @@ public class ArtistLibraryActivity extends AppCompatActivity implements UserCall
             }
         });
         bArtistas.setEnabled(false);
-        bCanciones.setBackgroundResource(R.color.opacity);
+        bArtistas.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.opacity));
 
 
     }
@@ -75,7 +76,7 @@ public class ArtistLibraryActivity extends AppCompatActivity implements UserCall
     }
     private void getData() {
         UserManager.getInstance(getApplicationContext())
-                .getUsers(this);
+                .getFollowingUsers(this);
     }
 
     private void initViews() {

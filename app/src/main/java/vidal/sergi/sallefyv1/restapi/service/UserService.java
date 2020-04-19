@@ -26,4 +26,7 @@ public interface UserService {
 
     @POST("register")
     Call<ResponseBody> registerUser(@Body UserRegister user);
+
+    @GET("me/followings")
+    Call<List<User>> getFollowingUsers (@Header("Authorization") String token);
 }
