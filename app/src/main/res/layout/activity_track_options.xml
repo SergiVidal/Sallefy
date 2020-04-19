@@ -4,6 +4,76 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:gravity="center"
+    android:orientation="vertical"
     tools:context=".controller.activity.TrackOptionsActivity">
+
+    <com.scwang.wave.MultiWaveHeader
+        android:id="@+id/search_multiWaveHeader"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:rotation="-20"
+        android:scaleX="2"
+        android:scaleY="1.7"
+        app:layout_constraintTop_toTopOf="parent"
+        app:mwhCloseColor="@color/colorSecondary"
+        app:mwhStartColor="@color/colorPrimary" />
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal">
+
+
+    <ImageView
+        android:id="@+id/ivPlaylistPhoto"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:background="@drawable/ic_playlist_add"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/tvPlaylistName"
+        style="@style/TitlesTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="@string/playlist_detail"
+        android:textAlignment="center" />
+    <TextView
+        android:id="@+id/tvAuthor"
+        style="@style/SubtitlesTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/playlist_author"
+        android:textAlignment="center" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/bFollow"
+            style="@style/SubtitlesTheme"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/btn_follow"
+            android:text="@string/playlist_follow"
+            android:textAlignment="center" />
+    </LinearLayout>
+</LinearLayout>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/colorPrimary"
+        app:itemIconTint="@color/colorWhite"
+        app:itemTextColor="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/nav_items" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

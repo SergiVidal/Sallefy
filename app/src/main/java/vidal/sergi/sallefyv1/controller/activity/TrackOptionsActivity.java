@@ -12,5 +12,6 @@ public class TrackOptionsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_track_options);
+
     }
 }
