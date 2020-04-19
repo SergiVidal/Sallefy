@@ -126,7 +126,6 @@ public class TrackOptionsActivity extends AppCompatActivity implements TrackList
     public void onResume() {
         super.onResume();
         getData();
-
     }
     private void getData() {
         TrackManager.getInstance(getApplicationContext()).getOwnTracks(this);
@@ -146,6 +145,14 @@ public class TrackOptionsActivity extends AppCompatActivity implements TrackList
     public void onLikeTrackSelected(int index) {
         TrackManager.getInstance(getApplicationContext())
                 .addLikeTrack(track.getId(), this);
+
+        if(track.isLiked()){
+            bLike.setImageResource(R.drawable.ic_plus);
+            track.setLiked(false);
+        }else{
+            bLike.setImageResource(R.drawable.ic_plus_pause);
+            track.setLiked(true);
+        }
     }
 
 
@@ -191,6 +198,11 @@ public class TrackOptionsActivity extends AppCompatActivity implements TrackList
 
     @Override
     public void onCreateTrack() {
+
+    }
+
+    @Override
+    public void onLikedTracksReceived(List<Track> tracks) {
 
     }
 

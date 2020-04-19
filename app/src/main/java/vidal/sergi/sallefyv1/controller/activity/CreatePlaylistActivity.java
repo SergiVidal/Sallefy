@@ -132,6 +132,11 @@ public class CreatePlaylistActivity extends AppCompatActivity implements Playlis
 
     }
 
+    @Override
+    public void getFollowingPlayList(ArrayList<Playlist> tracks) {
+
+    }
+
 
     @Override
     public void onFailure(Throwable throwable) {

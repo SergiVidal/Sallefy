@@ -29,6 +29,7 @@ public interface PlaylistCallback extends FailureCallback {
     void onPersonalPlaylistReceived(ArrayList<Playlist> tracks);
 
     void onUserPlaylistReceived(ArrayList<Playlist> tracks);
+    void getFollowingPlayList(ArrayList<Playlist> tracks);
 
 
 

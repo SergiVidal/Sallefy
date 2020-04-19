@@ -212,4 +212,9 @@ public class UploadActivity extends AppCompatActivity implements GenreCallback, 
         });
         watchDialog.start();
     }
+
+    @Override
+    public void onLikedTracksReceived(List<Track> tracks) {
+
+    }
 }

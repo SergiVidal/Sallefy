@@ -30,12 +30,14 @@ import vidal.sergi.sallefyv1.model.User;
 import vidal.sergi.sallefyv1.model.UserToken;
 import vidal.sergi.sallefyv1.restapi.callback.PlaylistCallback;
 import vidal.sergi.sallefyv1.restapi.callback.SearchCallback;
+import vidal.sergi.sallefyv1.restapi.callback.TrackCallback;
 import vidal.sergi.sallefyv1.restapi.callback.UserCallback;
 import vidal.sergi.sallefyv1.restapi.manager.SearchManager;
+import vidal.sergi.sallefyv1.restapi.manager.TrackManager;
 import vidal.sergi.sallefyv1.restapi.manager.UserManager;
 import vidal.sergi.sallefyv1.utils.Session;
 
-public class SearchActivity extends AppCompatActivity implements UserCallback, SearchCallback, TrackListCallback, PlaylistCallback, UserAdapterCallback, PlaylistAdapterCallback {
+public class SearchActivity extends AppCompatActivity implements UserCallback, SearchCallback, TrackListCallback, PlaylistCallback, UserAdapterCallback, PlaylistAdapterCallback, TrackCallback {
 
     private List<Playlist> playlistList;
     private ArrayList<Track> tracks;
@@ -49,10 +51,11 @@ public class SearchActivity extends AppCompatActivity implements UserCallback, S
 
     private RecyclerView mPlaylistsView;
     private PlaylistListAdapter mPlaylistAdapter;
-
+    private TrackListAdapter adapter;
     private BottomNavigationView mNav;
     private Search search;
     private Button bSearch;
+    private int pos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +63,18 @@ public class SearchActivity extends AppCompatActivity implements UserCallback, S
         setContentView(R.layout.activity_search);
 
         tracks = new ArrayList<>();
-        getData();
+//        getData();
         playlistList = Session.getInstance(getApplicationContext()).getPlaylistList();
         initViews();
 
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+//        getData();
+        SearchManager.getInstance(this).getSearch(etKeyword.getText().toString(),this);
 
+    }
     private void initViews() {
 
 
@@ -73,27 +82,25 @@ public class SearchActivity extends AppCompatActivity implements UserCallback, S
         etKeyword = (EditText) findViewById(R.id.keyword);
         bSearch = findViewById(R.id.search_btn);
         bSearch.setOnClickListener(v -> {
+            mRecyclerView = findViewById(R.id.rvTracks);
+            LinearLayoutManager manager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+            adapter = new TrackListAdapter(this, getApplicationContext(), null, "");
+            mRecyclerView.setLayoutManager(manager);
+            mRecyclerView.setAdapter(adapter);
+
+            LinearLayoutManager managerUsers = new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false);
+            mUserAdapter = new UserAdapter(null, getApplicationContext(), this);
+            mUsersView = (RecyclerView) findViewById(R.id.search_users_recyclerview);
+            mUsersView.setLayoutManager(managerUsers);
+            mUsersView.setAdapter(mUserAdapter);
+
+            LinearLayoutManager managerPlaylists = new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false);
+            mPlaylistAdapter = new PlaylistListAdapter(null, getApplicationContext(), this, R.layout.item_playlist_short);
+            mPlaylistsView = (RecyclerView) findViewById(R.id.search_playlists_recyclerview);
+            mPlaylistsView.setLayoutManager(managerPlaylists);
+            mPlaylistsView.setAdapter(mPlaylistAdapter);
             SearchManager.getInstance(this).getSearch(etKeyword.getText().toString(),this);
         });
-
-        mRecyclerView = findViewById(R.id.rvTracks);
-        LinearLayoutManager manager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
-        TrackListAdapter adapter = new TrackListAdapter(this, getApplicationContext(), null, "");
-        mRecyclerView.setLayoutManager(manager);
-        mRecyclerView.setAdapter(adapter);
-
-        LinearLayoutManager managerUsers = new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false);
-        mUserAdapter = new UserAdapter(null, getApplicationContext(), this);
-        mUsersView = (RecyclerView) findViewById(R.id.search_users_recyclerview);
-        mUsersView.setLayoutManager(managerUsers);
-        mUsersView.setAdapter(mUserAdapter);
-
-        LinearLayoutManager managerPlaylists = new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false);
-        mPlaylistAdapter = new PlaylistListAdapter(null, getApplicationContext(), this, R.layout.item_playlist_short);
-        mPlaylistsView = (RecyclerView) findViewById(R.id.search_playlists_recyclerview);
-        mPlaylistsView.setLayoutManager(managerPlaylists);
-        mPlaylistsView.setAdapter(mPlaylistAdapter);
-
 
         mNav = findViewById(R.id.bottom_navigation);
         mNav.setSelectedItemId(R.id.action_search);
@@ -123,12 +130,6 @@ public class SearchActivity extends AppCompatActivity implements UserCallback, S
         });
     }
 
-
-    private void getData() {
-        UserManager.getInstance(getApplicationContext())
-                .getUsers(this);
-    }
-
     public void onRadioButtonClicked(View view) {
         // Is the button now checked?
         boolean checked = ((RadioButton) view).isChecked();
@@ -150,6 +151,10 @@ public class SearchActivity extends AppCompatActivity implements UserCallback, S
         }
     }
 
+    private void isLikedTrack(Track track){
+        search.getTracks().get(pos).setLiked(track.isLiked());
+        adapter.updateTrackLikeStateIcon(pos, track.isLiked());
+    }
 
     @Override
     public void onFailure(Throwable throwable) {
@@ -196,7 +201,7 @@ public class SearchActivity extends AppCompatActivity implements UserCallback, S
         System.out.println(checkboxid);
         search = s;
         if(checkboxid == 0){
-            TrackListAdapter adapter = new TrackListAdapter(this, getApplicationContext(), (ArrayList<Track>) search.getTracks(), "");
+            adapter = new TrackListAdapter(this, getApplicationContext(), (ArrayList<Track>) search.getTracks(), "");
             mRecyclerView.setAdapter(adapter);
         }
         if(checkboxid == 1){
@@ -230,7 +235,9 @@ public class SearchActivity extends AppCompatActivity implements UserCallback, S
 
     @Override
     public void onLikeTrackSelected(int index) {
-
+        pos=index;
+        TrackManager.getInstance(getApplicationContext())
+                .addLikeTrack(search.getTracks().get(index).getId(), this);
     }
 
     @Override
@@ -331,6 +338,52 @@ public class SearchActivity extends AppCompatActivity implements UserCallback, S
 
     @Override
     public void onUserPlaylistReceived(ArrayList<Playlist> tracks) {
+
+    }
+
+    @Override
+    public void getFollowingPlayList(ArrayList<Playlist> tracks) {
+
+    }
+
+    @Override
+    public void onTracksReceived(List<Track> tracks) {
+
+    }
+
+    @Override
+    public void onNoTracks(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onPersonalTracksReceived(List<Track> tracks) {
+
+    }
+
+    @Override
+    public void onUserTracksReceived(List<Track> tracks) {
+
+    }
+
+    @Override
+    public void onLikedTrack(Track track) {
+        isLikedTrack(track);
+
+    }
+
+    @Override
+    public void onIsLikedTrack(Track track) {
+        isLikedTrack(track);
+    }
+
+    @Override
+    public void onCreateTrack() {
+
+    }
+
+    @Override
+    public void onLikedTracksReceived(List<Track> tracks) {
 
     }
 }

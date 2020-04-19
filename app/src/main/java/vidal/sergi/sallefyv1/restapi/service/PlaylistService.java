@@ -32,4 +32,8 @@ public interface PlaylistService {
 
     @GET("me/playlists")
     Call<List<Playlist>> getOwnPlayList(@Header("Authorization") String token);
+
+    @GET("me/playlists/following")
+    Call<List<Playlist>> getFollowingPlayList(@Header("Authorization") String token);
+
 }

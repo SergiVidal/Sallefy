@@ -31,4 +31,7 @@ public interface TrackService {
 
     @POST("tracks")
     Call<ResponseBody> createTrack(@Body Track track, @Header("Authorization") String token);
+
+    @GET("me/tracks/liked")
+    Call<List<Track>> getLikedTracks(@Header("Authorization") String token);
 }

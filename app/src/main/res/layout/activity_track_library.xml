@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:background="@color/colorPrimary"
+    android:gravity="center"
     tools:context=".controller.activity.TrackLibraryActivity">
 
     <com.scwang.wave.MultiWaveHeader
@@ -18,14 +18,14 @@
         app:layout_constraintTop_toTopOf="parent"
         app:mwhCloseColor="@color/colorSecondary"
         app:mwhStartColor="@color/colorPrimary" />
+
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation">
+
         <LinearLayout
             android:id="@+id/titulo"
             android:layout_width="match_parent"
@@ -38,68 +38,92 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginStart="60dp"
-                android:layout_marginTop="60dp"
-                android:text="@string/music_title"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:text="@string/library"
                 android:textColor="@color/colorWhite"
-                android:textSize="40sp" />
+                android:textSize="32sp" />
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@+id/titulo">
 
             <Button
+                android:id="@+id/item_playlist_button"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="?android:attr/borderlessButtonStyle"
                 android:text="@string/playlist_button"
-                android:textColor="@color/colorWhite"
-                android:id="@+id/item_playlist_button"/>
+                android:textColor="@color/colorWhite" />
+
             <Button
+                android:id="@+id/item_artistas_button"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="?android:attr/borderlessButtonStyle"
                 android:text="@string/artistas_button"
-                android:textColor="@color/colorWhite"
-                android:id="@+id/item_artistas_button"/>
+                android:textColor="@color/colorWhite" />
+
             <Button
+                android:id="@+id/item_canciones_button"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="?android:attr/borderlessButtonStyle"
                 android:text="@string/canciones_button"
-                android:textColor="@color/colorWhite"
-                android:id="@+id/item_canciones_button"/>
+                android:textColor="@color/colorWhite" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <Button
-                android:layout_width="match_parent"
                 android:id="@+id/add_song"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="#70FF0000"
                 android:text="@string/add_song_button"
                 android:textAlignment="viewStart"
-                android:background="#70FF0000"
-                android:textColor="@color/colorWhite"/>
-            <LinearLayout
-                android:layout_width="match_parent"
+                android:textColor="@color/colorWhite" />
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="15dp"
-                android:orientation="vertical"
+                android:layout_marginBottom="15dp"
+                android:text="@string/my_songs"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp" />
 
-                app:layout_constraintBottom_toTopOf="@+id/bottom_navigation">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/search_tracks_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="150dp" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/search_tracks_recyclerview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:text="@string/fav_songs"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fav_tracks_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="150dp" />
         </LinearLayout>
 
     </LinearLayout>

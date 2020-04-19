@@ -37,18 +37,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginStart="60dp"
-                android:layout_marginTop="60dp"
-                android:text="@string/music_title"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:text="@string/library"
                 android:textColor="@color/colorWhite"
-                android:textSize="40sp" />
+                android:textSize="32sp" />
 
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@+id/titulo">
 
@@ -74,6 +73,14 @@
                 android:textColor="@color/colorWhite"
                 android:id="@+id/item_canciones_button"/>
         </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginTop="15dp"
+            android:text="@string/follow_users"
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

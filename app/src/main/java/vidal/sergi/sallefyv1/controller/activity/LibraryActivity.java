@@ -26,8 +26,11 @@ import vidal.sergi.sallefyv1.restapi.manager.PlaylistManager;
 public class LibraryActivity extends AppCompatActivity implements PlaylistCallback, PlaylistAdapterCallback {
     private BottomNavigationView mNav;
     private RecyclerView mPlaylistsView;
+    private RecyclerView mFavPlaylistView;
     private PlaylistListAdapter mPlaylistAdapter;
+    private PlaylistListAdapter mFavPlaylistAdapter;
     private ArrayList<Playlist> mPlaylist;
+    private ArrayList<Playlist> mFavPlaylist;
     private Button bPlaylist;
     private Button bArtistas;
     private Button bCanciones;
@@ -83,6 +86,7 @@ public class LibraryActivity extends AppCompatActivity implements PlaylistCallba
 
     private void getData() {
         PlaylistManager.getInstance(getApplicationContext()).getOwnPlayList(this);
+        PlaylistManager.getInstance(getApplicationContext()).getFollowingPlayList(this);
     }
 
 
@@ -99,6 +103,13 @@ public class LibraryActivity extends AppCompatActivity implements PlaylistCallba
         mPlaylistsView = (RecyclerView) findViewById(R.id.search_playlists_recyclerview);
         mPlaylistsView.setLayoutManager(managerPlaylists);
         mPlaylistsView.setAdapter(mPlaylistAdapter);
+
+        LinearLayoutManager managerPlaylistsFav = new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false);
+        mFavPlaylistAdapter = new PlaylistListAdapter(null, getApplicationContext(), this, R.layout.item_playlist_short);
+        mFavPlaylistView = (RecyclerView) findViewById(R.id.fav_playlists_recyclerview);
+        mFavPlaylistView.setLayoutManager(managerPlaylistsFav);
+        mFavPlaylistView.setAdapter(mFavPlaylistAdapter);
+
         mNav = findViewById(R.id.bottom_navigation);
         mNav.setSelectedItemId(R.id.action_home);
         mNav.setOnNavigationItemSelectedListener(menuItem -> {
@@ -205,6 +216,13 @@ public class LibraryActivity extends AppCompatActivity implements PlaylistCallba
     @Override
     public void onUserPlaylistReceived(ArrayList<Playlist> tracks) {
 
+    }
+
+    @Override
+    public void getFollowingPlayList(ArrayList<Playlist> p) {
+        mFavPlaylist = p;
+        mFavPlaylistAdapter = new PlaylistListAdapter(mFavPlaylist, getApplicationContext(), this, R.layout.item_playlist_short);
+        mFavPlaylistView.setAdapter(mFavPlaylistAdapter);
     }
 
     @Override

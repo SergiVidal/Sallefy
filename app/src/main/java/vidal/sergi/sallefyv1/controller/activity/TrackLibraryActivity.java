@@ -10,9 +10,7 @@ import android.os.Handler;
 
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.SeekBar;
-import android.widget.TextView;
+
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,7 +27,7 @@ import vidal.sergi.sallefyv1.R;
 import vidal.sergi.sallefyv1.controller.adapters.TrackListAdapter;
 import vidal.sergi.sallefyv1.controller.callbacks.TrackListCallback;
 import vidal.sergi.sallefyv1.controller.music.MusicCallback;
-import vidal.sergi.sallefyv1.controller.music.MusicService;
+
 import vidal.sergi.sallefyv1.model.Track;
 import vidal.sergi.sallefyv1.restapi.callback.TrackCallback;
 import vidal.sergi.sallefyv1.restapi.manager.TrackManager;
@@ -37,8 +35,13 @@ import vidal.sergi.sallefyv1.utils.Session;
 
 public class TrackLibraryActivity extends AppCompatActivity implements TrackListCallback, MusicCallback, TrackCallback {
     private BottomNavigationView mNav;
+
     private RecyclerView mTracksView;
+    private RecyclerView mFavTracksView;
+
+
     private TrackListAdapter mTracksAdapter;
+    private TrackListAdapter mFavTracksAdapter;
     private Button bPlaylist;
     private Button bUsers;
     private Button baddSong;
@@ -46,10 +49,8 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
     private static final String PLAY_VIEW = "PlayIcon";
     private static final String STOP_VIEW = "StopIcon";
 
-    private RecyclerView mRecyclerView;
-    private boolean mServiceBound = false;
-
     private ArrayList<Track> mTracks;
+    private ArrayList<Track> mFavTracks;
     private int currentTrack = 0;
     private int pos;
 
@@ -91,6 +92,11 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
         bCanciones.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.opacity));
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getData();
+    }
 
 
     public void onDestroy() {
@@ -100,6 +106,7 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
 
     private void getData() {
         TrackManager.getInstance(getApplicationContext()).getOwnTracks(this);
+        TrackManager.getInstance(getApplicationContext()).getLikedTracks(this);
     }
 
     private void initViews() {
@@ -109,6 +116,12 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
         mTracksView = (RecyclerView) findViewById(R.id.search_tracks_recyclerview);
         mTracksView.setLayoutManager(managerTracks);
         mTracksView.setAdapter(mTracksAdapter);
+
+        LinearLayoutManager managerTracksFav = new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL, false);
+        mFavTracksAdapter = new TrackListAdapter(this, getApplicationContext(), mFavTracks, Session.getInstance(getApplicationContext()).getUser().getLogin());
+        mFavTracksView = (RecyclerView) findViewById(R.id.fav_tracks_recyclerview);
+        mFavTracksView.setLayoutManager(managerTracksFav);
+        mFavTracksView.setAdapter(mFavTracksAdapter);
 
         mNav = findViewById(R.id.bottom_navigation);
         mNav.setSelectedItemId(R.id.action_home);
@@ -132,7 +145,10 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
             return true;
         });
     }
-
+    private void isLikedTrack(Track track){
+        mTracks.get(pos).setLiked(track.isLiked());
+        mTracksAdapter.updateTrackLikeStateIcon(pos, track.isLiked());
+    }
 
     /**********************************************************************************************
      *   *   *   *   *   *   *   *   TrackCallback   *   *   *   *   *   *   *   *   *
@@ -196,16 +212,24 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
 
     @Override
     public void onLikedTrack(Track track) {
-
+        isLikedTrack(track);
     }
 
     @Override
     public void onIsLikedTrack(Track track) {
-
+        isLikedTrack(track);
     }
 
     @Override
     public void onCreateTrack() {
+
+    }
+
+    @Override
+    public void onLikedTracksReceived(List<Track> tracks) {
+        mFavTracks = (ArrayList<Track>) tracks;
+        mFavTracksAdapter = new TrackListAdapter(this, getApplicationContext(), mFavTracks, "");
+        mFavTracksView.setAdapter(mFavTracksAdapter);
 
     }
 

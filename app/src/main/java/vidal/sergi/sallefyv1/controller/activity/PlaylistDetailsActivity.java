@@ -494,6 +494,11 @@ public class PlaylistDetailsActivity extends AppCompatActivity implements TrackL
     }
 
     @Override
+    public void getFollowingPlayList(ArrayList<Playlist> tracks) {
+
+    }
+
+    @Override
     public void onFailure(Throwable throwable) {
 
     }
@@ -532,6 +537,11 @@ public class PlaylistDetailsActivity extends AppCompatActivity implements TrackL
 
     @Override
     public void onCreateTrack() {
+
+    }
+
+    @Override
+    public void onLikedTracksReceived(List<Track> tracks) {
 
     }
 }

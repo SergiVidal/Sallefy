@@ -36,12 +36,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginStart="60dp"
+                android:layout_gravity="center"
                 android:layout_marginTop="60dp"
-                android:text="@string/music_title"
+                android:text="@string/library"
                 android:textColor="@color/colorWhite"
-                android:textSize="40sp" />
+                android:textSize="32sp" />
 
         </LinearLayout>
         <LinearLayout
