@@ -78,7 +78,7 @@ public class SearchActivity extends AppCompatActivity implements UserCallback, S
 
         mRecyclerView = findViewById(R.id.rvTracks);
         LinearLayoutManager manager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
-        TrackListAdapter adapter = new TrackListAdapter(this, getApplicationContext(), null);
+        TrackListAdapter adapter = new TrackListAdapter(this, getApplicationContext(), null, "");
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(adapter);
 
@@ -196,7 +196,7 @@ public class SearchActivity extends AppCompatActivity implements UserCallback, S
         System.out.println(checkboxid);
         search = s;
         if(checkboxid == 0){
-            TrackListAdapter adapter = new TrackListAdapter(this, getApplicationContext(), (ArrayList<Track>) search.getTracks());
+            TrackListAdapter adapter = new TrackListAdapter(this, getApplicationContext(), (ArrayList<Track>) search.getTracks(), "");
             mRecyclerView.setAdapter(adapter);
         }
         if(checkboxid == 1){
@@ -235,6 +235,13 @@ public class SearchActivity extends AppCompatActivity implements UserCallback, S
 
     @Override
     public void onDetailsTrackSelected(int index) {
+        Intent intent = new Intent(getApplicationContext(), TrackOptionsActivity.class);
+        intent.putExtra("track", search.getTracks().get(index));
+        startActivity(intent);
+    }
+
+    @Override
+    public void onDeleteTrackSelected(int index) {
 
     }
 

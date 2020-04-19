@@ -71,6 +71,7 @@ public class LibraryActivity extends AppCompatActivity implements PlaylistCallba
     @Override
     public void onResume() {
         super.onResume();
+        getData();
 
     }
 

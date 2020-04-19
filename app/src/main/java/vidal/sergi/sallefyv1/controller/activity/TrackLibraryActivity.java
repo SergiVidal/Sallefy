@@ -32,6 +32,7 @@ import vidal.sergi.sallefyv1.controller.music.MusicService;
 import vidal.sergi.sallefyv1.model.Track;
 import vidal.sergi.sallefyv1.restapi.callback.TrackCallback;
 import vidal.sergi.sallefyv1.restapi.manager.TrackManager;
+import vidal.sergi.sallefyv1.utils.Session;
 
 public class TrackLibraryActivity extends AppCompatActivity implements TrackListCallback, MusicCallback, TrackCallback {
     private BottomNavigationView mNav;
@@ -103,7 +104,7 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
     private void initViews() {
 
         LinearLayoutManager managerTracks = new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL, false);
-        mTracksAdapter = new TrackListAdapter(this, getApplicationContext(), mTracks);
+        mTracksAdapter = new TrackListAdapter(this, getApplicationContext(), mTracks, Session.getInstance(getApplicationContext()).getUser().getLogin());
         mTracksView = (RecyclerView) findViewById(R.id.search_tracks_recyclerview);
         mTracksView.setLayoutManager(managerTracks);
         mTracksView.setAdapter(mTracksAdapter);
@@ -163,6 +164,11 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
         startActivity(intent);
     }
 
+    @Override
+    public void onDeleteTrackSelected(int index) {
+
+    }
+
     /**********************************************************************************************
      *   *   *   *   *   *   *   *   TrackCallback   *   *   *   *   *   *   *   *   *
      **********************************************************************************************/
@@ -178,7 +184,7 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
     @Override
     public void onPersonalTracksReceived(List<Track> tracks) {
         mTracks = (ArrayList<Track>) tracks;
-        mTracksAdapter = new TrackListAdapter(this, getApplicationContext(), mTracks);
+        mTracksAdapter = new TrackListAdapter(this, getApplicationContext(), mTracks, "");
         mTracksView.setAdapter(mTracksAdapter);
 
     }

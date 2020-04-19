@@ -65,40 +65,18 @@
             android:text="@string/playlist_follow"
             android:textAlignment="center" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/bRandom"
+            style="@style/SubtitlesTheme"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/btn_random_radius"
+            android:text="@string/playlist_random"
+            android:textAlignment="center"
 
-
-            <Button
-                android:id="@+id/bRandom"
-                style="@style/SubtitlesTheme"
-                android:layout_width="200dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical|center_horizontal"
-                android:layout_marginStart="30dp"
-                android:background="@drawable/btn_random_radius"
-                android:text="@string/playlist_random"
-                android:textAlignment="center"
-
-                />
-
-            <ImageButton
-                android:id="@+id/bAddSong"
-                style="@style/SubtitlesTheme"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center_vertical|center_horizontal"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/btn_random_radius"
-                android:src="@drawable/ic_add_white"
-                android:textAlignment="center" />
-
-        </LinearLayout>
-
+            />
 
     </LinearLayout>
 

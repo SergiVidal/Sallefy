@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import vidal.sergi.sallefyv1.R;
 import vidal.sergi.sallefyv1.controller.callbacks.TrackListCallback;
 import vidal.sergi.sallefyv1.model.Track;
+import vidal.sergi.sallefyv1.utils.Session;
 
 public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.ViewHolder> {
 
@@ -28,12 +29,13 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
     private Context mContext;
     private TrackListCallback mCallback;
     private int NUM_VIEWHOLDERS = 0;
+    private String playlistAuthor;
 
-
-    public TrackListAdapter(TrackListCallback callback, Context context, ArrayList<Track> tracks ) {
+    public TrackListAdapter(TrackListCallback callback, Context context, ArrayList<Track> tracks, String playlistAuthor) {
         mTracks = tracks;
         mContext = context;
         mCallback = callback;
+        this.playlistAuthor = playlistAuthor;
     }
 
     @NonNull
@@ -71,27 +73,38 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
 //        TrackManager.getInstance(mContext)
 //                .isLikedTrack(mTracks.get(position).getId(), this);
 
-        holder.ibFollowTrack.setOnClickListener(v ->{
-                mCallback.onLikeTrackSelected(position);
+        holder.ibFollowTrack.setOnClickListener(v -> {
+            mCallback.onLikeTrackSelected(position);
         });
 
-        if(mTracks.get(position).isLiked()){
+        if (mTracks.get(position).isLiked()) {
             holder.ibFollowTrack.setBackgroundResource(R.drawable.ic_star_green);
-        }else{
+        } else {
             holder.ibFollowTrack.setBackgroundResource(R.drawable.ic_star_border_black);
 
         }
-        holder.ibMoreTrack.setOnClickListener(v ->{
+        holder.ibMoreTrack.setOnClickListener(v -> {
             mCallback.onDetailsTrackSelected(position);
         });
+
+        if (playlistAuthor.equals(Session.getInstance(mContext).getUser().getLogin())) {
+
+            holder.ibDelete.setOnClickListener(v -> {
+                mCallback.onDeleteTrackSelected(position);
+            });
+        }else{
+            holder.ibDelete.setClickable(false);
+            holder.ibDelete.setVisibility(View.INVISIBLE);
+        }
+
     }
 
     @Override
     public int getItemCount() {
-        return mTracks != null ? mTracks.size():0;
+        return mTracks != null ? mTracks.size() : 0;
     }
 
-//    //Todo: Reutilitzar este codigo?
+    //    //Todo: Reutilitzar este codigo?
     public void updateTrackLikeStateIcon(int position, boolean isLiked) {
         mTracks.get(position).setLiked(isLiked);
         notifyDataSetChanged();
@@ -105,6 +118,8 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
         ImageView ivPicture;
         ImageButton ibFollowTrack;
         ImageButton ibMoreTrack;
+        ImageButton ibDelete;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mLayout = itemView.findViewById(R.id.track_item_layout);
@@ -113,6 +128,8 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
             ivPicture = (ImageView) itemView.findViewById(R.id.track_img);
             ibFollowTrack = itemView.findViewById(R.id.ibFollowTrack);
             ibMoreTrack = itemView.findViewById(R.id.ibMoreTrack);
+            ibDelete = itemView.findViewById(R.id.ibDelete);
+
         }
     }
 }

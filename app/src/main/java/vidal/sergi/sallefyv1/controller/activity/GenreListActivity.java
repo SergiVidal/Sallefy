@@ -1,6 +1,7 @@
 package vidal.sergi.sallefyv1.controller.activity;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -39,7 +40,7 @@ public class GenreListActivity extends AppCompatActivity implements TrackListCal
     private void initViews() {
         mRecyclerView = findViewById(R.id.recyclerView);
         LinearLayoutManager manager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
-        adapter = new TrackListAdapter(this, getApplicationContext(), null);
+        adapter = new TrackListAdapter(this, getApplicationContext(), null, "");
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(adapter);
         tvGenreName = findViewById(R.id.tvGenreName);
@@ -55,7 +56,7 @@ public class GenreListActivity extends AppCompatActivity implements TrackListCal
     public void onTracksReceived(List<Track> tracks) {
 //        mTracks = (ArrayList) tracks;
         filterByGenre((ArrayList<Track>) tracks);
-        adapter = new TrackListAdapter(this, getApplicationContext(), mTracks);
+        adapter = new TrackListAdapter(this, getApplicationContext(), mTracks, "");
         mRecyclerView.setAdapter(adapter);
     }
     private void filterByGenre(ArrayList<Track> tracks){
@@ -110,6 +111,19 @@ public class GenreListActivity extends AppCompatActivity implements TrackListCal
 
     @Override
     public void onLikeTrackSelected(int index) {
+
+    }
+
+    @Override
+
+    public void onDetailsTrackSelected(int index) {
+        Intent intent = new Intent(getApplicationContext(), TrackOptionsActivity.class);
+        intent.putExtra("track", mTracks.get(index));
+        startActivity(intent);
+    }
+
+    @Override
+    public void onDeleteTrackSelected(int index) {
 
     }
 

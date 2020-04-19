@@ -39,7 +39,6 @@ import vidal.sergi.sallefyv1.restapi.manager.PlaylistManager;
 import vidal.sergi.sallefyv1.restapi.manager.TrackManager;
 
 public class PlaylistDetailsActivity extends AppCompatActivity implements TrackListCallback, MusicCallback, PlaylistCallback, TrackCallback {
-
     private Playlist playlist;
     private ImageView ivPhoto;
     private TextView tvPlaylistName;
@@ -168,13 +167,15 @@ public class PlaylistDetailsActivity extends AppCompatActivity implements TrackL
 
         bRandom = findViewById(R.id.bRandom);
         bRandom.setOnClickListener(v ->{
-            currentTrack = new Random().nextInt(mTracks.size());
-            System.out.println("Random: " + currentTrack);
-            updateTrack(currentTrack);
+            if(mTracks.size() != 0) {
+                currentTrack = new Random().nextInt(mTracks.size());
+                System.out.println("Random: " + currentTrack);
+                updateTrack(currentTrack);
+            }
         });
 
         LinearLayoutManager managerTracks = new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL, false);
-        mTracksAdapter = new TrackListAdapter(this, getApplicationContext(), mTracks);
+        mTracksAdapter = new TrackListAdapter(this, getApplicationContext(), mTracks, playlist.getUserLogin());
         mTracksView = (RecyclerView) findViewById(R.id.search_tracks_recyclerview);
         mTracksView.setLayoutManager(managerTracks);
         mTracksView.setAdapter(mTracksAdapter);
@@ -372,8 +373,23 @@ public class PlaylistDetailsActivity extends AppCompatActivity implements TrackL
 
     @Override
     public void onDetailsTrackSelected(int index) {
+        Intent intent = new Intent(getApplicationContext(), TrackOptionsActivity.class);
+        intent.putExtra("track", mTracks.get(index));
+        startActivity(intent);
+    }
+
+    @Override
+    public void onDeleteTrackSelected(int index) {
+
+        System.out.println(playlist.getTracks().size());
+
+        playlist.getTracks().remove(index);
+        PlaylistManager.getInstance(getApplicationContext())
+                .addTrackToPlaylistAttempt(playlist, this);
+
 
     }
+
     /**********************************************************************************************
      *   *   *   *   *   *   *   *   MusicCallback   *   *   *   *   *   *   *   *   *
      **********************************************************************************************/
@@ -412,7 +428,9 @@ public class PlaylistDetailsActivity extends AppCompatActivity implements TrackL
 
     @Override
     public void onAddTrackToPlaylistSuccess(Playlist playlist) {
-
+        Toast.makeText(getApplicationContext(), "Cancion eliminada!", Toast.LENGTH_LONG).show();
+        mTracksAdapter= new TrackListAdapter(this, getApplicationContext(), (ArrayList<Track>) playlist.getTracks(), playlist.getUserLogin());
+        mTracksView.setAdapter(mTracksAdapter);
     }
 
     @Override

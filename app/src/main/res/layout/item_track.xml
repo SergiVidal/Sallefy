@@ -61,8 +61,8 @@
             <ImageButton
                 android:id="@+id/ibFollowTrack"
                 style="@style/ItemTitleTheme"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:background="@drawable/ic_star_border_black"
                 android:textAlignment="textStart"
                 android:layout_marginStart="0dp"/>
@@ -70,9 +70,16 @@
             <ImageButton
                 android:id="@+id/ibMoreTrack"
                 style="@style/SongArtistTheme"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:background="@drawable/ic_more_vert_black"
+                android:layout_marginStart="5dp"/>
+            <ImageButton
+                android:id="@+id/ibDelete"
+                style="@style/SongArtistTheme"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_action_name"
                 android:layout_marginStart="5dp"/>
 
         </LinearLayout>
