@@ -34,7 +34,7 @@
         </activity>
         <activity android:name=".controller.activity.MainActivity" />
         <activity android:name=".controller.activity.ListActivity" />
-        <activity android:name=".controller.activity.AdvancedListActivity" />
+        <activity android:name=".controller.activity.GenreListActivity" />
         <activity android:name=".controller.activity.RegisterActivity" />
         <activity android:name=".controller.activity.CreatePlaylistActivity" />
         <activity android:name=".controller.activity.AddTrackActivity" />

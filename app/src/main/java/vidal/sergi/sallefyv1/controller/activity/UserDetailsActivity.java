@@ -49,7 +49,7 @@ public class UserDetailsActivity extends AppCompatActivity implements PlaylistAd
         }
 
 //        LinearLayoutManager managerPlaylists = new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false);
-//        mPlaylistAdapter = new PlaylistListAdapter(null, getApplicationContext(), this, R.layout.item_playlist_short);
+//        mPlaylistAdapter = new PlaylistListAdapter(user.getPlaylists(), getApplicationContext(), this, R.layout.item_playlist_short);
 //        mPlaylistsView = (RecyclerView) findViewById(R.id.search_playlists_recyclerview);
 //        mPlaylistsView.setLayoutManager(managerPlaylists);
 //        mPlaylistsView.setAdapter(mPlaylistAdapter);
