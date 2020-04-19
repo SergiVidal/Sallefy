@@ -66,7 +66,7 @@ public class LibraryActivity extends AppCompatActivity implements PlaylistCallba
             }
         });
         bPlaylist.setEnabled(false);
-        bPlaylist.setTextColor(Color.parseColor("#9E9E9E"));
+        bCanciones.setBackgroundResource(R.color.opacity);
     }
     @Override
     public void onResume() {

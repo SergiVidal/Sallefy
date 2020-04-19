@@ -13,4 +13,5 @@
 
     <color name="colorWhite">#FFF</color>
     <color name="colorGrey">#D1D1D1</color>
+    <color name="opacity">#9E9E9E</color>
 </resources>

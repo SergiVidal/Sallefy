@@ -60,13 +60,14 @@ public class ArtistLibraryActivity extends AppCompatActivity implements UserCall
             }
         });
         bArtistas.setEnabled(false);
-        bArtistas.setTextColor(Color.parseColor("#9E9E9E"));
+        bCanciones.setBackgroundResource(R.color.opacity);
 
 
     }
     @Override
     public void onResume() {
         super.onResume();
+        getData();
 
     }
     public void onDestroy() {

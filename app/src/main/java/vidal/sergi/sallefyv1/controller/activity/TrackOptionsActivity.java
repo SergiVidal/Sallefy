@@ -123,6 +123,14 @@ public class TrackOptionsActivity extends AppCompatActivity implements TrackList
         // TODO: Recyrcler View Tracks
 
     }
+    public void onResume() {
+        super.onResume();
+        getData();
+
+    }
+    private void getData() {
+        TrackManager.getInstance(getApplicationContext()).getOwnTracks(this);
+    }
 
     @Override
     public void onTrackSelected(Track track) {

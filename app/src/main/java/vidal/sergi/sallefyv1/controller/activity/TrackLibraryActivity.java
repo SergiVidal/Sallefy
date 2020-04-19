@@ -87,7 +87,8 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
             }
         });
         bCanciones.setEnabled(false);
-        bCanciones.setTextColor(Color.parseColor("#9E9E9E"));
+        bCanciones.setBackgroundResource(R.color.opacity);
+
     }
 
 
