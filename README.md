@@ -1,5 +1,5 @@
 # Sallefy
-Proyecto Sallefy - Desarrollo en dispositivos móviles
+Sallefy Project - Development on Mobile Devices (laSalle - URL)
 
 ## Table of contents
 * [Mockups](#mockups)
