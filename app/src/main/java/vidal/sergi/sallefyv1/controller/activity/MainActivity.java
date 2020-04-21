@@ -12,6 +12,8 @@ import androidx.fragment.app.FragmentTransaction;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -22,6 +24,7 @@ import vidal.sergi.sallefyv1.controller.fragments.HomeFragment;
 import vidal.sergi.sallefyv1.controller.fragments.LibraryFragment;
 import vidal.sergi.sallefyv1.controller.fragments.ProfileFragment;
 import vidal.sergi.sallefyv1.controller.fragments.SearchFragment;
+import vidal.sergi.sallefyv1.model.Playlist;
 import vidal.sergi.sallefyv1.utils.Constants;
 import vidal.sergi.sallefyv1.utils.Session;
 
@@ -32,6 +35,21 @@ public class MainActivity extends FragmentActivity implements FragmentCallback {
 
     private BottomNavigationView mNav;
 
+//    protected MainActivity(Parcel in) {
+//    }
+//
+//    public static final Creator<MainActivity> CREATOR = new Creator<MainActivity>() {
+//        @Override
+//        public MainActivity createFromParcel(Parcel in) {
+//            return new MainActivity(in);
+//        }
+//
+//        @Override
+//        public MainActivity[] newArray(int size) {
+//            return new MainActivity[size];
+//        }
+//    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +59,7 @@ public class MainActivity extends FragmentActivity implements FragmentCallback {
         requestPermissions();
     }
 
-    private void initViews() {
+    public void initViews() {
         mFragmentManager = getSupportFragmentManager();
         mTransaction = mFragmentManager.beginTransaction();
 
@@ -142,6 +160,25 @@ public class MainActivity extends FragmentActivity implements FragmentCallback {
 
     @Override
     public void onChangeFragment(Fragment fragment) {
+        replaceFragment(fragment);
+    }
+//
+//    @Override
+//    public int describeContents() {
+//        return 0;
+//    }
+//
+//    @Override
+//    public void writeToParcel(Parcel parcel, int i) {
+//    }
+
+
+    @Override
+    public void onPlaylistDetails(Fragment fragment, Playlist playlist) {
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("playlist", playlist);
+        fragment.setArguments(bundle);
         replaceFragment(fragment);
     }
 }

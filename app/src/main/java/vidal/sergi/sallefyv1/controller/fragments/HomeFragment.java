@@ -1,5 +1,6 @@
 package vidal.sergi.sallefyv1.controller.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -20,14 +21,12 @@ import java.util.List;
 
 import vidal.sergi.sallefyv1.R;
 import vidal.sergi.sallefyv1.controller.activity.GenreListActivity;
-import vidal.sergi.sallefyv1.controller.activity.LibraryActivity;
 import vidal.sergi.sallefyv1.controller.activity.PlaylistDetailsActivity;
-import vidal.sergi.sallefyv1.controller.activity.ProfileActivity;
-import vidal.sergi.sallefyv1.controller.activity.SearchActivity;
 import vidal.sergi.sallefyv1.controller.activity.UserDetailsActivity;
 import vidal.sergi.sallefyv1.controller.adapters.GenresAdapter;
 import vidal.sergi.sallefyv1.controller.adapters.PlaylistListAdapter;
 import vidal.sergi.sallefyv1.controller.adapters.UserAdapter;
+import vidal.sergi.sallefyv1.controller.callbacks.FragmentCallback;
 import vidal.sergi.sallefyv1.controller.callbacks.GenreAdapterCallback;
 import vidal.sergi.sallefyv1.controller.callbacks.PlaylistAdapterCallback;
 import vidal.sergi.sallefyv1.controller.callbacks.UserAdapterCallback;
@@ -60,6 +59,15 @@ public class HomeFragment extends Fragment implements UserCallback, PlaylistCall
     private GenresAdapter mGenresAdapter;
 
     private BottomNavigationView mNav;
+    private FragmentCallback fragmentCallback;
+//
+//    public FragmentCallback getFragmentCallback() {
+//        return fragmentCallback;
+//    }
+//
+//    public void setFragmentCallback(FragmentCallback fragmentCallback) {
+//        this.fragmentCallback = fragmentCallback;
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,6 +82,7 @@ public class HomeFragment extends Fragment implements UserCallback, PlaylistCall
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
+//        fragmentCallback = this.getArguments().getParcelable("callback");
         initViews(v);
         getData();
         return v;
@@ -90,6 +99,12 @@ public class HomeFragment extends Fragment implements UserCallback, PlaylistCall
     @Override
     public void onPause() {
         super.onPause();
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        fragmentCallback = (FragmentCallback) context;
     }
 
     private void initViews(View v) {
@@ -110,32 +125,6 @@ public class HomeFragment extends Fragment implements UserCallback, PlaylistCall
         mGenresView = (RecyclerView) v.findViewById(R.id.search_genres_recyclerview);
         mGenresView.setLayoutManager(managerGenres);
         mGenresView.setAdapter(mGenresAdapter);
-
-//        mNav = v.findViewById(R.id.bottom_navigation);
-//        mNav.setSelectedItemId(R.id.action_home);
-//        mNav.setOnNavigationItemSelectedListener(menuItem -> {
-//            Intent intent;
-//            switch (menuItem.getItemId()) {
-////                case R.id.action_home:
-////                    intent = new Intent(getApplicationContext(), HomeActivity.class);
-////                    startActivity(intent);
-////                    break;
-//                case R.id.action_search:
-//                    intent = new Intent(getApplicationContext(), SearchActivity.class);
-//                    startActivity(intent);
-//                    break;
-//                case R.id.action_library:
-//                    intent = new Intent(getApplicationContext(), LibraryActivity.class);
-//                    startActivity(intent);
-//                    break;
-//                case R.id.action_profile:
-//                    intent = new Intent(getApplicationContext(), ProfileActivity.class);
-//                    startActivity(intent);
-//                    break;
-//
-//            }
-//            return true;
-//        });
     }
 
     private void getData() {
@@ -218,9 +207,14 @@ public class HomeFragment extends Fragment implements UserCallback, PlaylistCall
 
     @Override
     public void onPlaylistClick(Playlist playlist) {
-        Intent intent = new Intent(getContext(), PlaylistDetailsActivity.class);
-        intent.putExtra("Playlist", playlist);
-        startActivity(intent);
+//        Intent intent = new Intent(getContext(), PlaylistDetailsActivity.class);
+//        intent.putExtra("Playlist", playlist);
+//        startActivity(intent);
+
+//        fragmentCallback.onChangeFragment(PlaylistDetailsFragment.getInstance());
+//        (MainActivity) getActivity().initViews();
+
+            fragmentCallback.onPlaylistDetails(PlaylistDetailsFragment.getInstance(), playlist);
         //startActivityForResult para recuperar
         //
     }
