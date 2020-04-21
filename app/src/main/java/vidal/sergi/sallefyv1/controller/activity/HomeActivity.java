@@ -47,7 +47,7 @@ public class HomeActivity extends AppCompatActivity implements UserCallback, Pla
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_home);
         initViews();
         getData();
         System.out.println("onCreate");
