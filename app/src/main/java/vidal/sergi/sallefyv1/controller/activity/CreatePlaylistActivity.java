@@ -88,22 +88,7 @@ public class CreatePlaylistActivity extends AppCompatActivity implements Playlis
     }
 
     @Override
-    public void onPlaylistById(Playlist playlist) {
-
-    }
-
-    @Override
-    public void onPlaylistsByUser(ArrayList<Playlist> playlists) {
-
-    }
-
-    @Override
     public void onAllList(ArrayList<Playlist> playlists) {
-
-    }
-
-    @Override
-    public void onFollowingList(ArrayList<Playlist> playlists) {
 
     }
 
@@ -124,11 +109,6 @@ public class CreatePlaylistActivity extends AppCompatActivity implements Playlis
 
     @Override
     public void onPersonalPlaylistReceived(ArrayList<Playlist> tracks) {
-
-    }
-
-    @Override
-    public void onUserPlaylistReceived(ArrayList<Playlist> tracks) {
 
     }
 

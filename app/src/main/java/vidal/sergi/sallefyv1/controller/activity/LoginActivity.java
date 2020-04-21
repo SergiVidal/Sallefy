@@ -104,7 +104,7 @@ public class LoginActivity extends AppCompatActivity implements UserCallback {
     public void onUserInfoReceived(User userData) {
         Session.getInstance(getApplicationContext())
                 .setUser(userData);
-        Intent intent= new Intent(this, HomeActivity.class);
+        Intent intent= new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 

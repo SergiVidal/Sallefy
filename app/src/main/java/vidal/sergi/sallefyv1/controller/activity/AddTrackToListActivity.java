@@ -119,22 +119,7 @@ public class AddTrackToListActivity extends AppCompatActivity implements Playlis
     }
 
     @Override
-    public void onPlaylistById(Playlist playlist) {
-
-    }
-
-    @Override
-    public void onPlaylistsByUser(ArrayList<Playlist> playlists) {
-
-    }
-
-    @Override
     public void onAllList(ArrayList<Playlist> playlists) {
-
-    }
-
-    @Override
-    public void onFollowingList(ArrayList<Playlist> playlists) {
 
     }
 
@@ -158,11 +143,6 @@ public class AddTrackToListActivity extends AppCompatActivity implements Playlis
         mPlaylist = p;
         mPlaylistAdapter = new PlaylistListAdapter(mPlaylist, getApplicationContext(), this, R.layout.item_playlist_short);
         mPlaylistsView.setAdapter(mPlaylistAdapter);
-    }
-
-    @Override
-    public void onUserPlaylistReceived(ArrayList<Playlist> tracks) {
-
     }
 
     @Override

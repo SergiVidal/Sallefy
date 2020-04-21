@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import vidal.sergi.sallefyv1.model.Playlist;
+import vidal.sergi.sallefyv1.model.Track;
 import vidal.sergi.sallefyv1.model.User;
 import vidal.sergi.sallefyv1.model.UserRegister;
 import vidal.sergi.sallefyv1.model.UserToken;
@@ -19,7 +20,15 @@ public class Session {
     private UserRegister mUserRegister;
     private User mUser;
     private UserToken mUserToken;
+
     private List<Playlist> playlistList;
+
+    private boolean audioEnabled;
+    private Track mTrack;
+    private Playlist mPlaylist;
+    private ArrayList<Track> mTracks;
+    private int mIndex;
+    private boolean isPlaying;
 
     public static Session getInstance(Context context) {
         Session result = sSession;
@@ -41,11 +50,18 @@ public class Session {
         this.mUser = null;
         this.mUserToken = null;
         this.playlistList = new ArrayList<>();
+        this.audioEnabled = false;
+        this.isPlaying = false;
     }
 
     public void resetValues() {
         mUserRegister = null;
         mUserToken = null;
+        mUser = null;
+        mTrack = null;
+        mPlaylist = null;
+        mIndex = -1;
+        isPlaying = false;
     }
 
     public UserRegister getUserRegister() {
@@ -78,6 +94,66 @@ public class Session {
 
     public void setplaylistList(List<Playlist> playlistList) {
         this.playlistList = playlistList;
+    }
+
+    public boolean isAudioEnabled() {
+        return audioEnabled;
+    }
+
+    public void setAudioEnabled(boolean audioEnabled) {
+        this.audioEnabled = audioEnabled;
+    }
+
+    public Track getTrack() {
+        return mTrack;
+    }
+
+    public void setTrack(Track track) {
+        mTrack = track;
+    }
+
+    public int getIndex() {
+        return mIndex;
+    }
+
+    public void setIndex(int index) {
+        mIndex = index;
+    }
+
+    public void setTrack(ArrayList<Track> tracks, int index) {
+        mTracks = tracks;
+        mIndex = index;
+        mTrack = tracks.get(index);
+    }
+
+    public void setTrack(Playlist playlist, int index) {
+        mTracks = (ArrayList<Track>) playlist.getTracks();
+        mIndex = index;
+        mTrack = mTracks.get(index);
+    }
+
+    public Playlist getPlaylist() {
+        return mPlaylist;
+    }
+
+    public void setPlaylist(Playlist playlist) {
+        mPlaylist = playlist;
+    }
+
+    public ArrayList<Track> getTracks() {
+        return mTracks;
+    }
+
+    public void setTracks(ArrayList<Track> tracks) {
+        mTracks = tracks;
+    }
+
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
+    public void setPlaying(boolean playing) {
+        isPlaying = playing;
     }
 }
 

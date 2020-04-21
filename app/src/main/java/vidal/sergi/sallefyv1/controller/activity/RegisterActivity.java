@@ -78,7 +78,7 @@ public class RegisterActivity extends AppCompatActivity
         PreferenceUtils.saveUser(this, etLogin.getText().toString());
         PreferenceUtils.savePassword(this, etPassword.getText().toString());
         UserManager.getInstance(this).getUserData(etLogin.getText().toString(), this);
-        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
     }
 
