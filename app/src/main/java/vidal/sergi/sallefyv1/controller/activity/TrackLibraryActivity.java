@@ -4,9 +4,7 @@ package vidal.sergi.sallefyv1.controller.activity;
 
 import android.content.Intent;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 
 import android.view.View;
 import android.widget.Button;
@@ -129,7 +127,7 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
             Intent intent;
             switch (menuItem.getItemId()) {
                case R.id.action_home:
-                   intent = new Intent(getApplicationContext(), MainActivity.class);
+                   intent = new Intent(getApplicationContext(), HomeActivity.class);
                     startActivity(intent);
                     break;
                 case R.id.action_search:

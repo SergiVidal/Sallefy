@@ -31,7 +31,7 @@ import vidal.sergi.sallefyv1.restapi.manager.GenreManager;
 import vidal.sergi.sallefyv1.restapi.manager.PlaylistManager;
 import vidal.sergi.sallefyv1.restapi.manager.UserManager;
 
-public class MainActivity extends AppCompatActivity implements UserCallback, PlaylistCallback, PlaylistAdapterCallback, GenreCallback, UserAdapterCallback, GenreAdapterCallback {
+public class HomeActivity extends AppCompatActivity implements UserCallback, PlaylistCallback, PlaylistAdapterCallback, GenreCallback, UserAdapterCallback, GenreAdapterCallback {
 
     private RecyclerView mUsersView;
     private UserAdapter mUserAdapter;
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements UserCallback, Pla
             Intent intent;
             switch (menuItem.getItemId()) {
 //                case R.id.action_home:
-//                    intent = new Intent(getApplicationContext(), MainActivity.class);
+//                    intent = new Intent(getApplicationContext(), HomeActivity.class);
 //                    startActivity(intent);
 //                    break;
                 case R.id.action_search:

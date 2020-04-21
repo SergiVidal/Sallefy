@@ -34,7 +34,6 @@ import vidal.sergi.sallefyv1.restapi.callback.TrackCallback;
 import vidal.sergi.sallefyv1.restapi.callback.UserCallback;
 import vidal.sergi.sallefyv1.restapi.manager.SearchManager;
 import vidal.sergi.sallefyv1.restapi.manager.TrackManager;
-import vidal.sergi.sallefyv1.restapi.manager.UserManager;
 import vidal.sergi.sallefyv1.utils.Session;
 
 public class SearchActivity extends AppCompatActivity implements UserCallback, SearchCallback, TrackListCallback, PlaylistCallback, UserAdapterCallback, PlaylistAdapterCallback, TrackCallback {
@@ -108,7 +107,7 @@ public class SearchActivity extends AppCompatActivity implements UserCallback, S
             Intent intent;
             switch (menuItem.getItemId()) {
                 case R.id.action_home:
-                    intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent = new Intent(getApplicationContext(), HomeActivity.class);
                     startActivity(intent);
                     break;
 //                case R.id.action_search:

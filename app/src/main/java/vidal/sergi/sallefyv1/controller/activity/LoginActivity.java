@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.List;
 
 import vidal.sergi.sallefyv1.R;
-import vidal.sergi.sallefyv1.model.Playlist;
 import vidal.sergi.sallefyv1.model.User;
 import vidal.sergi.sallefyv1.model.UserToken;
 import vidal.sergi.sallefyv1.restapi.callback.UserCallback;
@@ -105,7 +104,7 @@ public class LoginActivity extends AppCompatActivity implements UserCallback {
     public void onUserInfoReceived(User userData) {
         Session.getInstance(getApplicationContext())
                 .setUser(userData);
-        Intent intent= new Intent(this, MainActivity.class);
+        Intent intent= new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
 

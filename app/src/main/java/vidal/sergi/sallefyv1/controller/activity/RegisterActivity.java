@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.List;
 
 import vidal.sergi.sallefyv1.R;
-import vidal.sergi.sallefyv1.model.Playlist;
 import vidal.sergi.sallefyv1.model.User;
 import vidal.sergi.sallefyv1.model.UserRegister;
 import vidal.sergi.sallefyv1.model.UserToken;
@@ -79,7 +78,7 @@ public class RegisterActivity extends AppCompatActivity
         PreferenceUtils.saveUser(this, etLogin.getText().toString());
         PreferenceUtils.savePassword(this, etPassword.getText().toString());
         UserManager.getInstance(this).getUserData(etLogin.getText().toString(), this);
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
         startActivity(intent);
     }
 
@@ -107,7 +106,7 @@ public class RegisterActivity extends AppCompatActivity
     public void onUserInfoReceived(User userData) {
         Session.getInstance(getApplicationContext())
                 .setUser(userData);
-        Intent intent= new Intent(this, MainActivity.class);
+        Intent intent= new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
 

@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -94,7 +93,7 @@ public class ArtistLibraryActivity extends AppCompatActivity implements UserCall
             Intent intent;
             switch (menuItem.getItemId()) {
                 case R.id.action_home:
-                    intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent = new Intent(getApplicationContext(), HomeActivity.class);
                     startActivity(intent);
                     break;
                 case R.id.action_search:

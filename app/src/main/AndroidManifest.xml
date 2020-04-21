@@ -28,7 +28,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".controller.activity.MainActivity" />
+        <activity android:name=".controller.activity.HomeActivity" />
         <activity android:name=".controller.activity.GenreListActivity" />
         <activity android:name=".controller.activity.RegisterActivity" />
         <activity android:name=".controller.activity.CreatePlaylistActivity" />

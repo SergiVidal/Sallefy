@@ -27,7 +27,7 @@ public class ProfileActivity extends AppCompatActivity {
             Intent intent;
             switch (menuItem.getItemId()) {
                 case R.id.action_home:
-                    intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent = new Intent(getApplicationContext(), HomeActivity.class);
                     startActivity(intent);
                     break;
                 case R.id.action_search:
