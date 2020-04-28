@@ -8,4 +8,7 @@ public interface FragmentCallback {
     void onChangeFragment(Fragment fragment);
 
     void onPlaylistDetails(Fragment fragment, Playlist playlist);
+    void onLibrarySelection(Fragment fragment);
+
+
 }

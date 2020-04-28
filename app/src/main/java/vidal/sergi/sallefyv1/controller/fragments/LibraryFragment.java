@@ -24,6 +24,7 @@ import vidal.sergi.sallefyv1.controller.activity.ArtistLibraryActivity;
 import vidal.sergi.sallefyv1.controller.activity.CreatePlaylistActivity;
 import vidal.sergi.sallefyv1.controller.activity.TrackLibraryActivity;
 import vidal.sergi.sallefyv1.controller.adapters.PlaylistListAdapter;
+import vidal.sergi.sallefyv1.controller.callbacks.FragmentCallback;
 import vidal.sergi.sallefyv1.controller.callbacks.PlaylistAdapterCallback;
 import vidal.sergi.sallefyv1.model.Playlist;
 import vidal.sergi.sallefyv1.restapi.callback.PlaylistCallback;
@@ -44,6 +45,7 @@ public class LibraryFragment extends Fragment implements PlaylistCallback, Playl
     private Button bArtistas;
     private Button bCanciones;
     private Button createPlayList;
+    private FragmentCallback fragmentCallback;
     private int pos;
 
 
@@ -69,6 +71,8 @@ public class LibraryFragment extends Fragment implements PlaylistCallback, Playl
             public void onClick(View v) {
                 //Intent intent = new Intent(getApplicationContext(), ArtistLibraryActivity.class);
                 //startActivity(intent);
+                fragmentCallback.onLibrarySelection(PlaylistDetailsFragment.getInstance()); // --->> cambiar fragment
+
             }
         });
         bCanciones.setOnClickListener(new View.OnClickListener() {
@@ -76,6 +80,7 @@ public class LibraryFragment extends Fragment implements PlaylistCallback, Playl
             public void onClick(View v) {
                 //Intent intent = new Intent(getApplicationContext(), TrackLibraryActivity.class);
                 //startActivity(intent);
+                fragmentCallback.onLibrarySelection(PlaylistDetailsFragment.getInstance()); // --->> cambiar fragment
             }
         });
         createPlayList.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +88,7 @@ public class LibraryFragment extends Fragment implements PlaylistCallback, Playl
             public void onClick(View v) {
                 //Intent intent = new Intent(getApplicationContext(), CreatePlaylistActivity.class);
                 //startActivity(intent);
+                fragmentCallback.onLibrarySelection(PlaylistDetailsFragment.getInstance()); // --->> cambiar fragment
             }
         });
         bPlaylist.setEnabled(false);
@@ -122,6 +128,8 @@ public class LibraryFragment extends Fragment implements PlaylistCallback, Playl
         /*Intent intent = new Intent(getApplicationContext(), PlaylistDetailsActivity.class);
         intent.putExtra("Playlist", playlist);
         startActivity(intent);*/
+        fragmentCallback.onPlaylistDetails(PlaylistDetailsFragment.getInstance(), playlist);
+
     }
 
     @Override
