@@ -1,7 +1,6 @@
 package vidal.sergi.sallefyv1.controller.activity;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -12,9 +11,6 @@ import androidx.fragment.app.FragmentTransaction;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -36,21 +32,6 @@ public class MainActivity extends FragmentActivity implements FragmentCallback {
 
     private BottomNavigationView mNav;
 
-//    protected MainActivity(Parcel in) {
-//    }
-//
-//    public static final Creator<MainActivity> CREATOR = new Creator<MainActivity>() {
-//        @Override
-//        public MainActivity createFromParcel(Parcel in) {
-//            return new MainActivity(in);
-//        }
-//
-//        @Override
-//        public MainActivity[] newArray(int size) {
-//            return new MainActivity[size];
-//        }
-//    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,29 +45,26 @@ public class MainActivity extends FragmentActivity implements FragmentCallback {
         mFragmentManager = getSupportFragmentManager();
         mTransaction = mFragmentManager.beginTransaction();
 
-        mNav = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        mNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                Fragment fragment = null;
-                switch (menuItem.getItemId()) {
-                    case R.id.action_home:
-                        fragment = HomeFragment.getInstance();
-                        break;
-                    case R.id.action_search:
-                        fragment = SearchFragment.getInstance();
-                        break;
-                    case R.id.action_library:
-                        fragment = LibraryFragment.getInstance();
-                        break;
-                    case R.id.action_profile:
-                        fragment = ProfileFragment.getInstance();
-                        break;
+        mNav = findViewById(R.id.bottom_navigation);
+        mNav.setOnNavigationItemSelectedListener(menuItem -> {
+            Fragment fragment = null;
+            switch (menuItem.getItemId()) {
+                case R.id.action_home:
+                    fragment = HomeFragment.getInstance();
+                    break;
+                case R.id.action_search:
+                    fragment = SearchFragment.getInstance();
+                    break;
+                case R.id.action_library:
+                    fragment = LibraryFragment.getInstance();
+                    break;
+                case R.id.action_profile:
+                    fragment = ProfileFragment.getInstance();
+                    break;
 
-                }
-                replaceFragment(fragment);
-                return true;
             }
+            replaceFragment(fragment);
+            return true;
         });
     }
 
@@ -163,16 +141,6 @@ public class MainActivity extends FragmentActivity implements FragmentCallback {
     public void onChangeFragment(Fragment fragment) {
         replaceFragment(fragment);
     }
-//
-//    @Override
-//    public int describeContents() {
-//        return 0;
-//    }
-//
-//    @Override
-//    public void writeToParcel(Parcel parcel, int i) {
-//    }
-
 
     @Override
     public void onPlaylistDetails(Fragment fragment, Playlist playlist) {
@@ -190,4 +158,7 @@ public class MainActivity extends FragmentActivity implements FragmentCallback {
         fragment.setArguments(bundle);
         replaceFragment(fragment);
     }
+
+    @Override
+    public void onRegisterFragment(Fragment Fragment) {}
 }

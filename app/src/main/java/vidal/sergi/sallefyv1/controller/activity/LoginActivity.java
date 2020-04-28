@@ -1,127 +1,89 @@
 package vidal.sergi.sallefyv1.controller.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.List;
-
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import vidal.sergi.sallefyv1.R;
+import vidal.sergi.sallefyv1.controller.callbacks.FragmentCallback;
+import vidal.sergi.sallefyv1.controller.fragments.LoginFragment;
+import vidal.sergi.sallefyv1.controller.fragments.RegisterFragment;
+import vidal.sergi.sallefyv1.model.Playlist;
 import vidal.sergi.sallefyv1.model.User;
-import vidal.sergi.sallefyv1.model.UserToken;
-import vidal.sergi.sallefyv1.restapi.callback.UserCallback;
-import vidal.sergi.sallefyv1.restapi.manager.UserManager;
-import vidal.sergi.sallefyv1.utils.PreferenceUtils;
-import vidal.sergi.sallefyv1.utils.Session;
 
+public class LoginActivity extends FragmentActivity implements FragmentCallback {
 
-public class LoginActivity extends AppCompatActivity implements UserCallback {
-
-    private EditText etLogin;
-    private EditText etPassword;
-    private Button btnLogin;
-    private TextView tvToRegister;
-
+    private FragmentManager mFragmentManager;
+    private FragmentTransaction mTransaction;
 
     @Override
     public void onCreate(Bundle savedInstanceSate) {
         super.onCreate(savedInstanceSate);
         setContentView(R.layout.activity_login);
         initViews();
-        checkSavedData();
+        setInitialFragment();
     }
 
-    private void initViews () {
+    public void initViews() {
+        mFragmentManager = getSupportFragmentManager();
+        mTransaction = mFragmentManager.beginTransaction();
+    }
 
-        etLogin = (EditText) findViewById(R.id.login_user);
-        etPassword = (EditText) findViewById(R.id.login_password);
-        tvToRegister = (TextView) findViewById(R.id.login_to_register);
-        tvToRegister.setOnClickListener(new View.OnClickListener() {
+    private void setInitialFragment() {
+        mTransaction.add(R.id.fragment_container_login, LoginFragment.getInstance());
+        mTransaction.commit();
+    }
 
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-                startActivity(intent);
+    private void replaceFragment(Fragment fragment) {
+        String fragmentTag = getFragmentTag(fragment);
+        Fragment currentFragment = mFragmentManager.findFragmentByTag(fragmentTag);
+        if (currentFragment != null) {
+            if (!currentFragment.isVisible()) {
+
+                if (fragment.getArguments() != null) {
+                    currentFragment.setArguments(fragment.getArguments());
+                }
+                mFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container_login, currentFragment, fragmentTag)
+                        .addToBackStack(null)
+                        .commit();
+
             }
-        });
-        btnLogin = (Button) findViewById(R.id.login_btn_action);
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                String login = etLogin.getText().toString();
-                doLogin(etLogin.getText().toString(), etPassword.getText().toString());
-            }
-        });
-    }
-
-    private void doLogin(String username, String userpassword) {
-        UserManager.getInstance(getApplicationContext())
-                .loginAttempt(username, userpassword, LoginActivity.this);
-    }
-    private void checkSavedData() {
-        if (checkExistingPreferences()) {
-            etLogin.setText(PreferenceUtils.getUser(this));
-            etPassword.setText(PreferenceUtils.getPassword(this));
+        } else {
+            mFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container_login, fragment, fragmentTag)
+                    .addToBackStack(null)
+                    .commit();
         }
     }
-    private boolean checkExistingPreferences () {
-        return PreferenceUtils.getUser(this) != null
-                && PreferenceUtils.getPassword(this) != null;
-    }
-    @Override
-    public void onLoginSuccess(UserToken userToken) {
-        Session.getInstance(getApplicationContext())
-                .setUserToken(userToken);
-        PreferenceUtils.saveUser(this, etLogin.getText().toString());
-        PreferenceUtils.savePassword(this, etPassword.getText().toString());
-        UserManager.getInstance(this).getUserData(etLogin.getText().toString(), this);
+
+    private String getFragmentTag(Fragment fragment) {
+        if (fragment instanceof LoginFragment) {
+            return LoginFragment.TAG;
+        } else {
+            return RegisterFragment.TAG;
+        }
     }
 
-
-    @Override
-    public void onLoginFailure(Throwable throwable) {
-        Toast.makeText(getApplicationContext(), "Login failed", Toast.LENGTH_LONG).show();
+    public void onChangeFragment(Fragment fragment) {
+        replaceFragment(fragment);
     }
 
+
     @Override
-    public void onRegisterSuccess() {
+    public void onPlaylistDetails(Fragment fragment, Playlist playlist) {
 
     }
 
     @Override
-    public void onRegisterFailure(Throwable throwable) {
+    public void onUsersDetails(Fragment fragment, User user) {
 
     }
 
     @Override
-    public void onUserInfoReceived(User userData) {
-        Session.getInstance(getApplicationContext())
-                .setUser(userData);
-        Intent intent= new Intent(this, MainActivity.class);
-        startActivity(intent);
+    public void onRegisterFragment(Fragment fragment) {
+        replaceFragment(fragment);
     }
-
-    @Override
-    public void onUsersReceived(List<User> users) {
-
-    }
-
-    @Override
-    public void onUsersFailure(Throwable throwable) {
-
-    }
-
-    @Override
-    public void onFailure(Throwable throwable) {
-
-    }
-
 }
 

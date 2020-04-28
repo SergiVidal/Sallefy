@@ -30,7 +30,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".controller.activity.GenreListActivity" />
-        <activity android:name=".controller.activity.RegisterActivity" />
         <activity android:name=".controller.activity.CreatePlaylistActivity" />
         <activity android:name=".controller.activity.ProfileActivity" />
         <activity android:name=".controller.activity.LibraryActivity" />
