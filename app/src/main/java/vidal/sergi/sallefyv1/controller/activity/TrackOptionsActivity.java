@@ -51,9 +51,9 @@ public class TrackOptionsActivity extends AppCompatActivity implements TrackList
         bArtist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), UserDetailsActivity.class);
-                intent.putExtra("User", track.getUser());
-                startActivity(intent);
+//                Intent intent = new Intent(getApplicationContext(), UserDetailsActivity.class);
+//                intent.putExtra("User", track.getUser());
+//                startActivity(intent);
             }
         });
         bAddSong = (ImageButton) findViewById(R.id.add_btn);
@@ -98,8 +98,8 @@ public class TrackOptionsActivity extends AppCompatActivity implements TrackList
             Intent intent;
             switch (menuItem.getItemId()) {
                 case R.id.action_home:
-                    intent = new Intent(getApplicationContext(), HomeActivity.class);
-                    startActivity(intent);
+//                    intent = new Intent(getApplicationContext(), HomeActivity.class);
+//                    startActivity(intent);
                     break;
                 case R.id.action_search:
                     intent = new Intent(getApplicationContext(), SearchActivity.class);

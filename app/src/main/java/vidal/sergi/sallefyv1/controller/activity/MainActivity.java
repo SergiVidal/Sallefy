@@ -25,6 +25,7 @@ import vidal.sergi.sallefyv1.controller.fragments.LibraryFragment;
 import vidal.sergi.sallefyv1.controller.fragments.ProfileFragment;
 import vidal.sergi.sallefyv1.controller.fragments.SearchFragment;
 import vidal.sergi.sallefyv1.model.Playlist;
+import vidal.sergi.sallefyv1.model.User;
 import vidal.sergi.sallefyv1.utils.Constants;
 import vidal.sergi.sallefyv1.utils.Session;
 
@@ -178,6 +179,14 @@ public class MainActivity extends FragmentActivity implements FragmentCallback {
 
         Bundle bundle = new Bundle();
         bundle.putSerializable("playlist", playlist);
+        fragment.setArguments(bundle);
+        replaceFragment(fragment);
+    }
+
+    @Override
+    public void onUsersDetails(Fragment fragment, User user) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("user", user);
         fragment.setArguments(bundle);
         replaceFragment(fragment);
     }

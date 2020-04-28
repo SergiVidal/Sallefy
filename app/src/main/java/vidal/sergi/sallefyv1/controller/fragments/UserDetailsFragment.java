@@ -1,22 +1,30 @@
-package vidal.sergi.sallefyv1.controller.activity;
+package vidal.sergi.sallefyv1.controller.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
 import vidal.sergi.sallefyv1.R;
 import vidal.sergi.sallefyv1.controller.adapters.PlaylistListAdapter;
-import vidal.sergi.sallefyv1.controller.callbacks.PlaylistAdapterCallback;
-import vidal.sergi.sallefyv1.model.Playlist;
 import vidal.sergi.sallefyv1.model.User;
 
-public class UserDetailsActivity extends AppCompatActivity implements PlaylistAdapterCallback {
+public class UserDetailsFragment extends Fragment {
+    public static final String TAG = UserDetailsFragment.class.getName();
+
+    public static UserDetailsFragment getInstance() {
+        return new UserDetailsFragment();
+    }
 
     private User user;
     private ImageView ivUserPhoto;
@@ -30,18 +38,38 @@ public class UserDetailsActivity extends AppCompatActivity implements PlaylistAd
     private PlaylistListAdapter mPlaylistAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_details);
-        user = (User) getIntent().getSerializableExtra("User");
-        System.out.println(user);
-        initViews();
     }
 
-    private void initViews() {
-        ivUserPhoto = findViewById(R.id.ivUserPhoto);
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_user_details, container, false);
+
+        user = (User) getArguments().getSerializable("user");
+        System.out.println(user);
+        initViews(v);
+        return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+
+
+
+    private void initViews(View v) {
+        ivUserPhoto = v.findViewById(R.id.ivUserPhoto);
         if (user.getImageUrl() != null && !user.getImageUrl().equals("")) {
-            Glide.with(getApplicationContext())
+            Glide.with(getContext())
                     .asBitmap()
                     .placeholder(R.drawable.ic_account_circle_black)
                     .load(user.getImageUrl())
@@ -54,31 +82,31 @@ public class UserDetailsActivity extends AppCompatActivity implements PlaylistAd
 //        mPlaylistsView.setLayoutManager(managerPlaylists);
 //        mPlaylistsView.setAdapter(mPlaylistAdapter);
 
-        tvUsername = findViewById(R.id.tvUsername);
+        tvUsername = v.findViewById(R.id.tvUsername);
         tvUsername.setText(user.getLogin());
 
-        tvNumFollowers = findViewById(R.id.tvNumFollowers);
+        tvNumFollowers = v.findViewById(R.id.tvNumFollowers);
         tvNumFollowers.setText(String.valueOf(user.getFollowers()));
 
-        tvNumFollowing = findViewById(R.id.tvNumFollowing);
+        tvNumFollowing = v.findViewById(R.id.tvNumFollowing);
         tvNumFollowing.setText(String.valueOf(user.getFollowing()));
 
-        tvNumPlaylist = findViewById(R.id.tvNumPlaylist);
+        tvNumPlaylist = v.findViewById(R.id.tvNumPlaylist);
         tvNumPlaylist.setText(String.valueOf(user.getPlaylists()));
 
         // TODO: Recyrcler View Playlist
 
-        tvNumTracks = findViewById(R.id.tvNumTracks);
+        tvNumTracks = v.findViewById(R.id.tvNumTracks);
         tvNumTracks.setText(String.valueOf(user.getTracks()));
 
         // TODO: Recyrcler View Tracks
 
     }
 
-    @Override
-    public void onPlaylistClick(Playlist playlist) {
-        Intent intent = new Intent(getApplicationContext(), PlaylistDetailsActivity.class);
-        intent.putExtra("Playlist", playlist);
-        startActivity(intent);
-    }
+//    @Override
+//    public void onPlaylistClick(Playlist playlist) {
+//        Intent intent = new Intent(getApplicationContext(), PlaylistDetailsActivity.class);
+//        intent.putExtra("Playlist", playlist);
+//        startActivity(intent);
+//    }
 }
