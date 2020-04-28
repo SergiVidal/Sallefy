@@ -1,11 +1,20 @@
 package vidal.sergi.sallefyv1.controller.activity;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -13,80 +22,38 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.ArrayList;
 import vidal.sergi.sallefyv1.R;
 import vidal.sergi.sallefyv1.controller.adapters.PlaylistListAdapter;
+import vidal.sergi.sallefyv1.controller.callbacks.FragmentCallback;
 import vidal.sergi.sallefyv1.controller.callbacks.PlaylistAdapterCallback;
 
 
+import vidal.sergi.sallefyv1.controller.fragments.HomeFragment;
+import vidal.sergi.sallefyv1.controller.fragments.LibraryFragment;
+import vidal.sergi.sallefyv1.controller.fragments.ProfileFragment;
+import vidal.sergi.sallefyv1.controller.fragments.SearchFragment;
 import vidal.sergi.sallefyv1.model.Playlist;
 
 
 import vidal.sergi.sallefyv1.restapi.callback.PlaylistCallback;
 import vidal.sergi.sallefyv1.restapi.manager.PlaylistManager;
+import vidal.sergi.sallefyv1.utils.Constants;
+import vidal.sergi.sallefyv1.utils.Session;
 
-public class LibraryActivity extends AppCompatActivity implements PlaylistCallback, PlaylistAdapterCallback {
+public class LibraryActivity extends FragmentActivity implements FragmentCallback {
+    private FragmentManager mFragmentManager;
+    private FragmentTransaction mTransaction;
+
     private BottomNavigationView mNav;
-    private RecyclerView mPlaylistsView;
-    private RecyclerView mFavPlaylistView;
-    private PlaylistListAdapter mPlaylistAdapter;
-    private PlaylistListAdapter mFavPlaylistAdapter;
-    private ArrayList<Playlist> mPlaylist;
-    private ArrayList<Playlist> mFavPlaylist;
-    private Button bPlaylist;
-    private Button bArtistas;
-    private Button bCanciones;
-    private Button createPlayList;
-    private int pos;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_library);
-        getData();
         initViews();
-        createPlayList = bArtistas= (Button)findViewById(R.id.create_playlist);
-        bPlaylist = (Button) findViewById(R.id.item_playlist_button);
-        bArtistas= (Button)findViewById(R.id.item_artistas_button);
-        bCanciones=  (Button)findViewById(R.id.item_canciones_button);
-        bArtistas.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ArtistLibraryActivity.class);
-                startActivity(intent);
-            }
-        });
-        bCanciones.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), TrackLibraryActivity.class);
-                startActivity(intent);
-            }
-        });
-        createPlayList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), CreatePlaylistActivity.class);
-                startActivity(intent);
-            }
-        });
-        bPlaylist.setEnabled(false);
-        bPlaylist.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.opacity));
-    }
-    @Override
-    public void onResume() {
-        super.onResume();
-        getData();
-
+        setInitialFragment();
+        requestPermissions();
     }
 
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-
-    private void getData() {
-        PlaylistManager.getInstance(getApplicationContext()).getOwnPlayList(this);
-        PlaylistManager.getInstance(getApplicationContext()).getFollowingPlayList(this);
-    }
 
 
     private void initViews() {
@@ -96,126 +63,121 @@ public class LibraryActivity extends AppCompatActivity implements PlaylistCallba
 //        mTracksView.setLayoutManager(managerTracks);
 //        mTracksView.setAdapter(mTracksAdapter);
 
-        LinearLayoutManager managerPlaylists = new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false);
-        mPlaylistAdapter = new PlaylistListAdapter(null, getApplicationContext(), this, R.layout.item_playlist_short);
+//        LinearLayoutManager managerPlaylists = new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false);
+//        mPlaylistAdapter = new PlaylistListAdapter(null, getApplicationContext(), this, R.layout.item_playlist_short);
+//
+//        mPlaylistsView = (RecyclerView) findViewById(R.id.search_playlists_recyclerview);
+//        mPlaylistsView.setLayoutManager(managerPlaylists);
+//        mPlaylistsView.setAdapter(mPlaylistAdapter);
+//
+//        LinearLayoutManager managerPlaylistsFav = new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false);
+//        mFavPlaylistAdapter = new PlaylistListAdapter(null, getApplicationContext(), this, R.layout.item_playlist_short);
+//        mFavPlaylistView = (RecyclerView) findViewById(R.id.fav_playlists_recyclerview);
+//        mFavPlaylistView.setLayoutManager(managerPlaylistsFav);
+//        mFavPlaylistView.setAdapter(mFavPlaylistAdapter);
+        mFragmentManager = getSupportFragmentManager();
+        mTransaction = mFragmentManager.beginTransaction();
+        mNav = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        mNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                Fragment fragment = null;
+                switch (menuItem.getItemId()) {
+                    case R.id.action_home:
+                        fragment = HomeFragment.getInstance();
+                        break;
+                    case R.id.action_search:
+                        fragment = SearchFragment.getInstance();
+                        break;
+                    case R.id.action_library:
+                        fragment = LibraryFragment.getInstance();
+                        break;
+                    case R.id.action_profile:
+                        fragment = ProfileFragment.getInstance();
+                        break;
 
-        mPlaylistsView = (RecyclerView) findViewById(R.id.search_playlists_recyclerview);
-        mPlaylistsView.setLayoutManager(managerPlaylists);
-        mPlaylistsView.setAdapter(mPlaylistAdapter);
-
-        LinearLayoutManager managerPlaylistsFav = new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false);
-        mFavPlaylistAdapter = new PlaylistListAdapter(null, getApplicationContext(), this, R.layout.item_playlist_short);
-        mFavPlaylistView = (RecyclerView) findViewById(R.id.fav_playlists_recyclerview);
-        mFavPlaylistView.setLayoutManager(managerPlaylistsFav);
-        mFavPlaylistView.setAdapter(mFavPlaylistAdapter);
-
-        mNav = findViewById(R.id.bottom_navigation);
-        mNav.setSelectedItemId(R.id.action_home);
-        mNav.setOnNavigationItemSelectedListener(menuItem -> {
-            Intent intent;
-            switch (menuItem.getItemId()) {
-                case R.id.action_home:
-//                    intent = new Intent(getApplicationContext(), HomeActivity.class);
-//                    startActivity(intent);
-                    break;
-                case R.id.action_search:
-                    intent = new Intent(getApplicationContext(), SearchActivity.class);
-                    startActivity(intent);
-                    break;
-//                case R.id.action_library:
-//                   intent = new Intent(getApplicationContext(), LibraryActivity.class);
-//                   startActivity(intent);
-//                   break;
-                case R.id.action_profile:
-                    intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                    startActivity(intent);
-                    break;
-
+                }
+                replaceFragment(fragment);
+                return true;
             }
-            return true;
         });
 
     }
+    private void setInitialFragment() {
+        mTransaction.add(R.id.fragment_container, HomeFragment.getInstance());
+        mTransaction.commit();
+    }
 
+    private void requestPermissions() {
+        if (ContextCompat.checkSelfPermission(getApplicationContext(),
+                Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
 
-    /**********************************************************************************************
-     *   *   *   *   *   *   *   *   PlaylistCallback   *   *   *   *   *   *   *   *   *
-     **********************************************************************************************/
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.RECORD_AUDIO,
+                            Manifest.permission.MODIFY_AUDIO_SETTINGS}, Constants.PERMISSIONS.MICROPHONE);
+
+        } else {
+            Session.getInstance(this).setAudioEnabled(true);
+        }
+    }
+    private void replaceFragment(Fragment fragment) {
+        String fragmentTag = getFragmentTag(fragment);
+        Fragment currentFragment = mFragmentManager.findFragmentByTag(fragmentTag);
+        if (currentFragment != null) {
+            if (!currentFragment.isVisible()) {
+
+                if (fragment.getArguments() != null) {
+                    currentFragment.setArguments(fragment.getArguments());
+                }
+                mFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, currentFragment, fragmentTag)
+                        .addToBackStack(null)
+                        .commit();
+
+            }
+        } else {
+            mFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, fragment, fragmentTag)
+                    .addToBackStack(null)
+                    .commit();
+        }
+    }
+    private String getFragmentTag(Fragment fragment) {
+        if (fragment instanceof HomeFragment) {
+            return HomeFragment.TAG;
+        } else {
+            if (fragment instanceof SearchFragment) {
+                return SearchFragment.TAG;
+            } else {
+                if (fragment instanceof LibraryFragment) {
+                    return LibraryFragment.TAG;
+                } else {
+                    return ProfileFragment.TAG;
+                }
+            }
+        }
+    }
     @Override
-    public void onCreatePlaylistSuccess(Playlist playlist) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        System.out.println(requestCode);
+        if (requestCode == Constants.PERMISSIONS.MICROPHONE) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Session.getInstance(this).setAudioEnabled(true);
+            }
+        }
+    }
+
+
+
+    @Override
+    public void onChangeFragment(Fragment fragment) {
 
     }
 
     @Override
-    public void onCreatePlaylistFailure(Throwable throwable) {
+    public void onPlaylistDetails(Fragment fragment, Playlist playlist) {
 
     }
-
-    @Override
-    public void onAddTrackToPlaylistSuccess(Playlist playlist) {
-
-    }
-
-    @Override
-    public void onAddTrackToPlaylistFailure(Throwable throwable) {
-
-    }
-
-    @Override
-    public void onGetPlaylistReceivedSuccess(Playlist playlist) {
-
-    }
-
-    @Override
-    public void onGetPlaylistReceivedFailure(Throwable throwable) {
-
-    }
-
-    @Override
-    public void onAllList(ArrayList<Playlist> playlists) {
-
-    }
-
-    @Override
-    public void onFollowingPlaylist(Playlist playlist) {
-
-    }
-
-    @Override
-    public void onIsFollowingPlaylist(Playlist playlist) {
-
-    }
-
-    @Override
-    public void onNoPlaylist(Throwable throwable) {
-
-    }
-
-    @Override
-    public void onPersonalPlaylistReceived(ArrayList<Playlist> p) {
-        mPlaylist = p;
-        mPlaylistAdapter = new PlaylistListAdapter(mPlaylist, getApplicationContext(), this, R.layout.item_playlist_short);
-        mPlaylistsView.setAdapter(mPlaylistAdapter);
-    }
-
-    @Override
-    public void getFollowingPlayList(ArrayList<Playlist> p) {
-        mFavPlaylist = p;
-        mFavPlaylistAdapter = new PlaylistListAdapter(mFavPlaylist, getApplicationContext(), this, R.layout.item_playlist_short);
-        mFavPlaylistView.setAdapter(mFavPlaylistAdapter);
-    }
-
-    @Override
-    public void onFailure(Throwable throwable) {
-
-    }
-
-    @Override
-    public void onPlaylistClick(Playlist playlist) {
-//        Intent intent = new Intent(getApplicationContext(), PlaylistDetailsActivity.class);
-//        intent.putExtra("Playlist", playlist);
-//        startActivity(intent);
-    }
-
-
 }
