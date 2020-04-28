@@ -85,5 +85,10 @@ public class LoginActivity extends FragmentActivity implements FragmentCallback 
     public void onRegisterFragment(Fragment fragment) {
         replaceFragment(fragment);
     }
+
+    @Override
+    public void onLibrarySelection(Fragment fragment) {
+
+    }
 }
 

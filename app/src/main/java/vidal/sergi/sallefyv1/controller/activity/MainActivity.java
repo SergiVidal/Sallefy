@@ -161,4 +161,9 @@ public class MainActivity extends FragmentActivity implements FragmentCallback {
 
     @Override
     public void onRegisterFragment(Fragment Fragment) {}
+
+    @Override
+    public void onLibrarySelection(Fragment fragment) {
+        
+    }
 }
