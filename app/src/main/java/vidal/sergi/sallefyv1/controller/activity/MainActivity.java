@@ -181,4 +181,9 @@ public class MainActivity extends FragmentActivity implements FragmentCallback {
         fragment.setArguments(bundle);
         replaceFragment(fragment);
     }
+
+    @Override
+    public void onLibrarySelection(Fragment fragment) {
+        replaceFragment(fragment);
+    }
 }

@@ -180,4 +180,9 @@ public class LibraryActivity extends FragmentActivity implements FragmentCallbac
     public void onPlaylistDetails(Fragment fragment, Playlist playlist) {
 
     }
+
+    @Override
+    public void onLibrarySelection(Fragment fragment) {
+        replaceFragment(fragment);
+    }
 }
