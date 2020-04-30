@@ -93,8 +93,8 @@ public class ArtistLibraryActivity extends AppCompatActivity implements UserCall
             Intent intent;
             switch (menuItem.getItemId()) {
                 case R.id.action_home:
-                    intent = new Intent(getApplicationContext(), HomeActivity.class);
-                    startActivity(intent);
+//                    intent = new Intent(getApplicationContext(), HomeActivity.class);
+//                    startActivity(intent);
                     break;
                 case R.id.action_search:
                     intent = new Intent(getApplicationContext(), SearchActivity.class);

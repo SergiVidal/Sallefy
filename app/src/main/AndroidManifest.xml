@@ -29,19 +29,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".controller.activity.HomeActivity" />
         <activity android:name=".controller.activity.GenreListActivity" />
-        <activity android:name=".controller.activity.RegisterActivity" />
         <activity android:name=".controller.activity.CreatePlaylistActivity" />
         <activity android:name=".controller.activity.ProfileActivity" />
         <activity android:name=".controller.activity.LibraryActivity" />
         <activity android:name=".controller.activity.SearchActivity" />
-        <activity android:name=".controller.activity.PlaylistDetailsActivity" />
         <activity android:name=".controller.activity.PlaySongActivity" />
         <activity android:name=".controller.activity.UploadActivity" />
         <activity android:name=".controller.activity.AddTrackToListActivity" />
         <activity android:name=".controller.activity.ArtistLibraryActivity" />
-        <activity android:name=".controller.activity.UserDetailsActivity" />
         <activity android:name=".controller.activity.TrackLibraryActivity" />
         <activity android:name=".controller.activity.TrackOptionsActivity" />
     </application>

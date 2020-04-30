@@ -105,5 +105,20 @@ public class UserRegister {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    @Override
+    public String toString() {
+        return "UserRegister{" +
+                "activated=" + activated +
+                ", email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", id=" + id +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", langKey='" + langKey + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }
 

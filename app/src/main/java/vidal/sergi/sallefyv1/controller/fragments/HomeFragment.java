@@ -21,8 +21,6 @@ import java.util.List;
 
 import vidal.sergi.sallefyv1.R;
 import vidal.sergi.sallefyv1.controller.activity.GenreListActivity;
-import vidal.sergi.sallefyv1.controller.activity.PlaylistDetailsActivity;
-import vidal.sergi.sallefyv1.controller.activity.UserDetailsActivity;
 import vidal.sergi.sallefyv1.controller.adapters.GenresAdapter;
 import vidal.sergi.sallefyv1.controller.adapters.PlaylistListAdapter;
 import vidal.sergi.sallefyv1.controller.adapters.UserAdapter;
@@ -58,31 +56,17 @@ public class HomeFragment extends Fragment implements UserCallback, PlaylistCall
     private RecyclerView mGenresView;
     private GenresAdapter mGenresAdapter;
 
-    private BottomNavigationView mNav;
     private FragmentCallback fragmentCallback;
-//
-//    public FragmentCallback getFragmentCallback() {
-//        return fragmentCallback;
-//    }
-//
-//    public void setFragmentCallback(FragmentCallback fragmentCallback) {
-//        this.fragmentCallback = fragmentCallback;
-//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_home);
-//        initViews();
-//        getData();
-//        System.out.println("onCreate");
-
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
-//        fragmentCallback = this.getArguments().getParcelable("callback");
         initViews(v);
         getData();
         return v;
@@ -91,8 +75,6 @@ public class HomeFragment extends Fragment implements UserCallback, PlaylistCall
     @Override
     public void onResume() {
         super.onResume();
-//        mPlaylistAdapter = new PlaylistListAdapter(null, getApplicationContext(), this, R.layout.item_playlist_short);
-//        mPlaylistsView.setAdapter(mPlaylistAdapter);
         getData();
     }
 
@@ -110,19 +92,19 @@ public class HomeFragment extends Fragment implements UserCallback, PlaylistCall
     private void initViews(View v) {
         LinearLayoutManager managerUsers = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
         mUserAdapter = new UserAdapter(null, getContext(), this);
-        mUsersView = (RecyclerView) v.findViewById(R.id.search_users_recyclerview);
+        mUsersView = v.findViewById(R.id.search_users_recyclerview);
         mUsersView.setLayoutManager(managerUsers);
         mUsersView.setAdapter(mUserAdapter);
 
         LinearLayoutManager managerPlaylists = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
         mPlaylistAdapter = new PlaylistListAdapter(null, getContext(), this, R.layout.item_playlist_short);
-        mPlaylistsView = (RecyclerView) v.findViewById(R.id.search_playlists_recyclerview);
+        mPlaylistsView = v.findViewById(R.id.search_playlists_recyclerview);
         mPlaylistsView.setLayoutManager(managerPlaylists);
         mPlaylistsView.setAdapter(mPlaylistAdapter);
 
         LinearLayoutManager managerGenres = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
-        mGenresAdapter = new GenresAdapter(null,getContext(), this, R.layout.item_genre);
-        mGenresView = (RecyclerView) v.findViewById(R.id.search_genres_recyclerview);
+        mGenresAdapter = new GenresAdapter(null, getContext(), this, R.layout.item_genre);
+        mGenresView = v.findViewById(R.id.search_genres_recyclerview);
         mGenresView.setLayoutManager(managerGenres);
         mGenresView.setAdapter(mGenresAdapter);
     }
@@ -207,22 +189,8 @@ public class HomeFragment extends Fragment implements UserCallback, PlaylistCall
 
     @Override
     public void onPlaylistClick(Playlist playlist) {
-//        Intent intent = new Intent(getContext(), PlaylistDetailsActivity.class);
-//        intent.putExtra("Playlist", playlist);
-//        startActivity(intent);
-
-//        fragmentCallback.onChangeFragment(PlaylistDetailsFragment.getInstance());
-//        (MainActivity) getActivity().initViews();
-
-            fragmentCallback.onPlaylistDetails(PlaylistDetailsFragment.getInstance(), playlist);
-        //startActivityForResult para recuperar
-        //
+        fragmentCallback.onPlaylistDetails(PlaylistDetailsFragment.getInstance(), playlist);
     }
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//    }
 
     /**********************************************************************************************
      *   *   *   *   *   *   *   *   UserCallback   *   *   *   *   *   *   *   *   *
@@ -266,9 +234,7 @@ public class HomeFragment extends Fragment implements UserCallback, PlaylistCall
 
     @Override
     public void onUserClick(User user) {
-        Intent intent = new Intent(getContext(), UserDetailsActivity.class);
-        intent.putExtra("User", user);
-        startActivity(intent);
+        fragmentCallback.onUsersDetails(UserDetailsFragment.getInstance(), user);
     }
 
     /**********************************************************************************************
@@ -277,8 +243,7 @@ public class HomeFragment extends Fragment implements UserCallback, PlaylistCall
 
     @Override
     public void onGenresReceive(ArrayList<Genre> genres) {
-        //ArrayList<Genre> genresString = (ArrayList<String>) genres.stream().map(Genre::getName).collect(Collectors.toList());
-        mGenresAdapter = new GenresAdapter(genres,getContext(), this, R.layout.item_genre);
+        mGenresAdapter = new GenresAdapter(genres, getContext(), this, R.layout.item_genre);
         mGenresView.setAdapter(mGenresAdapter);
     }
 
