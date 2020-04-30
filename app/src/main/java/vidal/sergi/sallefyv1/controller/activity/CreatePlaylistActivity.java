@@ -56,8 +56,8 @@ public class CreatePlaylistActivity extends AppCompatActivity implements Playlis
     public void onCreatePlaylistSuccess(Playlist playlist) {
         playlistList.add(playlist);
         Toast.makeText(getApplicationContext(), "onCreatePlaylist Success", Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(getApplicationContext(), LibraryActivity.class);
-        startActivity(intent);
+        /*Intent intent = new Intent(getApplicationContext(), LibraryActivity.class);
+        startActivity(intent);*/
 
     }
 

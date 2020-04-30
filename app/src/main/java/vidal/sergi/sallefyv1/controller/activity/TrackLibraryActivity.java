@@ -58,27 +58,27 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_track_library);
-        getData();
-        initViews();
+        /*getData();
+        initViews();*/
 
         bCanciones=  (Button)findViewById(R.id.item_canciones_button);
         bUsers = (Button)findViewById(R.id.item_artistas_button);
         bPlaylist =  (Button)findViewById(R.id.item_playlist_button);
         baddSong = (Button)findViewById(R.id.add_song);
-        bUsers.setOnClickListener(new View.OnClickListener() {
-            @Override
+       /* bUsers.setOnClickListener(new View.OnClickListener() {
+           /* @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ArtistLibraryActivity.class);
                 startActivity(intent);
             }
-        });
-        bPlaylist.setOnClickListener(new View.OnClickListener() {
+        });*/
+      /*  bPlaylist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), LibraryActivity.class);
                 startActivity(intent);
             }
-        });
+        });*/
         baddSong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,10 +130,10 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
 //                   intent = new Intent(getApplicationContext(), HomeActivity.class);
 //                    startActivity(intent);
                     break;
-                case R.id.action_search:
+                /*case R.id.action_search:
                     intent = new Intent(getApplicationContext(), SearchActivity.class);
                     startActivity(intent);
-                    break;
+                    break;*/
                 case R.id.action_profile:
                     intent = new Intent(getApplicationContext(), ProfileActivity.class);
                     startActivity(intent);

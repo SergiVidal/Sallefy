@@ -16,8 +16,6 @@ public interface FragmentCallback {
 
     void onRegisterFragment(Fragment fragment);
 
-    void onLibrarySelection(Fragment fragment);
-
     void onTrackSelection(Fragment fragment, Track track);
 
 

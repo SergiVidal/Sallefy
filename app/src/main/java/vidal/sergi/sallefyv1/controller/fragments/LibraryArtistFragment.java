@@ -1,8 +1,6 @@
 package vidal.sergi.sallefyv1.controller.fragments;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,16 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import vidal.sergi.sallefyv1.R;
-import vidal.sergi.sallefyv1.controller.activity.HomeActivity;
-import vidal.sergi.sallefyv1.controller.activity.LibraryActivity;
-import vidal.sergi.sallefyv1.controller.activity.ProfileActivity;
-import vidal.sergi.sallefyv1.controller.activity.SearchActivity;
-import vidal.sergi.sallefyv1.controller.activity.TrackLibraryActivity;
-import vidal.sergi.sallefyv1.controller.adapters.PlaylistListAdapter;
 import vidal.sergi.sallefyv1.controller.adapters.UserAdapter;
 import vidal.sergi.sallefyv1.controller.callbacks.FragmentCallback;
 import vidal.sergi.sallefyv1.controller.callbacks.UserAdapterCallback;
-import vidal.sergi.sallefyv1.model.Playlist;
 import vidal.sergi.sallefyv1.model.User;
 import vidal.sergi.sallefyv1.model.UserToken;
 import vidal.sergi.sallefyv1.restapi.callback.UserCallback;
@@ -70,13 +61,13 @@ public class LibraryArtistFragment extends Fragment implements UserAdapterCallba
         bPlaylist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragmentCallback.onLibrarySelection(LibraryFragment.getInstance()); // --->> cambiar fragment
+                fragmentCallback.onChangeFragment(LibraryFragment.getInstance()); // --->> cambiar fragment
             }
         });
         bCanciones.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragmentCallback.onLibrarySelection(PlaylistDetailsFragment.getInstance()); // --->> cambiar fragment
+                fragmentCallback.onChangeFragment(PlaylistDetailsFragment.getInstance()); // --->> cambiar fragment
             }
         });
         bArtistas.setEnabled(false);
@@ -116,7 +107,7 @@ public class LibraryArtistFragment extends Fragment implements UserAdapterCallba
 
     @Override
     public void onUserClick(User user) {
-
+        fragmentCallback.onUsersDetails(UserDetailsFragment.getInstance(), user);
     }
 
     @Override

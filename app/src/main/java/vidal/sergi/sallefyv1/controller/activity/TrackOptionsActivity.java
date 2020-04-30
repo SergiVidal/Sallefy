@@ -101,7 +101,7 @@ public class TrackOptionsActivity extends AppCompatActivity implements TrackList
 //                    intent = new Intent(getApplicationContext(), HomeActivity.class);
 //                    startActivity(intent);
                     break;
-                case R.id.action_search:
+                /*case R.id.action_search:
                     intent = new Intent(getApplicationContext(), SearchActivity.class);
                     startActivity(intent);
                     break;
@@ -112,7 +112,7 @@ public class TrackOptionsActivity extends AppCompatActivity implements TrackList
                 case R.id.action_profile:
                     intent = new Intent(getApplicationContext(), ProfileActivity.class);
                     startActivity(intent);
-                    break;
+                    break;*/
 
             }
             return true;

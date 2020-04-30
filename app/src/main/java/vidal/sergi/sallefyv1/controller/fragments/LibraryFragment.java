@@ -1,7 +1,7 @@
 package vidal.sergi.sallefyv1.controller.fragments;
 
 import android.content.Context;
-import android.content.Intent;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,21 +9,12 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
+import androidx.recyclerview.widget.RecyclerView;import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import java.util.ArrayList;
-
 import vidal.sergi.sallefyv1.R;
-import vidal.sergi.sallefyv1.controller.activity.ArtistLibraryActivity;
-import vidal.sergi.sallefyv1.controller.activity.CreatePlaylistActivity;
-import vidal.sergi.sallefyv1.controller.activity.TrackLibraryActivity;
 import vidal.sergi.sallefyv1.controller.adapters.PlaylistListAdapter;
 import vidal.sergi.sallefyv1.controller.callbacks.FragmentCallback;
 import vidal.sergi.sallefyv1.controller.callbacks.PlaylistAdapterCallback;
@@ -71,19 +62,19 @@ public class LibraryFragment extends Fragment implements PlaylistCallback, Playl
         bArtistas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragmentCallback.onLibrarySelection(LibraryArtistFragment.getInstance()); // --->> cambiar fragment
+                fragmentCallback.onChangeFragment(LibraryArtistFragment.getInstance());
             }
         });
         bCanciones.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragmentCallback.onLibrarySelection(PlaylistDetailsFragment.getInstance()); // --->> cambiar fragment
+                fragmentCallback.onChangeFragment(LibraryArtistFragment.getInstance()); // --->> cambiar fragment
             }
         });
         createPlayList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragmentCallback.onLibrarySelection(PlaylistDetailsFragment.getInstance()); // --->> cambiar fragment
+                fragmentCallback.onChangeFragment(LibraryArtistFragment.getInstance()); // --->> cambiar fragment
             }
         });
         bPlaylist.setEnabled(false);

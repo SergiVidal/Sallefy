@@ -30,14 +30,14 @@ public class ProfileActivity extends AppCompatActivity {
 //                    intent = new Intent(getApplicationContext(), HomeActivity.class);
 //                    startActivity(intent);
                     break;
-                case R.id.action_search:
+                /*case R.id.action_search:
                     intent = new Intent(getApplicationContext(), SearchActivity.class);
                     startActivity(intent);
                     break;
                 case R.id.action_library:
                     intent = new Intent(getApplicationContext(), LibraryActivity.class);
                     startActivity(intent);
-                    break;
+                    break;*/
 //                case R.id.action_profile:
 //                    intent = new Intent(getApplicationContext(), ProfileActivity.class);
 //                    startActivity(intent);
