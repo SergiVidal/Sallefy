@@ -23,8 +23,8 @@
         android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
         android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
@@ -128,9 +128,11 @@
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/search_users_recyclerview"
+            android:id="@+id/user_playlist_recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            />
 
 
         <LinearLayout
@@ -156,8 +158,12 @@
                 android:textAlignment="center" />
         </LinearLayout>
 
-        <!--        TODO: AQUI IRA RECYRCLER VIEW TRACKS -->
-
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/user_track_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            />
 
     </LinearLayout>
 

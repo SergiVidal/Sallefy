@@ -3,6 +3,7 @@ package vidal.sergi.sallefyv1.restapi.manager;
 import android.content.Context;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -12,10 +13,13 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import vidal.sergi.sallefyv1.model.Playlist;
+import vidal.sergi.sallefyv1.model.Track;
 import vidal.sergi.sallefyv1.model.User;
 import vidal.sergi.sallefyv1.model.UserLogin;
 import vidal.sergi.sallefyv1.model.UserRegister;
 import vidal.sergi.sallefyv1.model.UserToken;
+import vidal.sergi.sallefyv1.restapi.callback.PlaylistCallback;
+import vidal.sergi.sallefyv1.restapi.callback.TrackCallback;
 import vidal.sergi.sallefyv1.restapi.callback.UserCallback;
 import vidal.sergi.sallefyv1.restapi.service.UserService;
 import vidal.sergi.sallefyv1.restapi.service.UserTokenService;
@@ -174,5 +178,53 @@ public class UserManager {
 
     /********************   GETTERS / SETTERS    ********************/
 
+    public synchronized void getUserTracks(String login, final TrackCallback trackCallback) {
+        UserToken userToken = Session.getInstance(mContext).getUserToken();
 
+        Call<List<Track>> call = mService.getUserTracks(login, "Bearer " + userToken.getIdToken());
+        call.enqueue(new Callback<List<Track>>() {
+            @Override
+            public void onResponse(Call<List<Track>> call, Response<List<Track>> response) {
+                int code = response.code();
+
+                if (response.isSuccessful()) {
+                    trackCallback.onUserTracksReceived(response.body());
+                } else {
+                    Log.d(TAG, "Error Not Successful: " + code);
+                    trackCallback.onNoTracks(new Throwable("ERROR " + code + ", " + response.raw().message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Track>> call, Throwable t) {
+                Log.d(TAG, "Error Failure: " + t.getStackTrace());
+                trackCallback.onFailure(new Throwable("ERROR " + t.getStackTrace()));
+            }
+        });
+    }
+
+    public synchronized void getUserPlaylists(String login, final PlaylistCallback playlistCallback) {
+        UserToken userToken = Session.getInstance(mContext).getUserToken();
+
+        Call<List<Playlist>> call = mService.getUserPlaylists(login, "Bearer " + userToken.getIdToken());
+        call.enqueue(new Callback<List<Playlist>>() {
+            @Override
+            public void onResponse(Call<List<Playlist>> call, Response<List<Playlist>> response) {
+                int code = response.code();
+
+                if (response.isSuccessful()) {
+                    playlistCallback.onAllList((ArrayList<Playlist>) response.body());
+                } else {
+                    Log.d(TAG, "Error Not Successful: " + code);
+                    playlistCallback.onNoPlaylist(new Throwable("ERROR " + code + ", " + response.raw().message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Playlist>> call, Throwable t) {
+                playlistCallback.onFailure(t);
+            }
+
+        });
+    }
 }

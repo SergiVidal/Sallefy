@@ -20,9 +20,6 @@ public interface TrackService {
     @GET("me/tracks")
     Call<List<Track>> getOwnTracks(@Header("Authorization") String token);
 
-    @GET("users/{login}/tracks")
-    Call<List<Track>> getUserTracks(@Path("login") String login, @Header("Authorization") String token);
-
     @PUT("tracks/{id}/like")
     Call<Track> addLikeTrack(@Header("Authorization") String token, @Path("id") long id);
 
