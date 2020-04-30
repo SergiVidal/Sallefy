@@ -83,13 +83,6 @@ public class LoginActivity extends FragmentActivity implements FragmentCallback 
     }
 
     @Override
-    public void onRegisterFragment(Fragment fragment) {
-        replaceFragment(fragment);
-    }
-
-
-
-    @Override
     public void onTrackSelection(Fragment fragment, Track track) {
 
     }
