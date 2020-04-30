@@ -127,8 +127,8 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
             Intent intent;
             switch (menuItem.getItemId()) {
                case R.id.action_home:
-                   intent = new Intent(getApplicationContext(), HomeActivity.class);
-                    startActivity(intent);
+//                   intent = new Intent(getApplicationContext(), HomeActivity.class);
+//                    startActivity(intent);
                     break;
                 case R.id.action_search:
                     intent = new Intent(getApplicationContext(), SearchActivity.class);

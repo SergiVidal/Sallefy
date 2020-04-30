@@ -1,14 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".controller.fragments.SearchFragment">
+    android:background="@color/colorPrimary"
+    tools:context=".controller.activity.HomeActivity">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.scwang.wave.MultiWaveHeader
+        android:id="@+id/multiWaveHeader2"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:rotation="-20"
+        android:scaleX="2"
+        android:scaleY="1.7"
+        app:layout_constraintTop_toTopOf="parent"
+        app:mwhCloseColor="@color/colorSecondary"
+        app:mwhStartColor="@color/colorPrimary" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/search_button"
+            android:textColor="@color/colorWhite"
+            android:textSize="50sp" />
+
+        <TextView
+            style="@style/settings_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/search_bar" />
+
+        <EditText
+            android:id="@+id/keyword"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/login_edit_text"
+            android:ems="10" />
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/item_genre_btn">
+
+                <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/radioGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton android:id="@+id/songs_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/song_check"
+                        android:textColor="@color/colorWhite"
+                        android:checked="true" />
+                    <RadioButton android:id="@+id/playlist_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/playlist_check"
+                        android:textColor="@color/colorWhite" />
+                    <RadioButton android:id="@+id/users_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/user_check"
+                        android:textColor="@color/colorWhite" />
+                </RadioGroup>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/search_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/login_btn"
+            android:fontFamily="@font/gotham_bold"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:text="@string/search"
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="10dp"
+            android:id="@+id/rvTracks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/search_playlists_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/search_users_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -107,8 +107,8 @@ public class SearchActivity extends AppCompatActivity implements UserCallback, S
             Intent intent;
             switch (menuItem.getItemId()) {
                 case R.id.action_home:
-                    intent = new Intent(getApplicationContext(), HomeActivity.class);
-                    startActivity(intent);
+//                    intent = new Intent(getApplicationContext(), HomeActivity.class);
+//                    startActivity(intent);
                     break;
 //                case R.id.action_search:
 //                    intent = new Intent(getApplicationContext(), SearchActivity.class);
@@ -253,16 +253,16 @@ public class SearchActivity extends AppCompatActivity implements UserCallback, S
 
     @Override
     public void onPlaylistClick(Playlist playlist) {
-        Intent intent = new Intent(getApplicationContext(), PlaylistDetailsActivity.class);
-        intent.putExtra("Playlist", playlist);
-        startActivity(intent);
+//        Intent intent = new Intent(getApplicationContext(), PlaylistDetailsActivity.class);
+//        intent.putExtra("Playlist", playlist);
+//        startActivity(intent);
     }
 
     @Override
     public void onUserClick(User user) {
-        Intent intent = new Intent(getApplicationContext(), UserDetailsActivity.class);
-        intent.putExtra("User", user);
-        startActivity(intent);
+//        Intent intent = new Intent(getApplicationContext(), UserDetailsActivity.class);
+//        intent.putExtra("User", user);
+//        startActivity(intent);
     }
 
     @Override

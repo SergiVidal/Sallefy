@@ -33,6 +33,7 @@ import vidal.sergi.sallefyv1.controller.fragments.SearchFragment;
 import vidal.sergi.sallefyv1.model.Playlist;
 
 
+import vidal.sergi.sallefyv1.model.User;
 import vidal.sergi.sallefyv1.restapi.callback.PlaylistCallback;
 import vidal.sergi.sallefyv1.restapi.manager.PlaylistManager;
 import vidal.sergi.sallefyv1.utils.Constants;
@@ -182,7 +183,17 @@ public class LibraryActivity extends FragmentActivity implements FragmentCallbac
     }
 
     @Override
+    public void onUsersDetails(Fragment fragment, User user) {
+
+    }
+
+    @Override
+    public void onRegisterFragment(Fragment fragment) {
+
+    }
+
+    @Override
     public void onLibrarySelection(Fragment fragment) {
-        replaceFragment(fragment);
+
     }
 }
