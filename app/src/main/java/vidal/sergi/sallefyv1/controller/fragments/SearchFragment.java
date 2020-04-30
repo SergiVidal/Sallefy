@@ -1,5 +1,6 @@
 package vidal.sergi.sallefyv1.controller.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -23,16 +24,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import vidal.sergi.sallefyv1.R;
-import vidal.sergi.sallefyv1.controller.activity.HomeActivity;
-import vidal.sergi.sallefyv1.controller.activity.LibraryActivity;
-import vidal.sergi.sallefyv1.controller.activity.PlaySongActivity;
-import vidal.sergi.sallefyv1.controller.activity.PlaylistDetailsActivity;
-import vidal.sergi.sallefyv1.controller.activity.ProfileActivity;
-import vidal.sergi.sallefyv1.controller.activity.TrackOptionsActivity;
-import vidal.sergi.sallefyv1.controller.activity.UserDetailsActivity;
 import vidal.sergi.sallefyv1.controller.adapters.PlaylistListAdapter;
 import vidal.sergi.sallefyv1.controller.adapters.TrackListAdapter;
 import vidal.sergi.sallefyv1.controller.adapters.UserAdapter;
+import vidal.sergi.sallefyv1.controller.callbacks.FragmentCallback;
 import vidal.sergi.sallefyv1.controller.callbacks.PlaylistAdapterCallback;
 import vidal.sergi.sallefyv1.controller.callbacks.TrackListCallback;
 import vidal.sergi.sallefyv1.controller.callbacks.UserAdapterCallback;
@@ -50,11 +45,14 @@ import vidal.sergi.sallefyv1.restapi.manager.TrackManager;
 import vidal.sergi.sallefyv1.utils.Session;
 
 public class SearchFragment extends Fragment implements UserCallback, SearchCallback, TrackListCallback, PlaylistCallback, UserAdapterCallback, PlaylistAdapterCallback, TrackCallback {
+
     private List<Playlist> playlistList;
     private ArrayList<Track> tracks;
     private Playlist p;
     private EditText etKeyword;
     private int checkboxid = 0;
+    private FragmentCallback fragmentCallback;
+
     private RecyclerView mRecyclerView;
 
     private RecyclerView mUsersView;
@@ -76,7 +74,6 @@ public class SearchFragment extends Fragment implements UserCallback, SearchCall
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Nullable
@@ -84,7 +81,6 @@ public class SearchFragment extends Fragment implements UserCallback, SearchCall
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_search, container, false);
         tracks = new ArrayList<>();
-//        getData();
         playlistList = Session.getInstance(getContext()).getPlaylistList();
         initViews(v);
         return v;
@@ -94,16 +90,17 @@ public class SearchFragment extends Fragment implements UserCallback, SearchCall
     @Override
     public void onResume() {
         super.onResume();
-//        getData();
-        //SearchManager.getInstance(getContext()).getSearch(etKeyword.getText().toString(),this);
-
     }
 
     @Override
     public void onPause() {
         super.onPause();
     }
-
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        fragmentCallback = (FragmentCallback) context;
+    }
     private void initViews(View view) {
 
 
@@ -154,10 +151,7 @@ public class SearchFragment extends Fragment implements UserCallback, SearchCall
 
 
     }
-    public void onRadioButtonClicked(View view) {
-        // Is the button now checked?
 
-    }
 
     private void isLikedTrack(Track track){
         search.getTracks().get(pos).setLiked(track.isLiked());
@@ -236,9 +230,7 @@ public class SearchFragment extends Fragment implements UserCallback, SearchCall
 
     @Override
     public void onTrackSelected(int index) {
-//        Intent intent = new Intent(getApplicationContext(), PlaySongActivity.class);
-//        intent.putExtra("track", search.getTracks().get(index));
-//        startActivity(intent);
+        fragmentCallback.onTrackSelection(PlayerFragment.getInstance(), search.getTracks().get(index));
     }
 
     @Override
@@ -262,16 +254,12 @@ public class SearchFragment extends Fragment implements UserCallback, SearchCall
 
     @Override
     public void onPlaylistClick(Playlist playlist) {
-//        Intent intent = new Intent(getApplicationContext(), PlaylistDetailsActivity.class);
-//        intent.putExtra("Playlist", playlist);
-//        startActivity(intent);
+        fragmentCallback.onPlaylistDetails(PlaylistDetailsFragment.getInstance(), playlist);
     }
 
     @Override
     public void onUserClick(User user) {
-//        Intent intent = new Intent(getApplicationContext(), UserDetailsActivity.class);
-//        intent.putExtra("User", user);
-//        startActivity(intent);
+        fragmentCallback.onUsersDetails(UserDetailsFragment.getInstance(), user);
     }
 
     @Override
