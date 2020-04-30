@@ -2,6 +2,7 @@ package vidal.sergi.sallefyv1.controller.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -275,5 +276,10 @@ public class HomeActivity extends AppCompatActivity implements UserCallback, Pla
         Intent intent = new Intent(getApplicationContext(), GenreListActivity.class);
         intent.putExtra("Genre", genre);
         startActivity(intent);
+    }
+
+    public void onRadioButtonClicked(View view) {
+        System.out.println("Se ha clickado");
+
     }
 }
