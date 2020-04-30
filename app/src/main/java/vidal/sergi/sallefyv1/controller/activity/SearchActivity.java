@@ -265,6 +265,7 @@ public class SearchActivity extends AppCompatActivity implements UserCallback, S
 //        startActivity(intent);
     }
 
+
     @Override
     public void onCreatePlaylistSuccess(Playlist playlist) {
 

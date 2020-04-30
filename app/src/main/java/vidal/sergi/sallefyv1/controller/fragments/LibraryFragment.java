@@ -1,5 +1,6 @@
 package vidal.sergi.sallefyv1.controller.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -51,6 +52,7 @@ public class LibraryFragment extends Fragment implements PlaylistCallback, Playl
 
 
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,30 +71,23 @@ public class LibraryFragment extends Fragment implements PlaylistCallback, Playl
         bArtistas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent intent = new Intent(getApplicationContext(), ArtistLibraryActivity.class);
-                //startActivity(intent);
-                fragmentCallback.onLibrarySelection(PlaylistDetailsFragment.getInstance()); // --->> cambiar fragment
-
+                fragmentCallback.onLibrarySelection(LibraryArtistFragment.getInstance()); // --->> cambiar fragment
             }
         });
         bCanciones.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent intent = new Intent(getApplicationContext(), TrackLibraryActivity.class);
-                //startActivity(intent);
                 fragmentCallback.onLibrarySelection(PlaylistDetailsFragment.getInstance()); // --->> cambiar fragment
             }
         });
         createPlayList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent intent = new Intent(getApplicationContext(), CreatePlaylistActivity.class);
-                //startActivity(intent);
                 fragmentCallback.onLibrarySelection(PlaylistDetailsFragment.getInstance()); // --->> cambiar fragment
             }
         });
         bPlaylist.setEnabled(false);
-        bPlaylist.setTextColor(ContextCompat.getColor(getContext(), R.color.opacity));
+        bPlaylist.setTextColor(ContextCompat.getColor(getActivity(), R.color.opacity));
         return v;
     }
     private void initViews(View v) {
@@ -114,8 +109,15 @@ public class LibraryFragment extends Fragment implements PlaylistCallback, Playl
         PlaylistManager.getInstance(getContext()).getFollowingPlayList(this);
     }
     @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        fragmentCallback = (FragmentCallback) context;
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
+        getData();
     }
 
     @Override
@@ -123,12 +125,14 @@ public class LibraryFragment extends Fragment implements PlaylistCallback, Playl
         super.onPause();
     }
 
+
     @Override
     public void onPlaylistClick(Playlist playlist) {
         /*Intent intent = new Intent(getApplicationContext(), PlaylistDetailsActivity.class);
         intent.putExtra("Playlist", playlist);
         startActivity(intent);*/
         fragmentCallback.onPlaylistDetails(PlaylistDetailsFragment.getInstance(), playlist);
+
 
     }
 
