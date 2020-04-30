@@ -14,9 +14,5 @@ public interface FragmentCallback {
 
     void onUsersDetails(Fragment fragment, User user);
 
-    void onRegisterFragment(Fragment fragment);
-
     void onTrackSelection(Fragment fragment, Track track);
-
-
 }

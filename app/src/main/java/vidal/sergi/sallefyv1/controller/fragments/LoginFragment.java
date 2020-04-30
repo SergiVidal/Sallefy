@@ -79,7 +79,7 @@ public class LoginFragment extends Fragment implements UserCallback {
         etPassword = v.findViewById(R.id.login_password);
 
         tvToRegister = v.findViewById(R.id.login_to_register);
-        tvToRegister.setOnClickListener(v12 -> fragmentCallback.onRegisterFragment(RegisterFragment.getInstance()));
+        tvToRegister.setOnClickListener(v12 -> fragmentCallback.onChangeFragment(RegisterFragment.getInstance()));
 
         btnLogin = v.findViewById(R.id.login_btn_action);
         btnLogin.setOnClickListener(v1 -> doLogin(etLogin.getText().toString(), etPassword.getText().toString()));
