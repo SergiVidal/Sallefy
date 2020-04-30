@@ -1,35 +1,59 @@
-package vidal.sergi.sallefyv1.controller.activity;
-
+package vidal.sergi.sallefyv1.controller.fragments;
 
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import vidal.sergi.sallefyv1.R;
+import vidal.sergi.sallefyv1.controller.adapters.PlaylistListAdapter;
+import vidal.sergi.sallefyv1.controller.adapters.TrackListAdapter;
+import vidal.sergi.sallefyv1.controller.adapters.UserAdapter;
+import vidal.sergi.sallefyv1.controller.callbacks.FragmentCallback;
+import vidal.sergi.sallefyv1.controller.callbacks.PlaylistAdapterCallback;
+import vidal.sergi.sallefyv1.controller.callbacks.TrackListCallback;
+import vidal.sergi.sallefyv1.controller.callbacks.UserAdapterCallback;
 import vidal.sergi.sallefyv1.controller.dialogs.StateDialog;
 import vidal.sergi.sallefyv1.model.Genre;
+import vidal.sergi.sallefyv1.model.Playlist;
+import vidal.sergi.sallefyv1.model.Search;
 import vidal.sergi.sallefyv1.model.Track;
+import vidal.sergi.sallefyv1.model.User;
+import vidal.sergi.sallefyv1.model.UserToken;
 import vidal.sergi.sallefyv1.restapi.callback.GenreCallback;
+import vidal.sergi.sallefyv1.restapi.callback.PlaylistCallback;
+import vidal.sergi.sallefyv1.restapi.callback.SearchCallback;
 import vidal.sergi.sallefyv1.restapi.callback.TrackCallback;
+import vidal.sergi.sallefyv1.restapi.callback.UserCallback;
 import vidal.sergi.sallefyv1.restapi.manager.CloudinaryManager;
 import vidal.sergi.sallefyv1.restapi.manager.GenreManager;
+import vidal.sergi.sallefyv1.restapi.manager.SearchManager;
+import vidal.sergi.sallefyv1.restapi.manager.TrackManager;
 import vidal.sergi.sallefyv1.utils.Constants;
+import vidal.sergi.sallefyv1.utils.Session;
 
-public class UploadActivity extends AppCompatActivity implements GenreCallback, TrackCallback {
+import static android.app.Activity.RESULT_OK;
+
+public class UploadFragment extends Fragment implements GenreCallback, TrackCallback {
 
     private EditText etTitle;
     private Spinner mSpinner;
@@ -40,25 +64,43 @@ public class UploadActivity extends AppCompatActivity implements GenreCallback, 
     private ArrayList<Genre> mGenresObjs;
     private Uri mFileUri;
 
+    private FragmentCallback fragmentCallback;
+
     private Context mContext;
+
+    public static UploadFragment getInstance() {
+        return new UploadFragment();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getData();
+        View v = inflater.inflate(R.layout.fragment_create_song, container, false);
+        initViews(v);
+        return v;
+
+    }
 
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_song);
-        mContext = getApplicationContext();
-        initViews();
-        getData();
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        fragmentCallback = (FragmentCallback) context;
     }
+    private void initViews(View v) {
+        etTitle = (EditText) v.findViewById(R.id.create_song_title);
+        mFilename = (TextView) v.findViewById(R.id.create_song_file_name);
 
-    private void initViews() {
-        etTitle = (EditText) findViewById(R.id.create_song_title);
-        mFilename = (TextView) findViewById(R.id.create_song_file_name);
+        mSpinner = (Spinner) v.findViewById(R.id.create_song_genre);
 
-        mSpinner = (Spinner) findViewById(R.id.create_song_genre);
-
-        btnFind = (Button) findViewById(R.id.create_song_file);
+        btnFind = (Button) v.findViewById(R.id.create_song_file);
         btnFind.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,15 +108,7 @@ public class UploadActivity extends AppCompatActivity implements GenreCallback, 
             }
         });
 
-        btnCancel = (Button) findViewById(R.id.create_song_cancel);
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        btnAccept = (Button) findViewById(R.id.create_song_accept);
+        btnAccept = (Button) v.findViewById(R.id.create_song_accept);
         btnAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,7 +123,7 @@ public class UploadActivity extends AppCompatActivity implements GenreCallback, 
     }
 
     private void getData() {
-        GenreManager.getInstance(this).getAllGenres(this);
+        GenreManager.getInstance(getContext()).getAllGenres(this);
     }
 
     private boolean checkParameters() {
@@ -102,7 +136,7 @@ public class UploadActivity extends AppCompatActivity implements GenreCallback, 
     }
 
     private void showStateDialog(boolean completed) {
-        StateDialog.getInstance(this).showStateDialog(completed);
+        StateDialog.getInstance(getContext()).showStateDialog(completed);
     }
 
     private void getAudioFromStorage() {
@@ -119,11 +153,11 @@ public class UploadActivity extends AppCompatActivity implements GenreCallback, 
                 genre = g;
             }
         }
-        CloudinaryManager.getInstance(this, this).uploadAudioFile(mFileUri, etTitle.getText().toString(), genre);
+        CloudinaryManager.getInstance(getContext(), this).uploadAudioFile(mFileUri, etTitle.getText().toString(), genre);
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.STORAGE.SONG_SELECTED && resultCode == RESULT_OK) {
             mFileUri = data.getData();
@@ -132,12 +166,12 @@ public class UploadActivity extends AppCompatActivity implements GenreCallback, 
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
     }
 
@@ -149,7 +183,7 @@ public class UploadActivity extends AppCompatActivity implements GenreCallback, 
     public void onGenresReceive(ArrayList<Genre> genres) {
         mGenresObjs = genres;
         mGenres = (ArrayList<String>) genres.stream().map(Genre -> Genre.getName()).collect(Collectors.toList());
-        ArrayAdapter<String> adapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, mGenres);
+        ArrayAdapter<String> adapter = new ArrayAdapter(getContext(), R.layout.support_simple_spinner_dropdown_item, mGenres);
         mSpinner.setAdapter(adapter);
     }
 
@@ -199,13 +233,12 @@ public class UploadActivity extends AppCompatActivity implements GenreCallback, 
 
     @Override
     public void onCreateTrack() {
-        StateDialog.getInstance(this).showStateDialog(true);
+        StateDialog.getInstance(getContext()).showStateDialog(true);
         Thread watchDialog = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     while (StateDialog.getInstance(mContext).isDialogShown()){}
-                    finish();
                 } catch (Exception e) {
                 }
             }
