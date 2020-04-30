@@ -82,8 +82,8 @@ public class TrackLibraryActivity extends AppCompatActivity implements TrackList
         baddSong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), UploadActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(getApplicationContext(), UploadActivity.class);
+//                startActivity(intent);
             }
         });
         bCanciones.setEnabled(false);

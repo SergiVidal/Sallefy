@@ -89,7 +89,7 @@ public class PlayerFragment extends Fragment  {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.activity_play_song, container, false);
+        View v = inflater.inflate(R.layout.fragment_play_song, container, false);
         super.onCreate(savedInstanceState);
         track = (Track) getArguments().getSerializable("track");
         url = track.getUrl();
