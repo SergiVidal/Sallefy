@@ -17,9 +17,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import vidal.sergi.sallefyv1.R;
 import vidal.sergi.sallefyv1.controller.callbacks.FragmentCallback;
 import vidal.sergi.sallefyv1.controller.fragments.HomeFragment;
+import vidal.sergi.sallefyv1.controller.fragments.LibraryArtistFragment;
 import vidal.sergi.sallefyv1.controller.fragments.LibraryFragment;
+import vidal.sergi.sallefyv1.controller.fragments.PlaylistDetailsFragment;
 import vidal.sergi.sallefyv1.controller.fragments.ProfileFragment;
 import vidal.sergi.sallefyv1.controller.fragments.SearchFragment;
+import vidal.sergi.sallefyv1.controller.fragments.UserDetailsFragment;
 import vidal.sergi.sallefyv1.model.Playlist;
 import vidal.sergi.sallefyv1.model.Track;
 import vidal.sergi.sallefyv1.model.User;
@@ -113,17 +116,21 @@ public class MainActivity extends FragmentActivity implements FragmentCallback {
     private String getFragmentTag(Fragment fragment) {
         if (fragment instanceof HomeFragment) {
             return HomeFragment.TAG;
-        } else {
-            if (fragment instanceof SearchFragment) {
-                return SearchFragment.TAG;
-            } else {
-                if (fragment instanceof LibraryFragment) {
-                    return LibraryFragment.TAG;
-                } else {
-                    return ProfileFragment.TAG;
-                }
-            }
+        } else if (fragment instanceof SearchFragment) {
+            return SearchFragment.TAG;
+        } else if (fragment instanceof LibraryFragment) {
+            return LibraryFragment.TAG;
+        } else if (fragment instanceof ProfileFragment) {
+            return ProfileFragment.TAG;
+        } else if(fragment instanceof PlaylistDetailsFragment){
+            return PlaylistDetailsFragment.TAG;
+        }else if(fragment instanceof UserDetailsFragment){
+            return UserDetailsFragment.TAG;
+        }else if(fragment instanceof LibraryArtistFragment){
+            return LibraryArtistFragment.TAG;
         }
+
+        return "";
     }
 
     @Override
