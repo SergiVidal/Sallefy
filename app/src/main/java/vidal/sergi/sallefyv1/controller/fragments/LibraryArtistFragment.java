@@ -67,7 +67,7 @@ public class LibraryArtistFragment extends Fragment implements UserAdapterCallba
         bCanciones.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragmentCallback.onChangeFragment(PlaylistDetailsFragment.getInstance()); // --->> cambiar fragment
+                fragmentCallback.onChangeFragment(LibraryTrackFragment.getInstance()); // --->> cambiar fragment
             }
         });
         bArtistas.setEnabled(false);

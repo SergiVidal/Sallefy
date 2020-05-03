@@ -19,6 +19,7 @@ import vidal.sergi.sallefyv1.controller.callbacks.FragmentCallback;
 import vidal.sergi.sallefyv1.controller.fragments.HomeFragment;
 import vidal.sergi.sallefyv1.controller.fragments.LibraryArtistFragment;
 import vidal.sergi.sallefyv1.controller.fragments.LibraryFragment;
+import vidal.sergi.sallefyv1.controller.fragments.LibraryTrackFragment;
 import vidal.sergi.sallefyv1.controller.fragments.PlaylistDetailsFragment;
 import vidal.sergi.sallefyv1.controller.fragments.ProfileFragment;
 import vidal.sergi.sallefyv1.controller.fragments.SearchFragment;
@@ -128,7 +129,9 @@ public class MainActivity extends FragmentActivity implements FragmentCallback {
             return UserDetailsFragment.TAG;
         }else if(fragment instanceof LibraryArtistFragment){
             return LibraryArtistFragment.TAG;
-        }
+        }else if(fragment instanceof LibraryTrackFragment){
+        return LibraryTrackFragment.TAG;
+    }
 
         return "";
     }

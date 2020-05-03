@@ -68,13 +68,13 @@ public class LibraryFragment extends Fragment implements PlaylistCallback, Playl
         bCanciones.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragmentCallback.onChangeFragment(LibraryArtistFragment.getInstance()); // --->> cambiar fragment
+                fragmentCallback.onChangeFragment(LibraryTrackFragment.getInstance());
             }
         });
         createPlayList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragmentCallback.onChangeFragment(LibraryArtistFragment.getInstance()); // --->> cambiar fragment
+                fragmentCallback.onChangeFragment(LibraryTrackFragment.getInstance());// cambiar fragment
             }
         });
         bPlaylist.setEnabled(false);
