@@ -57,4 +57,7 @@ dependencies {
 
     //  implementation "com.cloudinary:cloudinary-android:1.24.0"
     implementation group: 'com.cloudinary', name: 'cloudinary-android', version: '1.25.0'
+    compile 'de.hdodenhof:circleimageview:3.0.1'
+    compile 'com.android.support.constraint:constraint-layout:1.1.3'
+
 }
