@@ -21,11 +21,10 @@ import vidal.sergi.sallefyv1.restapi.service.TrackService;
 import vidal.sergi.sallefyv1.utils.Constants;
 import vidal.sergi.sallefyv1.utils.Session;
 
-public class GenreManager {
+public class GenreManager extends BaseManager {
 
     private static final String TAG = "genreManager";
     private static GenreManager sGenreManager;
-    private Retrofit mRetrofit;
     private Context mContext;
 
     private GenreService mService;
@@ -39,18 +38,12 @@ public class GenreManager {
 
     private GenreManager(Context cntxt) {
         mContext = cntxt;
-        mRetrofit = new Retrofit.Builder()
-                .baseUrl(Constants.NETWORK.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        mService = mRetrofit.create(GenreService.class);
+        mService = retrofit.create(GenreService.class);
     }
 
     public synchronized void getAllGenres(final GenreCallback genreCallback) {
-        UserToken userToken = Session.getInstance(mContext).getUserToken();
 
-        Call<List<Genre>> call = mService.getAllGenres("Bearer " + userToken.getIdToken());
+        Call<List<Genre>> call = mService.getAllGenres();
         call.enqueue(new Callback<List<Genre>>() {
             @Override
             public void onResponse(Call<List<Genre>> call, Response<List<Genre>> response) {
@@ -69,7 +62,7 @@ public class GenreManager {
             @Override
             public void onFailure(Call<List<Genre>> call, Throwable t) {
                 Log.d(TAG, "Error: " + t);
-                genreCallback.onFailure(new Throwable("ERROR " + t.getMessage() ));
+                genreCallback.onFailure(new Throwable("ERROR " + t.getMessage()));
             }
         });
     }
@@ -77,7 +70,7 @@ public class GenreManager {
     public synchronized void getTracksByGenre(int genreId, final GenreCallback genreCallback) {
         UserToken userToken = Session.getInstance(mContext).getUserToken();
 
-        Call<List<Track>> call = mService.getTracksByGenre( genreId, "Bearer " + userToken.getIdToken());
+        Call<List<Track>> call = mService.getTracksByGenre(genreId);
         call.enqueue(new Callback<List<Track>>() {
             @Override
             public void onResponse(Call<List<Track>> call, Response<List<Track>> response) {
@@ -96,7 +89,7 @@ public class GenreManager {
             @Override
             public void onFailure(Call<List<Track>> call, Throwable t) {
                 Log.d(TAG, "Error: " + t);
-                genreCallback.onFailure(new Throwable("ERROR " + t.getMessage() ));
+                genreCallback.onFailure(new Throwable("ERROR " + t.getMessage()));
             }
         });
 

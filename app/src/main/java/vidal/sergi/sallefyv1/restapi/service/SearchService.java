@@ -9,6 +9,6 @@ import vidal.sergi.sallefyv1.model.Search;
 
 public interface SearchService {
     @GET("search")
-    Call<Search> getSearch(@Header("Authorization") String token, @Query("keyword") String keyword);
+    Call<Search> getSearch(@Query("keyword") String keyword);
 
 }

@@ -16,11 +16,11 @@ import vidal.sergi.sallefyv1.model.Track;
 public interface GenreService {
 
     @GET("genres/{id}")
-    Call<Genre> getGenreById(@Path("id") Integer id, @Header("Authorization") String token);
+    Call<Genre> getGenreById(@Path("id") Integer id);
 
     @GET("genres")
-    Call<List<Genre>> getAllGenres(@Header("Authorization") String token);
+    Call<List<Genre>> getAllGenres();
 
     @GET("genres/{id}/tracks")
-    Call<List<Track>> getTracksByGenre(@Path("id") Integer id, @Header("Authorization") String token);
+    Call<List<Track>> getTracksByGenre(@Path("id") Integer id);
 }

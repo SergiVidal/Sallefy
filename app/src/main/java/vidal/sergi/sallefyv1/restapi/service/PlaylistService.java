@@ -13,27 +13,27 @@ import vidal.sergi.sallefyv1.model.Playlist;
 
 public interface PlaylistService {
     @GET("playlists/{id}")
-    Call<Playlist> getPlaylist(@Header("Authorization") String token, @Path("id") long id);
+    Call<Playlist> getPlaylist(@Path("id") long id);
 
     @POST("playlists")
-    Call<Playlist> createPlaylist(@Header("Authorization") String token, @Body Playlist playlist);
+    Call<Playlist> createPlaylist(@Body Playlist playlist);
 
     @PUT("playlists")
-    Call<Playlist> addTrackToPlaylist(@Header("Authorization") String token, @Body Playlist playlist);
+    Call<Playlist> addTrackToPlaylist(@Body Playlist playlist);
 
     @GET("playlists")
-    Call<List<Playlist>> getAllPlaylists(@Header("Authorization") String token);
+    Call<List<Playlist>> getAllPlaylists();
 
     @PUT("playlists/{id}/follow")
-    Call<Playlist> addFollowPlaylist(@Header("Authorization") String token, @Path("id") long id);
+    Call<Playlist> addFollowPlaylist(@Path("id") long id);
 
     @GET("playlists/{id}/follow")
-    Call<Playlist> isFollowingPlaylist(@Header("Authorization") String token, @Path("id") long id);
+    Call<Playlist> isFollowingPlaylist(@Path("id") long id);
 
     @GET("me/playlists")
-    Call<List<Playlist>> getOwnPlayList(@Header("Authorization") String token);
+    Call<List<Playlist>> getOwnPlayList();
 
     @GET("me/playlists/following")
-    Call<List<Playlist>> getFollowingPlayList(@Header("Authorization") String token);
+    Call<List<Playlist>> getFollowingPlayList();
 
 }

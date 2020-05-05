@@ -24,6 +24,7 @@ import vidal.sergi.sallefyv1.controller.callbacks.FragmentCallback;
 import vidal.sergi.sallefyv1.model.User;
 import vidal.sergi.sallefyv1.model.UserToken;
 import vidal.sergi.sallefyv1.restapi.callback.UserCallback;
+import vidal.sergi.sallefyv1.restapi.manager.LoginManager;
 import vidal.sergi.sallefyv1.restapi.manager.UserManager;
 import vidal.sergi.sallefyv1.utils.PreferenceUtils;
 import vidal.sergi.sallefyv1.utils.Session;
@@ -86,7 +87,7 @@ public class LoginFragment extends Fragment implements UserCallback {
     }
 
     private void doLogin(String username, String password) {
-        UserManager.getInstance(getContext())
+        LoginManager.getInstance(getContext())
                 .loginAttempt(username, password, this);
     }
     private void checkSavedData() {
