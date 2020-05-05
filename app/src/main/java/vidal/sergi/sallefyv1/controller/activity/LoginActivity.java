@@ -9,6 +9,7 @@ import vidal.sergi.sallefyv1.R;
 import vidal.sergi.sallefyv1.controller.callbacks.FragmentCallback;
 import vidal.sergi.sallefyv1.controller.fragments.LoginFragment;
 import vidal.sergi.sallefyv1.controller.fragments.RegisterFragment;
+import vidal.sergi.sallefyv1.model.Genre;
 import vidal.sergi.sallefyv1.model.Playlist;
 import vidal.sergi.sallefyv1.model.Track;
 import vidal.sergi.sallefyv1.model.User;
@@ -84,6 +85,11 @@ public class LoginActivity extends FragmentActivity implements FragmentCallback 
 
     @Override
     public void onTrackSelection(Fragment fragment, Track track) {
+
+    }
+
+    @Override
+    public void onGenreSelection(Fragment fragment, Genre genre) {
 
     }
 }

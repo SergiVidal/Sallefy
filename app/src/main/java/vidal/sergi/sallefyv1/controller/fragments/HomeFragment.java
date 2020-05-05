@@ -254,8 +254,6 @@ public class HomeFragment extends Fragment implements UserCallback, PlaylistCall
 
     @Override
     public void onGenreClick(Genre genre) {
-        Intent intent = new Intent(getContext(), GenreListActivity.class);
-        intent.putExtra("Genre", genre);
-        startActivity(intent);
+        fragmentCallback.onGenreSelection(GenreFragment.getInstance(), genre);
     }
 }
