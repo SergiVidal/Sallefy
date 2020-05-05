@@ -21,13 +21,11 @@ import vidal.sergi.sallefyv1.restapi.service.SearchService;
 import vidal.sergi.sallefyv1.utils.Constants;
 import vidal.sergi.sallefyv1.utils.Session;
 
-public class SearchManager {
+public class SearchManager extends BaseManager{
     private static final String TAG = "SearchManager";
     private Context mContext;
     private static SearchManager sSearchManager;
-    private Retrofit mRetrofit;
     private SearchService mSearchService;
-    private UserToken userToken;
 
 
     public static SearchManager getInstance (Context context) {
@@ -41,14 +39,7 @@ public class SearchManager {
     public SearchManager(Context context) {
         mContext = context;
 
-        mRetrofit = new Retrofit.Builder()
-                .baseUrl(Constants.NETWORK.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        mSearchService = mRetrofit.create(SearchService.class);
-        this.userToken = Session.getInstance(mContext).getUserToken();
-
+        mSearchService = retrofit.create(SearchService.class);
     }
 
     /**********************
@@ -56,14 +47,14 @@ public class SearchManager {
      **********************/
     public synchronized void getSearch (String keyword, final SearchCallback searchCallback) {
 
-        Call<Search> call = mSearchService.getSearch("Bearer " + userToken.getIdToken(), keyword);
+        Call<Search> call = mSearchService.getSearch(keyword);
 
         call.enqueue(new Callback<Search>() {
             @Override
             public void onResponse(Call<Search> call, Response<Search> response) {
 
                 int code = response.code();
-                Search data = (Search) response.body();
+                Search data = response.body();
 
                 if (response.isSuccessful()) {
                     searchCallback.onGetSearchReceivedSuccess(data);

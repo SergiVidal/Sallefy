@@ -15,7 +15,7 @@ public class Session {
     public static Session sSession;
     private static Object mutex = new Object();
 
-    private Context mContext;
+    private static Context mContext;
 
     private UserRegister mUserRegister;
     private User mUser;
@@ -62,6 +62,14 @@ public class Session {
         mPlaylist = null;
         mIndex = -1;
         isPlaying = false;
+    }
+
+    public static Context getmContext() {
+        return mContext;
+    }
+
+    public void setmContext(Context mContext) {
+        this.mContext = mContext;
     }
 
     public UserRegister getUserRegister() {
