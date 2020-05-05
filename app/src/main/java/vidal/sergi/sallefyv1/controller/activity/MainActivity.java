@@ -16,13 +16,16 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import vidal.sergi.sallefyv1.R;
 import vidal.sergi.sallefyv1.controller.callbacks.FragmentCallback;
+import vidal.sergi.sallefyv1.controller.fragments.GenreFragment;
 import vidal.sergi.sallefyv1.controller.fragments.HomeFragment;
 import vidal.sergi.sallefyv1.controller.fragments.LibraryArtistFragment;
 import vidal.sergi.sallefyv1.controller.fragments.LibraryFragment;
 import vidal.sergi.sallefyv1.controller.fragments.LibraryTrackFragment;
+import vidal.sergi.sallefyv1.controller.fragments.PlayerFragment;
 import vidal.sergi.sallefyv1.controller.fragments.PlaylistDetailsFragment;
 import vidal.sergi.sallefyv1.controller.fragments.ProfileFragment;
 import vidal.sergi.sallefyv1.controller.fragments.SearchFragment;
+import vidal.sergi.sallefyv1.controller.fragments.UploadFragment;
 import vidal.sergi.sallefyv1.controller.fragments.UserDetailsFragment;
 import vidal.sergi.sallefyv1.model.Genre;
 import vidal.sergi.sallefyv1.model.Playlist;
@@ -124,15 +127,21 @@ public class MainActivity extends FragmentActivity implements FragmentCallback {
             return LibraryFragment.TAG;
         } else if (fragment instanceof ProfileFragment) {
             return ProfileFragment.TAG;
-        } else if(fragment instanceof PlaylistDetailsFragment){
+        } else if (fragment instanceof PlaylistDetailsFragment) {
             return PlaylistDetailsFragment.TAG;
-        }else if(fragment instanceof UserDetailsFragment){
+        } else if (fragment instanceof UserDetailsFragment) {
             return UserDetailsFragment.TAG;
-        }else if(fragment instanceof LibraryArtistFragment){
+        } else if (fragment instanceof LibraryArtistFragment) {
             return LibraryArtistFragment.TAG;
-        }else if(fragment instanceof LibraryTrackFragment){
-        return LibraryTrackFragment.TAG;
-    }
+        } else if (fragment instanceof LibraryTrackFragment) {
+            return LibraryTrackFragment.TAG;
+        } else if(fragment instanceof UploadFragment){
+            return UploadFragment.TAG;
+        }else if(fragment instanceof PlayerFragment){
+            return PlayerFragment.TAG;
+        }else if(fragment instanceof GenreFragment){
+            return GenreFragment.TAG;
+        }
 
         return "";
     }

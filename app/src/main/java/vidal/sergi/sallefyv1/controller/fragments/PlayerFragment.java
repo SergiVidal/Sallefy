@@ -53,7 +53,6 @@ import vidal.sergi.sallefyv1.utils.Session;
 
 public class PlayerFragment extends Fragment  {
 
-    private static final String TAG = "DynamicPlaybackActivity";
     private static final String PLAY_VIEW = "PlayIcon";
     private static final String STOP_VIEW = "StopIcon";
 
@@ -80,6 +79,9 @@ public class PlayerFragment extends Fragment  {
     public static PlayerFragment getInstance() {
         return new PlayerFragment();
     }
+
+    public static final String TAG = PlayerFragment.class.getName();
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
