@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="@color/colorPrimary">
+
+
+    <com.scwang.wave.MultiWaveHeader
+        android:id="@+id/search_multiWaveHeader"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:rotation="-20"
+        android:scaleX="2"
+        android:scaleY="1.7"
+        app:layout_constraintTop_toTopOf="parent"
+        app:mwhCloseColor="@color/colorSecondary"
+        app:mwhStartColor="@color/colorPrimary" />
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -18,10 +38,10 @@
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:scaleType="centerCrop"
+            android:scaleType="centerCrop"/>
 
-            android:src="@drawable/header"
-            app:srcCompat="@drawable/header" />
+<!--            android:src="@drawable/header"-->
+<!--            app:srcCompat="@drawable/header" />-->
 
         <de.hdodenhof.circleimageview.CircleImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -46,7 +66,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/header_cover_image"
-            android:background="#ebca0707"
             android:elevation="4dp"
             android:paddingBottom="24dp">
 
@@ -126,3 +145,4 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </RelativeLayout>
 </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
