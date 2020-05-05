@@ -133,6 +133,7 @@ public class LibraryTrackFragment extends Fragment implements TrackCallback, Tra
         super.onResume();
         getData();
     }
+
     private void isLikedTrack(Track track){
         mTracks.get(pos).setLiked(track.isLiked());
         mTracksAdapter.updateTrackLikeStateIcon(pos, track.isLiked());
@@ -155,8 +156,7 @@ public class LibraryTrackFragment extends Fragment implements TrackCallback, Tra
     }
 
     public void onDetailsTrackSelected(int index) {
-       // fragmentCallback.onTrackSelection(PlayerFragment.getInstance(), mTracks.get(index));
-        // DETAILS TRACK SELECTED
+        fragmentCallback.onTrackSelection(TrackOptionsFragment.getInstance(), mTracks.get(index));
     }
 
     @Override
@@ -188,12 +188,12 @@ public class LibraryTrackFragment extends Fragment implements TrackCallback, Tra
 
     @Override
     public void onLikedTrack(Track track) {
-
+        isLikedTrack(track);
     }
 
     @Override
     public void onIsLikedTrack(Track track) {
-
+        isLikedTrack(track);
     }
 
     @Override
