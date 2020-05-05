@@ -15,20 +15,20 @@ import vidal.sergi.sallefyv1.model.Track;
 public interface TrackService {
 
     @GET("tracks")
-    Call<List<Track>> getAllTracks(@Header("Authorization") String token);
+    Call<List<Track>> getAllTracks();
 
     @GET("me/tracks")
-    Call<List<Track>> getOwnTracks(@Header("Authorization") String token);
+    Call<List<Track>> getOwnTracks();
 
     @PUT("tracks/{id}/like")
-    Call<Track> addLikeTrack(@Header("Authorization") String token, @Path("id") long id);
+    Call<Track> addLikeTrack(@Path("id") long id);
 
     @GET("tracks/{id}/like")
-    Call<Track> isLikedTrack(@Header("Authorization") String token, @Path("id") long id);
+    Call<Track> isLikedTrack(@Path("id") long id);
 
     @POST("tracks")
-    Call<ResponseBody> createTrack(@Body Track track, @Header("Authorization") String token);
+    Call<ResponseBody> createTrack(@Body Track track);
 
     @GET("me/tracks/liked")
-    Call<List<Track>> getLikedTracks(@Header("Authorization") String token);
+    Call<List<Track>> getLikedTracks();
 }

@@ -17,20 +17,20 @@ import vidal.sergi.sallefyv1.model.UserRegister;
 public interface UserService {
 
     @GET("users/{login}/playlists")
-    Call<List<Playlist>> getUserPlaylists(@Path("login") String login, @Header("Authorization") String token);
+    Call<List<Playlist>> getUserPlaylists(@Path("login") String login);
 
     @GET("users/{login}/tracks")
-    Call<List<Track>> getUserTracks(@Path("login") String login, @Header("Authorization") String token);
+    Call<List<Track>> getUserTracks(@Path("login") String login);
 
     @GET("users/{login}")
-    Call<User> getUserById(@Path("login") String login, @Header("Authorization") String token);
+    Call<User> getUserById(@Path("login") String login);
 
     @GET("users")
-    Call<List<User>> getAllUsers(@Header("Authorization") String token);
+    Call<List<User>> getAllUsers();
 
     @POST("register")
     Call<ResponseBody> registerUser(@Body UserRegister user);
 
     @GET("me/followings")
-    Call<List<User>> getFollowingUsers (@Header("Authorization") String token);
+    Call<List<User>> getFollowingUsers ();
 }

@@ -24,6 +24,7 @@ import vidal.sergi.sallefyv1.model.User;
 import vidal.sergi.sallefyv1.model.UserRegister;
 import vidal.sergi.sallefyv1.model.UserToken;
 import vidal.sergi.sallefyv1.restapi.callback.UserCallback;
+import vidal.sergi.sallefyv1.restapi.manager.LoginManager;
 import vidal.sergi.sallefyv1.restapi.manager.UserManager;
 import vidal.sergi.sallefyv1.utils.PreferenceUtils;
 import vidal.sergi.sallefyv1.utils.Session;
@@ -81,12 +82,12 @@ public class RegisterFragment extends Fragment implements UserCallback {
             String password = etPassword.getText().toString();
             String email = etEmail.getText().toString();
             Session.getInstance(getContext()).setUserRegister(new UserRegister(email, login, password));
-            UserManager.getInstance(getContext()).registerAttempt(email, login, password, RegisterFragment.this);
+            LoginManager.getInstance(getContext()).registerAttempt(email, login, password, RegisterFragment.this);
         });
     }
 
     private void doLogin(String username, String password) {
-        UserManager.getInstance(getContext())
+        LoginManager.getInstance(getContext())
                 .loginAttempt(username, password, RegisterFragment.this);
     }
 

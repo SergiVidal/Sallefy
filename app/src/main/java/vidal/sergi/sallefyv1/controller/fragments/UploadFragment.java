@@ -72,6 +72,9 @@ public class UploadFragment extends Fragment implements GenreCallback, TrackCall
         return new UploadFragment();
     }
 
+    public static final String TAG = UploadFragment.class.getName();
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
