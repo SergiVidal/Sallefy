@@ -2,7 +2,7 @@ package vidal.sergi.sallefyv1.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Location {
+public class CurrentLoc {
     @SerializedName("latitude")
     private Double latitude;
 
@@ -10,10 +10,10 @@ public class Location {
     private Double longitude;
 
 
-    public Location() {
+    public CurrentLoc() {
     }
 
-    public Location(Double latitude, Double longitude) {
+    public CurrentLoc(Double latitude, Double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }
@@ -36,7 +36,7 @@ public class Location {
 
     @Override
     public String toString() {
-        return "Location{" +
+        return "CurrentLoc{" +
                 "latitude=" + latitude +
                 ", longitude=" + longitude +
                 '}';

@@ -11,12 +11,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import vidal.sergi.sallefyv1.model.CurrentLoc;
 import vidal.sergi.sallefyv1.model.Track;
 import vidal.sergi.sallefyv1.model.UserToken;
 import vidal.sergi.sallefyv1.restapi.callback.TrackCallback;
 import vidal.sergi.sallefyv1.restapi.service.TrackService;
-import vidal.sergi.sallefyv1.utils.Constants;
 import vidal.sergi.sallefyv1.utils.Session;
 
 public class TrackManager extends BaseManager{
@@ -135,19 +134,19 @@ public class TrackManager extends BaseManager{
     }
 
     /********************   ADD PLAY TRACK    ********************/
-    public synchronized void addPlayTrack(long id, final TrackCallback trackCallback) {
-        Call<Track> call = mTrackService.addPlayTrack(id);
-        call.enqueue(new Callback<Track>() {
+    public synchronized void addPlayTrack(long id, CurrentLoc currentLoc, final TrackCallback trackCallback) {
+        Call<Void> call = mTrackService.addPlayTrack(id, currentLoc);
+        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<Track> call, Response<Track> response) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    System.out.println("addPlayTrack()");
-                    trackCallback.onPlayedTrack(response.body());
+                    System.out.println("addPlayTrack: se ha añadido 1 play a esa track!");
+//                    trackCallback.onPlayedTrack(response.body());
                 }
             }
 
             @Override
-            public void onFailure(Call<Track> call, Throwable t) {
+            public void onFailure(Call<Void> call, Throwable t) {
                 trackCallback.onFailure(t);
             }
         });

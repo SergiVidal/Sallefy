@@ -4,14 +4,12 @@ import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
-import vidal.sergi.sallefyv1.model.Location;
+import vidal.sergi.sallefyv1.model.CurrentLoc;
 import vidal.sergi.sallefyv1.model.Track;
 
 public interface TrackService {
@@ -26,7 +24,7 @@ public interface TrackService {
     Call<Track> addLikeTrack(@Path("id") long id);
 
     @PUT("tracks/{id}/play")
-    Call<Void> addPlayTrack(@Path("id") long id, @Body Location location); //void o response
+    Call<Void> addPlayTrack(@Path("id") long id, @Body CurrentLoc currentLoc); //void o response
 
     @GET("tracks/{id}/like")
     Call<Track> isLikedTrack(@Path("id") long id);
