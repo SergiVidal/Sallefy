@@ -1,7 +1,6 @@
 package vidal.sergi.sallefyv1.controller.fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -17,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import vidal.sergi.sallefyv1.R;
-import vidal.sergi.sallefyv1.controller.activity.AddTrackToListActivity;
 import vidal.sergi.sallefyv1.controller.adapters.PlaylistListAdapter;
 import vidal.sergi.sallefyv1.controller.callbacks.FragmentCallback;
 import vidal.sergi.sallefyv1.controller.callbacks.PlaylistAdapterCallback;
@@ -29,7 +27,6 @@ import vidal.sergi.sallefyv1.restapi.manager.PlaylistManager;
 
 public class AddTrackToListFragment extends Fragment implements PlaylistCallback, PlaylistAdapterCallback {
     public static final String TAG = AddTrackToListFragment.class.getName();
-
     public static AddTrackToListFragment getInstance() {
         return new AddTrackToListFragment();
     }
