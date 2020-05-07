@@ -528,4 +528,9 @@ public class PlaylistDetailsFragment extends Fragment implements TrackListCallba
     public void onLikedTracksReceived(List<Track> tracks) {
 
     }
+
+    @Override
+    public void onPlayedTrack(Track track) {
+
+    }
 }

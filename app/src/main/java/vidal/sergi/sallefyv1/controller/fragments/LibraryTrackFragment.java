@@ -209,6 +209,11 @@ public class LibraryTrackFragment extends Fragment implements TrackCallback, Tra
     }
 
     @Override
+    public void onPlayedTrack(Track track) {
+
+    }
+
+    @Override
     public void onFailure(Throwable throwable) {
 
     }

@@ -206,6 +206,11 @@ public class TrackOptionsActivity extends AppCompatActivity implements TrackList
     }
 
     @Override
+    public void onPlayedTrack(Track track) {
+
+    }
+
+    @Override
     public void onFailure(Throwable throwable) {
 
     }

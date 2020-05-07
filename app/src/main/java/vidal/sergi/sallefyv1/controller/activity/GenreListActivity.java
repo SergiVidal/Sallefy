@@ -105,6 +105,11 @@ public class GenreListActivity extends AppCompatActivity implements TrackListCal
     }
 
     @Override
+    public void onPlayedTrack(Track track) {
+        
+    }
+
+    @Override
     public void onTrackSelected(Track track) {
 
     }

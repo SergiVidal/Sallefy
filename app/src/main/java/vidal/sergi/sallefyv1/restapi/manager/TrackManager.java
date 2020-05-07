@@ -134,6 +134,25 @@ public class TrackManager extends BaseManager{
         });
     }
 
+    /********************   ADD PLAY TRACK    ********************/
+    public synchronized void addPlayTrack(long id, final TrackCallback trackCallback) {
+        Call<Track> call = mTrackService.addPlayTrack(id);
+        call.enqueue(new Callback<Track>() {
+            @Override
+            public void onResponse(Call<Track> call, Response<Track> response) {
+                if (response.isSuccessful()) {
+                    System.out.println("addPlayTrack()");
+                    trackCallback.onPlayedTrack(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Track> call, Throwable t) {
+                trackCallback.onFailure(t);
+            }
+        });
+    }
+
     /********************   IS LIKED TRACK    ********************/
     public synchronized void isLikedTrack(long id, final TrackCallback trackCallback) {
 //        UserToken userToken = Session.getInstance(mContext).getUserToken();

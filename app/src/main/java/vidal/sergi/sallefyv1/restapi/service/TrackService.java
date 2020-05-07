@@ -23,6 +23,9 @@ public interface TrackService {
     @PUT("tracks/{id}/like")
     Call<Track> addLikeTrack(@Path("id") long id);
 
+    @PUT("tracks/{id}/play")
+    Call<Track> addPlayTrack(@Path("id") long id);
+
     @GET("tracks/{id}/like")
     Call<Track> isLikedTrack(@Path("id") long id);
 

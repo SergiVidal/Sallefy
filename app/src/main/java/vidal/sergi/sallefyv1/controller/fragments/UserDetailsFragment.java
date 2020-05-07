@@ -205,6 +205,11 @@ public class UserDetailsFragment extends Fragment implements PlaylistAdapterCall
     }
 
     @Override
+    public void onPlayedTrack(Track track) {
+
+    }
+
+    @Override
     public void onFailure(Throwable throwable) {
 
     }

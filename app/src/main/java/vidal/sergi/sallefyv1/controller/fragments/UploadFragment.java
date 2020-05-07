@@ -253,4 +253,9 @@ public class UploadFragment extends Fragment implements GenreCallback, TrackCall
     public void onLikedTracksReceived(List<Track> tracks) {
 
     }
+
+    @Override
+    public void onPlayedTrack(Track track) {
+
+    }
 }

@@ -158,6 +158,11 @@ public class GenreFragment extends Fragment implements TrackListCallback, TrackC
     }
 
     @Override
+    public void onPlayedTrack(Track track) {
+
+    }
+
+    @Override
     public void onTrackSelected(Track track) {
 
     }

@@ -362,4 +362,9 @@ public class SearchFragment extends Fragment implements UserCallback, SearchCall
     public void onLikedTracksReceived(List<Track> tracks) {
 
     }
+
+    @Override
+    public void onPlayedTrack(Track track) {
+
+    }
 }
