@@ -19,12 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import vidal.sergi.sallefyv1.R;
-import vidal.sergi.sallefyv1.controller.activity.PlaySongActivity;
-import vidal.sergi.sallefyv1.controller.activity.TrackOptionsActivity;
 import vidal.sergi.sallefyv1.controller.adapters.TrackListAdapter;
 import vidal.sergi.sallefyv1.controller.callbacks.FragmentCallback;
 import vidal.sergi.sallefyv1.controller.callbacks.TrackListCallback;
-import vidal.sergi.sallefyv1.controller.music.MusicCallback;
 import vidal.sergi.sallefyv1.model.Track;
 import vidal.sergi.sallefyv1.restapi.callback.TrackCallback;
 import vidal.sergi.sallefyv1.restapi.manager.TrackManager;

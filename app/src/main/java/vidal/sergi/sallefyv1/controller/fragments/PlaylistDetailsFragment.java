@@ -32,7 +32,6 @@ import java.util.List;
 import java.util.Random;
 
 import vidal.sergi.sallefyv1.R;
-import vidal.sergi.sallefyv1.controller.activity.TrackOptionsActivity;
 import vidal.sergi.sallefyv1.controller.adapters.TrackListAdapter;
 import vidal.sergi.sallefyv1.controller.callbacks.TrackListCallback;
 import vidal.sergi.sallefyv1.controller.music.MusicCallback;
@@ -376,9 +375,9 @@ public class PlaylistDetailsFragment extends Fragment implements TrackListCallba
 
     @Override
     public void onDetailsTrackSelected(int index) {
-        Intent intent = new Intent(getContext(), TrackOptionsActivity.class);
-        intent.putExtra("track", mTracks.get(index));
-        startActivity(intent);
+//        Intent intent = new Intent(getContext(), TrackOptionsActivity.class);
+//        intent.putExtra("track", mTracks.get(index));
+//        startActivity(intent);
     }
 
     @Override

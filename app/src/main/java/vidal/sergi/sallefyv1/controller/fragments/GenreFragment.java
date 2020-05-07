@@ -18,30 +18,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import vidal.sergi.sallefyv1.R;
-import vidal.sergi.sallefyv1.controller.activity.GenreListActivity;
-import vidal.sergi.sallefyv1.controller.activity.TrackOptionsActivity;
-import vidal.sergi.sallefyv1.controller.adapters.GenresAdapter;
-import vidal.sergi.sallefyv1.controller.adapters.PlaylistListAdapter;
 import vidal.sergi.sallefyv1.controller.adapters.TrackListAdapter;
-import vidal.sergi.sallefyv1.controller.adapters.UserAdapter;
 import vidal.sergi.sallefyv1.controller.callbacks.FragmentCallback;
-import vidal.sergi.sallefyv1.controller.callbacks.GenreAdapterCallback;
-import vidal.sergi.sallefyv1.controller.callbacks.PlaylistAdapterCallback;
 import vidal.sergi.sallefyv1.controller.callbacks.TrackListCallback;
-import vidal.sergi.sallefyv1.controller.callbacks.UserAdapterCallback;
 import vidal.sergi.sallefyv1.model.Genre;
-import vidal.sergi.sallefyv1.model.Playlist;
 import vidal.sergi.sallefyv1.model.Track;
-import vidal.sergi.sallefyv1.model.User;
-import vidal.sergi.sallefyv1.model.UserToken;
-import vidal.sergi.sallefyv1.restapi.callback.GenreCallback;
-import vidal.sergi.sallefyv1.restapi.callback.PlaylistCallback;
 import vidal.sergi.sallefyv1.restapi.callback.TrackCallback;
-import vidal.sergi.sallefyv1.restapi.callback.UserCallback;
-import vidal.sergi.sallefyv1.restapi.manager.GenreManager;
-import vidal.sergi.sallefyv1.restapi.manager.PlaylistManager;
 import vidal.sergi.sallefyv1.restapi.manager.TrackManager;
-import vidal.sergi.sallefyv1.restapi.manager.UserManager;
 
 public class GenreFragment extends Fragment implements TrackListCallback, TrackCallback {
     public static final String TAG = GenreFragment.class.getName();
@@ -180,9 +163,9 @@ public class GenreFragment extends Fragment implements TrackListCallback, TrackC
     @Override
 
     public void onDetailsTrackSelected(int index) {
-        Intent intent = new Intent(getContext(), TrackOptionsActivity.class);
-        intent.putExtra("track", mTracks.get(index));
-        startActivity(intent);
+//        Intent intent = new Intent(getContext(), TrackOptionsActivity.class);
+//        intent.putExtra("track", mTracks.get(index));
+//        startActivity(intent);
     }
 
     @Override
