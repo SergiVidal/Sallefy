@@ -1,5 +1,6 @@
 package vidal.sergi.sallefyv1.controller.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,9 +10,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import vidal.sergi.sallefyv1.R;
+import vidal.sergi.sallefyv1.controller.callbacks.FragmentCallback;
 import vidal.sergi.sallefyv1.utils.Session;
 
 public class ProfileFragment extends Fragment {
@@ -19,6 +22,9 @@ public class ProfileFragment extends Fragment {
     private TextView tvMail;
     private TextView tvFollowers;
     private TextView tvFollowings;
+    private Button bShowStats;
+    private FragmentCallback fragmentCallback;
+
     public static final String TAG = ProfileFragment.class.getName();
 
     public static ProfileFragment getInstance() {
@@ -49,6 +55,19 @@ public class ProfileFragment extends Fragment {
 
         tvFollowings = v.findViewById(R.id.followings);
         tvFollowings.setText("Followings: "+Session.getInstance(getContext()).getUser().getFollowing());
+
+        bShowStats = (Button) v.findViewById(R.id.top_5_songs);
+        bShowStats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentCallback.onChangeFragment(StatsFragment.getInstance());
+            }
+        });
+    }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        fragmentCallback = (FragmentCallback) context;
     }
 
     @Override

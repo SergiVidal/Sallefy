@@ -25,6 +25,7 @@ import vidal.sergi.sallefyv1.controller.fragments.PlayerFragment;
 import vidal.sergi.sallefyv1.controller.fragments.PlaylistDetailsFragment;
 import vidal.sergi.sallefyv1.controller.fragments.ProfileFragment;
 import vidal.sergi.sallefyv1.controller.fragments.SearchFragment;
+import vidal.sergi.sallefyv1.controller.fragments.StatsFragment;
 import vidal.sergi.sallefyv1.controller.fragments.UploadFragment;
 import vidal.sergi.sallefyv1.controller.fragments.UserDetailsFragment;
 import vidal.sergi.sallefyv1.model.Genre;
@@ -141,6 +142,8 @@ public class MainActivity extends FragmentActivity implements FragmentCallback {
             return PlayerFragment.TAG;
         }else if(fragment instanceof GenreFragment){
             return GenreFragment.TAG;
+        }else if(fragment instanceof StatsFragment){
+            return StatsFragment.TAG;
         }
 
         return "";
