@@ -367,4 +367,9 @@ public class SearchFragment extends Fragment implements UserCallback, SearchCall
     public void onPlayedTrack(Track track) {
 
     }
+
+    @Override
+    public void onSharedTrack(Track track) {
+
+    }
 }

@@ -210,6 +210,11 @@ public class UserDetailsFragment extends Fragment implements PlaylistAdapterCall
     }
 
     @Override
+    public void onSharedTrack(Track track) {
+
+    }
+
+    @Override
     public void onFailure(Throwable throwable) {
 
     }

@@ -133,6 +133,25 @@ public class TrackManager extends BaseManager{
             }
         });
     }
+    public synchronized void shareTrack(long id, final TrackCallback trackCallback) {
+//        UserToken userToken = Session.getInstance(mContext).getUserToken();
+        System.out.println(id + "<---- ID");
+        Call<Track> call = mTrackService.shareTrack(id);
+        call.enqueue(new Callback<Track>() {
+            @Override
+            public void onResponse(Call<Track> call, Response<Track> response) {
+                if (response.isSuccessful()) {
+                    System.out.println(response.body().getName());
+                    trackCallback.onSharedTrack(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Track> call, Throwable t) {
+                trackCallback.onFailure(t);
+            }
+        });
+    }
 
     /********************   ADD PLAY TRACK    ********************/
     public synchronized void addPlayTrack(long id, final TrackCallback trackCallback) {

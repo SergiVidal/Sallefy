@@ -19,6 +19,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
 
+import vidal.sergi.sallefyv1.BuildConfig;
 import vidal.sergi.sallefyv1.R;
 import vidal.sergi.sallefyv1.controller.callbacks.FragmentCallback;
 import vidal.sergi.sallefyv1.controller.callbacks.TrackListCallback;
@@ -41,6 +42,7 @@ public class TrackOptionsFragment extends Fragment implements TrackListCallback,
     private ImageButton bAddSong;
     private ImageButton bDelete;
     private ImageButton bArtist;
+    private ImageButton bShare;
     private FragmentCallback fragmentCallback;
 
     @Override
@@ -76,6 +78,23 @@ public class TrackOptionsFragment extends Fragment implements TrackListCallback,
             @Override
             public void onClick(View v) {
                 fragmentCallback.onTrackSelection(AddTrackToListFragment.getInstance(), track);
+            }
+        });
+        bShare = (ImageButton) v.findViewById(R.id.share_btn);
+        bShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Sallefy");
+                    String shareMessage= "\n Song: "+track.getName()+"\n"+"By: "+track.getUser().getLogin()+"\n";
+                    shareMessage = shareMessage + "http://sallefy.eu-west-3.elasticbeanstalk.com/track/" + track.getId() +"\n\n";
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+                    startActivity(Intent.createChooser(shareIntent, "Choose one"));
+                } catch(Exception e) {
+                    //e.toString();
+                }
             }
         });
 
@@ -201,6 +220,11 @@ public class TrackOptionsFragment extends Fragment implements TrackListCallback,
 
     @Override
     public void onPlayedTrack(Track track) {
+
+    }
+
+    @Override
+    public void onSharedTrack(Track track) {
 
     }
 

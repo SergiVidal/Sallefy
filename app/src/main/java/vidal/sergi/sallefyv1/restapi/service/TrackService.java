@@ -34,4 +34,7 @@ public interface TrackService {
 
     @GET("me/tracks/liked")
     Call<List<Track>> getLikedTracks();
+
+    @GET("tracks/{id}")
+    Call<Track> shareTrack(@Path("id") long id);
 }

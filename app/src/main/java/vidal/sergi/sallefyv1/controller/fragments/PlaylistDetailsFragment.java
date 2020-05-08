@@ -532,4 +532,9 @@ public class PlaylistDetailsFragment extends Fragment implements TrackListCallba
     public void onPlayedTrack(Track track) {
 
     }
+
+    @Override
+    public void onSharedTrack(Track track) {
+
+    }
 }
