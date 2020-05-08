@@ -1,19 +1,27 @@
 package vidal.sergi.sallefyv1.controller.fragments;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
 import android.os.IBinder;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +33,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -36,6 +47,7 @@ import vidal.sergi.sallefyv1.controller.adapters.TrackListAdapter;
 import vidal.sergi.sallefyv1.controller.callbacks.TrackListCallback;
 import vidal.sergi.sallefyv1.controller.music.MusicCallback;
 import vidal.sergi.sallefyv1.controller.music.MusicService;
+import vidal.sergi.sallefyv1.model.CurrentLoc;
 import vidal.sergi.sallefyv1.model.Playlist;
 import vidal.sergi.sallefyv1.model.Track;
 import vidal.sergi.sallefyv1.restapi.callback.PlaylistCallback;
@@ -89,6 +101,10 @@ public class PlaylistDetailsFragment extends Fragment implements TrackListCallba
 
     private int pos;
 
+    private CurrentLoc currentLoc;
+
+    private FusedLocationProviderClient fusedLocationClient;
+
     private ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -115,10 +131,17 @@ public class PlaylistDetailsFragment extends Fragment implements TrackListCallba
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_playlist_details, container, false);
 
-//        playlist = (Playlist) getIntent().getSerializableExtra("Playlist");
         playlist = (Playlist) getArguments().getSerializable("playlist");
-
         mTracks = (ArrayList) playlist.getTracks();
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(getActivity(), location -> {
+                    if (location != null) {
+                        currentLoc = new CurrentLoc(location.getLatitude(), location.getLongitude());
+                    }
+                });
+
         initViews(v);
         startStreamingService();
         return v;
@@ -360,10 +383,13 @@ public class PlaylistDetailsFragment extends Fragment implements TrackListCallba
 
     }
 
+
     @Override
     public void onTrackSelected(int index) {
         System.out.println("Index song: " + index);
         updateTrack(index);
+
+        TrackManager.getInstance(getContext()).addPlayTrack(mTracks.get(index).getId(), currentLoc, this);
     }
 
     @Override
