@@ -33,9 +33,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.location.FusedLocationProviderClient;
+/*import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnSuccessListener;*/
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -68,6 +68,8 @@ public class PlaylistDetailsFragment extends Fragment implements TrackListCallba
     private TextView tvAuthor;
     private Button bFollow;
     private Button bRandom;
+    private ImageButton bShare;
+
 
     private RecyclerView mTracksView;
     private TrackListAdapter mTracksAdapter;
@@ -103,7 +105,7 @@ public class PlaylistDetailsFragment extends Fragment implements TrackListCallba
 
     private CurrentLoc currentLoc;
 
-    private FusedLocationProviderClient fusedLocationClient;
+   // private FusedLocationProviderClient fusedLocationClient;
 
     private ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
@@ -134,14 +136,32 @@ public class PlaylistDetailsFragment extends Fragment implements TrackListCallba
         playlist = (Playlist) getArguments().getSerializable("playlist");
         mTracks = (ArrayList) playlist.getTracks();
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
+        bShare = (ImageButton) v.findViewById(R.id.share_btn);
+        bShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Sallefy");
+                    String shareMessage= "\n Playlist: "+playlist.getName()+"\n"+"By: "+playlist.getUser().getLogin()+"\n";
+                    shareMessage = shareMessage + "http://sallefy.eu-west-3.elasticbeanstalk.com/playlist/" + playlist.getId() +"\n\n";
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+                    startActivity(Intent.createChooser(shareIntent, "Choose one"));
+                } catch(Exception e) {
+                    //e.toString();
+                }
+            }
+        });
+
+        /*fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(getActivity(), location -> {
                     if (location != null) {
                         currentLoc = new CurrentLoc(location.getLatitude(), location.getLongitude());
                     }
                 });
-
+*/
         initViews(v);
         startStreamingService();
         return v;
@@ -219,6 +239,7 @@ public class PlaylistDetailsFragment extends Fragment implements TrackListCallba
                 updateTrack(currentTrack);
             }
         });
+
 
         LinearLayoutManager managerTracks = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         mTracksAdapter = new TrackListAdapter(this, getContext(), mTracks, playlist.getUserLogin());

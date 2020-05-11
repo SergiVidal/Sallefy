@@ -28,6 +28,12 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@id/search_tracks_recyclerview">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/ivPlaylistPhoto"
@@ -37,7 +43,18 @@
             android:layout_marginTop="40dp"
             android:background="@drawable/ic_playlist_add"
             android:scaleType="centerCrop" />
-
+        <ImageButton
+            android:id="@+id/share_btn"
+            style="@style/SubtitlesTheme"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="40dp"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/btn_random_radius"
+            android:src="@drawable/ic_shared_btn_black"
+            android:textAlignment="center" />
+    </LinearLayout>
         <TextView
             android:id="@+id/tvPlaylistName"
             style="@style/TitlesTheme"

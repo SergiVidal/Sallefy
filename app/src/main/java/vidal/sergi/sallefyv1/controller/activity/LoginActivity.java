@@ -96,19 +96,5 @@ public class LoginActivity extends FragmentActivity implements FragmentCallback 
 
     }
 
-    @Override
-    public void onTrackShared(Fragment fragment, Long id) {
-
-    }
-
-    @Override
-    public void onPlaylistShared(Fragment fragment, Long id) {
-
-    }
-
-    @Override
-    public void onUserShared(Fragment fragment, Long id) {
-
-    }
 }
 

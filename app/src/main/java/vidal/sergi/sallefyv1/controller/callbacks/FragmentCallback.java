@@ -18,10 +18,4 @@ public interface FragmentCallback {
     void onTrackSelection(Fragment fragment, Track track);
 
     void onGenreSelection(Fragment fragment, Genre genre);
-
-    void onTrackShared(Fragment fragment, Long id);
-
-    void onPlaylistShared(Fragment fragment, Long id);
-
-    void onUserShared(Fragment fragment, Long id);
 }
