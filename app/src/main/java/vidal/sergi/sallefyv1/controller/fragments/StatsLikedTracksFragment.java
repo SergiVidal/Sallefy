@@ -34,8 +34,8 @@ public class StatsLikedTracksFragment extends Fragment {
     public static final String TAG = StatsLikedTracksFragment.class.getName();
     @SuppressWarnings("FieldCanBeLocal")
     private PieChart chart;
-    public static StatsFragment getInstance() {
-        return new StatsFragment();
+    public static StatsLikedTracksFragment getInstance() {
+        return new StatsLikedTracksFragment();
     }
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,7 +44,6 @@ public class StatsLikedTracksFragment extends Fragment {
 
         chart = v.findViewById(R.id.pieChart1);
         chart.getDescription().setEnabled(false);
-
 
 //        chart.setCenterTextTypeface(tf);
         chart.setCenterText(generateCenterText());

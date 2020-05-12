@@ -60,6 +60,7 @@ public class StatsFragment extends Fragment {
         entries.add(new BarEntry(1f, 82f,"Obtained"));
         entries.add(new BarEntry(2f, 95f,"Highest"));
         entries.add(new BarEntry(3f, 69f,"Average"));
+        entries.add(new BarEntry(3f, 69f,"Average"));
 
 
 

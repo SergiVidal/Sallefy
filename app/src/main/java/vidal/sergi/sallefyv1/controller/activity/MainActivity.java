@@ -191,9 +191,9 @@ public class MainActivity extends FragmentActivity implements FragmentCallback ,
             return GenreFragment.TAG;
         }else if(fragment instanceof StatsFragment){
             return StatsFragment.TAG;
-        }else if(fragment instanceof StatsFragment){
+        }else if(fragment instanceof StatsLikedTracksFragment){
             return StatsLikedTracksFragment.TAG;
-        }else if(fragment instanceof StatsFragment){
+        }else if(fragment instanceof StatsFollowedPlaylistsFragment){
             return StatsFollowedPlaylistsFragment.TAG;
         }
 
