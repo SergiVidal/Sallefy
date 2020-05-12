@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import java.sql.SQLOutput;
+
 import vidal.sergi.sallefyv1.R;
 import vidal.sergi.sallefyv1.controller.callbacks.FragmentCallback;
 import vidal.sergi.sallefyv1.controller.fragments.LoginFragment;
@@ -92,5 +95,6 @@ public class LoginActivity extends FragmentActivity implements FragmentCallback 
     public void onGenreSelection(Fragment fragment, Genre genre) {
 
     }
+
 }
 

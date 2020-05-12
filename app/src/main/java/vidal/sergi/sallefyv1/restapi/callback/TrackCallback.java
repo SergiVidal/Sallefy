@@ -15,5 +15,6 @@ public interface TrackCallback extends FailureCallback{
     void onCreateTrack();
     void onLikedTracksReceived(List<Track> tracks);
     void onPlayedTrack(Track track);
+    void onSharedTrack(Track track);
 
 }

@@ -32,12 +32,13 @@ import vidal.sergi.sallefyv1.model.User;
 import vidal.sergi.sallefyv1.model.UserToken;
 import vidal.sergi.sallefyv1.restapi.callback.GenreCallback;
 import vidal.sergi.sallefyv1.restapi.callback.PlaylistCallback;
+import vidal.sergi.sallefyv1.restapi.callback.TrackCallback;
 import vidal.sergi.sallefyv1.restapi.callback.UserCallback;
 import vidal.sergi.sallefyv1.restapi.manager.GenreManager;
 import vidal.sergi.sallefyv1.restapi.manager.PlaylistManager;
 import vidal.sergi.sallefyv1.restapi.manager.UserManager;
 
-public class HomeFragment extends Fragment implements UserCallback, PlaylistCallback, PlaylistAdapterCallback, GenreCallback, UserAdapterCallback, GenreAdapterCallback {
+public class HomeFragment extends Fragment implements UserCallback, PlaylistCallback, PlaylistAdapterCallback, GenreCallback, UserAdapterCallback, GenreAdapterCallback, TrackCallback {
     public static final String TAG = HomeFragment.class.getName();
 
     public static HomeFragment getInstance() {
@@ -252,5 +253,55 @@ public class HomeFragment extends Fragment implements UserCallback, PlaylistCall
     @Override
     public void onGenreClick(Genre genre) {
         fragmentCallback.onGenreSelection(GenreFragment.getInstance(), genre);
+    }
+
+    @Override
+    public void onTracksReceived(List<Track> tracks) {
+
+    }
+
+    @Override
+    public void onNoTracks(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onPersonalTracksReceived(List<Track> tracks) {
+
+    }
+
+    @Override
+    public void onUserTracksReceived(List<Track> tracks) {
+
+    }
+
+    @Override
+    public void onLikedTrack(Track track) {
+
+    }
+
+    @Override
+    public void onIsLikedTrack(Track track) {
+
+    }
+
+    @Override
+    public void onCreateTrack() {
+
+    }
+
+    @Override
+    public void onLikedTracksReceived(List<Track> tracks) {
+
+    }
+
+    @Override
+    public void onPlayedTrack(Track track) {
+
+    }
+
+    @Override
+    public void onSharedTrack(Track track) {
+
     }
 }

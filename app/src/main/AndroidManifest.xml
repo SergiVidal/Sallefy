@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="vidal.sergi.sallefyv1">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name=" android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
 
     <application
         android:allowBackup="true"
@@ -15,9 +19,23 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".controller.fragments.LibraryArtistFragment"></activity>
-        <activity android:name=".controller.activity.MainActivity" />
+        <activity android:name=".controller.fragments.LibraryArtistFragment"/>
+        <activity android:name=".controller.fragments.HomeFragment">
 
+        </activity>
+        <activity android:name=".controller.activity.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="http"
+                    android:host="sallefy.eu-west-3.elasticbeanstalk.com"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".controller.fragments.PlayerFragment">
+
+        </activity>
         <service
             android:name=".controller.music.MusicService"
             android:enabled="true"
@@ -26,17 +44,10 @@
         <activity android:name=".controller.activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".controller.activity.GenreListActivity" />
         <activity android:name=".controller.activity.CreatePlaylistActivity" />
-        <activity android:name=".controller.activity.ProfileActivity" />
-        <activity android:name=".controller.activity.PlaySongActivity" />
-        <activity android:name=".controller.activity.AddTrackToListActivity" />
-        <activity android:name=".controller.activity.TrackLibraryActivity" />
-        <activity android:name=".controller.activity.TrackOptionsActivity" />
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package vidal.sergi.sallefyv1.controller.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -47,6 +49,7 @@ public class UserDetailsFragment extends Fragment implements PlaylistAdapterCall
     private TextView tvNumTracks;
     private TextView tvNumFollowers;
     private TextView tvNumFollowing;
+    private ImageButton bShare;
 
     private RecyclerView rvPlaylist;
     private PlaylistListAdapter mPlaylistAdapter;
@@ -66,6 +69,23 @@ public class UserDetailsFragment extends Fragment implements PlaylistAdapterCall
 
         user = (User) getArguments().getSerializable("user");
         System.out.println(user);
+        bShare = v.findViewById(R.id.share_btn);
+        bShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Sallefy");
+                    String shareMessage= "\n User: "+user.getLogin()+"\n";
+                    shareMessage = shareMessage + "http://sallefy.eu-west-3.elasticbeanstalk.com/user/" + user.getLogin() +"\n\n";
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+                    startActivity(Intent.createChooser(shareIntent, "Choose one"));
+                } catch(Exception e) {
+                    //e.toString();
+                }
+            }
+        });
         initViews(v);
         getData();
 
@@ -206,6 +226,11 @@ public class UserDetailsFragment extends Fragment implements PlaylistAdapterCall
 
     @Override
     public void onPlayedTrack(Track track) {
+
+    }
+
+    @Override
+    public void onSharedTrack(Track track) {
 
     }
 
