@@ -23,6 +23,8 @@ public class ProfileFragment extends Fragment {
     private TextView tvFollowers;
     private TextView tvFollowings;
     private Button bShowStats;
+    private Button bShowStatsLikedTracks;
+    private Button bShowStatsFollowedPlaylists;
     private FragmentCallback fragmentCallback;
 
     public static final String TAG = ProfileFragment.class.getName();
@@ -61,6 +63,20 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 fragmentCallback.onChangeFragment(StatsFragment.getInstance());
+            }
+        });
+        bShowStatsLikedTracks = (Button) v.findViewById(R.id.top_5_liked_songs);
+        bShowStatsLikedTracks.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentCallback.onChangeFragment(StatsLikedTracksFragment.getInstance());
+            }
+        });
+        bShowStatsFollowedPlaylists = (Button) v.findViewById(R.id.top_5_followed_playlists);
+        bShowStatsFollowedPlaylists.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentCallback.onChangeFragment(StatsFollowedPlaylistsFragment.getInstance());
             }
         });
     }
