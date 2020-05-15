@@ -34,6 +34,12 @@ public class Track implements Serializable {
     @SerializedName("url")
     private String url;
 
+    @SerializedName("plays")
+    private Integer plays;
+
+    @SerializedName("likes")
+    private Integer likes;
+
     private boolean selected = false;
 
     private boolean liked;
@@ -143,20 +149,38 @@ public class Track implements Serializable {
         this.selected = selected;
     }
 
+    public Integer getPlays() {
+        return plays;
+    }
+
+    public void setPlays(Integer plays) {
+        this.plays = plays;
+    }
+
+    public Integer getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Integer likes) {
+        this.likes = likes;
+    }
+
     @Override
     public String toString() {
-        return "{" +
-                "color:'" + color + '\'' +
-                ", duration:" + duration +
-                ", genres:" + genres +
-                ", id:" + id +
-                ", name:'" + name + '\'' +
-                ", user:" + user +
-                ", released:'" + released + '\'' +
-                ", thumbnail:'" + thumbnail + '\'' +
-                ", url:'" + url + '\'' +
-                ", selected:" + selected +
-                ", liked:" + liked +
+        return "Track{" +
+                "color='" + color + '\'' +
+                ", duration=" + duration +
+                ", genres=" + genres +
+                ", id=" + id +
+                ", name='" + name + '\'' +
+                ", user=" + user +
+                ", released='" + released + '\'' +
+                ", thumbnail='" + thumbnail + '\'' +
+                ", url='" + url + '\'' +
+                ", plays=" + plays +
+                ", likes=" + likes +
+                ", selected=" + selected +
+                ", liked=" + liked +
                 '}';
     }
 }

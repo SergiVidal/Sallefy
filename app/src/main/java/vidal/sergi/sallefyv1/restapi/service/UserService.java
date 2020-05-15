@@ -33,4 +33,7 @@ public interface UserService {
 
     @GET("me/followings")
     Call<List<User>> getFollowingUsers ();
+
+    @GET("me/tracks")
+    Call<List<Track>> getMeTracks();
 }

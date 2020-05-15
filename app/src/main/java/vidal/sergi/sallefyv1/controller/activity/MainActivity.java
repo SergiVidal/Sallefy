@@ -313,6 +313,11 @@ public class MainActivity extends FragmentActivity implements FragmentCallback ,
     }
 
     @Override
+    public void onMeTracksSuccess(List<Track> trackList) {
+
+    }
+
+    @Override
     public void onLoginFailure(Throwable throwable) {
 
     }

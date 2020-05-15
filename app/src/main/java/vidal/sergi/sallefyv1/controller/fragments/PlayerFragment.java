@@ -79,7 +79,15 @@ public class PlayerFragment extends Fragment  {
     public static PlayerFragment getInstance() {
         return new PlayerFragment();
     }
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d("Static: ", "Enter onStart " + this.hashCode());
 
+
+        mPlayer.prepareAsync(); // might take long! (for buffering, etc)
+
+    }
     public static final String TAG = PlayerFragment.class.getName();
 
 

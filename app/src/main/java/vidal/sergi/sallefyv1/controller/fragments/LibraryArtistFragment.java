@@ -21,6 +21,7 @@ import vidal.sergi.sallefyv1.R;
 import vidal.sergi.sallefyv1.controller.adapters.UserAdapter;
 import vidal.sergi.sallefyv1.controller.callbacks.FragmentCallback;
 import vidal.sergi.sallefyv1.controller.callbacks.UserAdapterCallback;
+import vidal.sergi.sallefyv1.model.Track;
 import vidal.sergi.sallefyv1.model.User;
 import vidal.sergi.sallefyv1.model.UserToken;
 import vidal.sergi.sallefyv1.restapi.callback.UserCallback;
@@ -112,6 +113,11 @@ public class LibraryArtistFragment extends Fragment implements UserAdapterCallba
 
     @Override
     public void onLoginSuccess(UserToken userToken) {
+
+    }
+
+    @Override
+    public void onMeTracksSuccess(List<Track> trackList) {
 
     }
 

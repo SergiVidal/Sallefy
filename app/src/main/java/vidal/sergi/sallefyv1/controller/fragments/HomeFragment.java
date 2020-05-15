@@ -200,6 +200,11 @@ public class HomeFragment extends Fragment implements UserCallback, PlaylistCall
     }
 
     @Override
+    public void onMeTracksSuccess(List<Track> trackList) {
+
+    }
+
+    @Override
     public void onLoginFailure(Throwable throwable) {
 
     }
