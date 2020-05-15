@@ -55,7 +55,7 @@ public class LibraryFragment extends Fragment implements PlaylistCallback, Playl
         View v = inflater.inflate(R.layout.fragment_library, container, false);
         getData();
         initViews(v);
-        createPlayList = bArtistas= (Button)v.findViewById(R.id.create_playlist);
+        createPlayList = (Button)v.findViewById(R.id.create_playlist);
         bPlaylist = (Button) v.findViewById(R.id.item_playlist_button);
         bArtistas= (Button)v.findViewById(R.id.item_artistas_button);
         bCanciones=  (Button)v.findViewById(R.id.item_canciones_button);
@@ -78,6 +78,7 @@ public class LibraryFragment extends Fragment implements PlaylistCallback, Playl
             }
         });
         bPlaylist.setEnabled(false);
+//        createPlayList.setEnabled(false);
         bPlaylist.setTextColor(ContextCompat.getColor(getActivity(), R.color.opacity));
         return v;
     }
