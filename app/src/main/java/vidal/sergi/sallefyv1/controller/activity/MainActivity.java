@@ -156,7 +156,6 @@ public class MainActivity extends FragmentActivity implements FragmentCallback ,
                         .replace(R.id.fragment_container, currentFragment, fragmentTag)
                         .addToBackStack(null)
                         .commit();
-
             }
         } else {
             mFragmentManager.beginTransaction()
