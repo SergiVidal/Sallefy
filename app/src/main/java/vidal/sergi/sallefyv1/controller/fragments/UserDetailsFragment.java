@@ -1,5 +1,6 @@
 package vidal.sergi.sallefyv1.controller.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -24,6 +25,7 @@ import java.util.List;
 import vidal.sergi.sallefyv1.R;
 import vidal.sergi.sallefyv1.controller.adapters.PlaylistListAdapter;
 import vidal.sergi.sallefyv1.controller.adapters.TrackListAdapter;
+import vidal.sergi.sallefyv1.controller.callbacks.FragmentCallback;
 import vidal.sergi.sallefyv1.controller.callbacks.PlaylistAdapterCallback;
 import vidal.sergi.sallefyv1.controller.callbacks.TrackListCallback;
 import vidal.sergi.sallefyv1.model.Playlist;
@@ -59,6 +61,8 @@ public class UserDetailsFragment extends Fragment implements PlaylistAdapterCall
 
     private ArrayList<Track> mTracks;
     private int pos;
+
+    private FragmentCallback fragmentCallback;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -105,6 +109,16 @@ public class UserDetailsFragment extends Fragment implements PlaylistAdapterCall
         super.onPause();
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        fragmentCallback = (FragmentCallback) context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+    }
 
     public void getData() {
         UserManager.getInstance(getContext()).getUserTracks(user.getLogin(), this);
@@ -180,7 +194,7 @@ public class UserDetailsFragment extends Fragment implements PlaylistAdapterCall
 
     @Override
     public void onDetailsTrackSelected(int index) {
-
+        fragmentCallback.onTrackSelection(TrackOptionsFragment.getInstance(), mTracks.get(index));
     }
 
     @Override

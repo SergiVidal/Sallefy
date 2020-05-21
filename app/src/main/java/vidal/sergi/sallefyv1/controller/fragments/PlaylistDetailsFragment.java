@@ -44,6 +44,7 @@ import java.util.Random;
 
 import vidal.sergi.sallefyv1.R;
 import vidal.sergi.sallefyv1.controller.adapters.TrackListAdapter;
+import vidal.sergi.sallefyv1.controller.callbacks.FragmentCallback;
 import vidal.sergi.sallefyv1.controller.callbacks.TrackListCallback;
 import vidal.sergi.sallefyv1.controller.music.MusicCallback;
 import vidal.sergi.sallefyv1.controller.music.MusicService;
@@ -104,6 +105,8 @@ public class PlaylistDetailsFragment extends Fragment implements TrackListCallba
     private int pos;
 
     private CurrentLoc currentLoc;
+
+    private FragmentCallback fragmentCallback;
 
    // private FusedLocationProviderClient fusedLocationClient;
 
@@ -202,8 +205,18 @@ public class PlaylistDetailsFragment extends Fragment implements TrackListCallba
 
     @Override
     public void onDestroy() {
-        System.out.println("onDestroy()");
         super.onDestroy();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        fragmentCallback = (FragmentCallback) context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
     }
 
     private void initViews(View view) {
@@ -420,9 +433,7 @@ public class PlaylistDetailsFragment extends Fragment implements TrackListCallba
 
     @Override
     public void onDetailsTrackSelected(int index) {
-//        Intent intent = new Intent(getContext(), TrackOptionsActivity.class);
-//        intent.putExtra("track", mTracks.get(index));
-//        startActivity(intent);
+        fragmentCallback.onTrackSelection(TrackOptionsFragment.getInstance(), mTracks.get(index));
     }
 
     @Override
