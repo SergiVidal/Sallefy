@@ -242,7 +242,10 @@ public class MainActivity extends FragmentActivity implements FragmentCallback ,
 
     @Override
     public void onGenreSelection(Fragment fragment, Genre genre) {
-
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("Genre", genre);
+        fragment.setArguments(bundle);
+        replaceFragment(fragment);
     }
 
 

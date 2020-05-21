@@ -407,9 +407,7 @@ public class PlaylistDetailsFragment extends Fragment implements TrackListCallba
 
     @Override
     public void onTrackSelected(int index) {
-        System.out.println("Index song: " + index);
         updateTrack(index);
-
         TrackManager.getInstance(getContext()).addPlayTrack(mTracks.get(index).getId(), currentLoc, this);
     }
 
@@ -429,14 +427,9 @@ public class PlaylistDetailsFragment extends Fragment implements TrackListCallba
 
     @Override
     public void onDeleteTrackSelected(int index) {
-
-        System.out.println(playlist.getTracks().size());
-
         playlist.getTracks().remove(index);
         PlaylistManager.getInstance(getContext())
                 .addTrackToPlaylistAttempt(playlist, this);
-
-
     }
 
     /**********************************************************************************************
