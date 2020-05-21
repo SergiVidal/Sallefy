@@ -134,7 +134,6 @@ public class TrackManager extends BaseManager{
     }
     public synchronized void shareTrack(long id, final TrackCallback trackCallback) {
 //        UserToken userToken = Session.getInstance(mContext).getUserToken();
-        System.out.println(id + "<---- ID");
         Call<Track> call = mTrackService.shareTrack(id);
         call.enqueue(new Callback<Track>() {
             @Override
@@ -190,7 +189,7 @@ public class TrackManager extends BaseManager{
         });
     }
     public synchronized void createTrack(Track track, final TrackCallback trackCallback) {
-        UserToken userToken = Session.getInstance(mContext).getUserToken();
+//        UserToken userToken = Session.getInstance(mContext).getUserToken();
 
         Call<ResponseBody> call = mTrackService.createTrack(track);
         call.enqueue(new Callback<ResponseBody>() {
