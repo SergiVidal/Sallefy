@@ -78,34 +78,52 @@ public class StatsFragment extends Fragment implements UserCallback {
 
     }
 
-    private void createChart(){
+    private void createChart(int size){
         List<BarEntry> entries = new ArrayList<>();
-        entries.add(new BarEntry(0f, topTracks.get(0).getPlays(),topTracks.get(0).getName()));
-        entries.add(new BarEntry(1f, topTracks.get(1).getPlays(),topTracks.get(1).getName()));
-        entries.add(new BarEntry(2f, topTracks.get(2).getPlays(),topTracks.get(2).getName()));
-        entries.add(new BarEntry(3f, topTracks.get(3).getPlays(),topTracks.get(3).getName()));
-        entries.add(new BarEntry(4f, topTracks.get(4).getPlays(),topTracks.get(4).getName()));
-
-
+        ArrayList<String> barFactors = new ArrayList<>();
+        for(int i = 0; i < size; i++){
+            entries.add(new BarEntry(i, topTracks.get(i).getPlays(),topTracks.get(i).getName()));
+            barFactors.add("ID: "+topTracks.get(i).getId().toString());
+        }
         BarDataSet bSet = new BarDataSet(entries, "");
         bSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
-
-        ArrayList<String> barFactors = new ArrayList<>();
-        barFactors.add("ID: "+topTracks.get(0).getId().toString());
-        barFactors.add("ID: "+topTracks.get(1).getId().toString());
-        barFactors.add("ID: "+topTracks.get(2).getId().toString());
-        barFactors.add("ID: "+topTracks.get(3).getId().toString());
-        barFactors.add("ID: "+topTracks.get(4).getId().toString());
         tvTop1 = view.findViewById(R.id.tvTop1);
-        tvTop1.setText("Top1 - ID:"+topTracks.get(0).getId().toString()+" - "+topTracks.get(0).getName());
         tvTop2 = view.findViewById(R.id.tvTop2);
-        tvTop2.setText("Top2 - ID:"+topTracks.get(1).getId().toString()+" - "+topTracks.get(1).getName());
         tvTop3 = view.findViewById(R.id.tvTop3);
-        tvTop3.setText("Top3 - ID:"+topTracks.get(2).getId().toString()+" - "+topTracks.get(2).getName());
         tvTop4 = view.findViewById(R.id.tvTop4);
-        tvTop4.setText("Top4 - ID:"+topTracks.get(3).getId().toString()+" - "+topTracks.get(3).getName());
         tvTop5 = view.findViewById(R.id.tvTop5);
-        tvTop5.setText("Top5 - ID:"+topTracks.get(4).getId().toString()+" - "+topTracks.get(4).getName());
+
+        switch (size){
+
+            case 5:
+                tvTop1.setText("Top1 - ID:"+topTracks.get(0).getId().toString()+" - "+topTracks.get(0).getName());
+                tvTop2.setText("Top2 - ID:"+topTracks.get(1).getId().toString()+" - "+topTracks.get(1).getName());
+                tvTop3.setText("Top3 - ID:"+topTracks.get(2).getId().toString()+" - "+topTracks.get(2).getName());
+                tvTop4.setText("Top4 - ID:"+topTracks.get(3).getId().toString()+" - "+topTracks.get(3).getName());
+                tvTop5.setText("Top5 - ID:"+topTracks.get(4).getId().toString()+" - "+topTracks.get(4).getName());
+                break;
+            case 4:
+                tvTop1.setText("Top1 - ID:"+topTracks.get(0).getId().toString()+" - "+topTracks.get(0).getName());
+                tvTop2.setText("Top2 - ID:"+topTracks.get(1).getId().toString()+" - "+topTracks.get(1).getName());
+                tvTop3.setText("Top3 - ID:"+topTracks.get(2).getId().toString()+" - "+topTracks.get(2).getName());
+                tvTop4.setText("Top4 - ID:"+topTracks.get(3).getId().toString()+" - "+topTracks.get(3).getName());
+                break;
+            case 3:
+                tvTop1.setText("Top1 - ID:"+topTracks.get(0).getId().toString()+" - "+topTracks.get(0).getName());
+                tvTop2.setText("Top2 - ID:"+topTracks.get(1).getId().toString()+" - "+topTracks.get(1).getName());
+                tvTop3.setText("Top3 - ID:"+topTracks.get(2).getId().toString()+" - "+topTracks.get(2).getName());
+                break;
+            case 2:
+                tvTop1.setText("Top1 - ID:"+topTracks.get(0).getId().toString()+" - "+topTracks.get(0).getName());
+                tvTop2.setText("Top2 - ID:"+topTracks.get(1).getId().toString()+" - "+topTracks.get(1).getName());
+                break;
+            case 1:
+                tvTop1.setText("Top1 - ID:"+topTracks.get(0).getId().toString()+" - "+topTracks.get(0).getName());
+                break;
+            default:
+                tvTop1.setText("No tienes canciones disponibles");
+                break;
+        }
 
 
         XAxis xAxis = bar.getXAxis();
@@ -154,11 +172,19 @@ public class StatsFragment extends Fragment implements UserCallback {
         Collections.sort(trackList, (t1, t2) -> t2.getPlays().compareTo(t1.getPlays()));
         System.out.println("onMeTracksSuccess ---->");
 
-        for (int i = 0; i < 5; i++) {
-            topTracks.add(trackList.get(i));
-            System.out.println(trackList.get(i));
+        if(trackList.size() < 5) {
+            for (int i = 0; i < trackList.size(); i++) {
+                topTracks.add(trackList.get(i));
+                System.out.println(trackList.get(i));
+            }
+            createChart(trackList.size());
+        }else{
+            for (int i = 0; i < 5; i++) {
+                topTracks.add(trackList.get(i));
+                System.out.println(trackList.get(i));
+            }
+            createChart(5);
         }
-        createChart();
 
     }
 
