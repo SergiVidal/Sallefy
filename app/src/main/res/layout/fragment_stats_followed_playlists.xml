@@ -16,11 +16,70 @@
         app:layout_constraintTop_toTopOf="parent"
         app:mwhCloseColor="@color/colorSecondary"
         app:mwhStartColor="@color/colorPrimary" />
-
-    <com.github.mikephil.charting.charts.BarChart
-        android:id="@+id/bar"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </com.github.mikephil.charting.charts.BarChart>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:id="@+id/tvTitle"
+            style="@style/settings_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="@string/top_followers_playlists" />
+        <TextView
+            android:id="@+id/tvTop1"
+            android:textColor="@color/colorWhite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="TOP 1:" />
+        <TextView
+            android:id="@+id/tvTop2"
+            android:textColor="@color/colorWhite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="TOP 2:" />
+        <TextView
+            android:id="@+id/tvTop3"
+            android:textColor="@color/colorWhite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="TOP 3:" />
+        <TextView
+            android:id="@+id/tvTop4"
+            android:textColor="@color/colorWhite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="TOP 4:" />
+        <TextView
+            android:id="@+id/tvTop5"
+            android:textColor="@color/colorWhite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="TOP 5:" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/tvTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/bar"
+                android:layout_width="match_parent"
+                android:layout_marginTop="300px"
+                android:layout_height="1000px">
+            </com.github.mikephil.charting.charts.BarChart>
+        </LinearLayout>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
