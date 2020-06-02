@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.objectbox.Box;
 import vidal.sergi.sallefyv1.R;
 import vidal.sergi.sallefyv1.controller.adapters.PlaylistListAdapter;
 import vidal.sergi.sallefyv1.controller.adapters.TrackListAdapter;
@@ -38,20 +39,24 @@ import vidal.sergi.sallefyv1.controller.callbacks.FragmentCallback;
 import vidal.sergi.sallefyv1.controller.callbacks.PlaylistAdapterCallback;
 import vidal.sergi.sallefyv1.controller.callbacks.TrackListCallback;
 import vidal.sergi.sallefyv1.controller.callbacks.UserAdapterCallback;
+import vidal.sergi.sallefyv1.model.Database;
+import vidal.sergi.sallefyv1.model.ObjectBox;
 import vidal.sergi.sallefyv1.model.Playlist;
 import vidal.sergi.sallefyv1.model.Search;
 import vidal.sergi.sallefyv1.model.Track;
 import vidal.sergi.sallefyv1.model.User;
 import vidal.sergi.sallefyv1.model.UserToken;
+import vidal.sergi.sallefyv1.restapi.callback.DownloadCallback;
 import vidal.sergi.sallefyv1.restapi.callback.PlaylistCallback;
 import vidal.sergi.sallefyv1.restapi.callback.SearchCallback;
 import vidal.sergi.sallefyv1.restapi.callback.TrackCallback;
 import vidal.sergi.sallefyv1.restapi.callback.UserCallback;
+import vidal.sergi.sallefyv1.restapi.manager.DownloadManager;
 import vidal.sergi.sallefyv1.restapi.manager.SearchManager;
 import vidal.sergi.sallefyv1.restapi.manager.TrackManager;
 import vidal.sergi.sallefyv1.utils.Session;
 
-public class PlayerFragment extends Fragment  {
+public class PlayerFragment extends Fragment implements DownloadCallback {
 
     private static final String PLAY_VIEW = "PlayIcon";
     private static final String STOP_VIEW = "StopIcon";
@@ -94,6 +99,7 @@ public class PlayerFragment extends Fragment  {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Nullable
@@ -102,12 +108,23 @@ public class PlayerFragment extends Fragment  {
         View v = inflater.inflate(R.layout.fragment_play_song, container, false);
         super.onCreate(savedInstanceState);
         track = (Track) getArguments().getSerializable("track");
+
+        DownloadManager.getInstance(getContext()).downloadTrack(track, this);
         url = track.getUrl();
         Log.d("Static: ", "Enter onCreate " + this.hashCode());
         initViews(v);
         return v;
     }
 
+
+    public void createBox(Database database){
+        ObjectBox.init(getContext());
+
+        Box<Database> userBox = ObjectBox.get().boxFor(Database.class);
+        userBox.put(database);
+
+        System.out.println("----->  "+userBox.getAll());
+    }
 
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -250,6 +267,21 @@ public class PlayerFragment extends Fragment  {
         Log.d("Static: ", "Enter onDestroy " + this.hashCode() );
         if (mVisualizer != null)
             mVisualizer.release();
+
+    }
+
+    @Override
+    public void onSongDownload(Database database) {
+        createBox(database);
+    }
+
+    @Override
+    public void onSongDownloadFailure(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onFailure(Throwable throwable) {
 
     }
 }

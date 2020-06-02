@@ -63,5 +63,9 @@ dependencies {
     //charts
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.1'
+
+    //Boxes
+    apply plugin: 'com.android.application'
+    apply plugin: 'io.objectbox'
 }
 
