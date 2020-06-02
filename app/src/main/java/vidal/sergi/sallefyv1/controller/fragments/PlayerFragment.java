@@ -71,7 +71,7 @@ public class PlayerFragment extends Fragment implements DownloadCallback {
     private SeekBar mSeekBar;
     private Handler mHandler;
     private Runnable mRunnable;
-    Track track;
+    private Track track;
 
     private FragmentCallback fragmentCallback;
 
@@ -80,10 +80,12 @@ public class PlayerFragment extends Fragment implements DownloadCallback {
     private MediaPlayer mPlayer;
     private String url;
 
+    private Box<Database> userBox;
 
     public static PlayerFragment getInstance() {
         return new PlayerFragment();
     }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -93,6 +95,7 @@ public class PlayerFragment extends Fragment implements DownloadCallback {
         mPlayer.prepareAsync(); // might take long! (for buffering, etc)
 
     }
+
     public static final String TAG = PlayerFragment.class.getName();
 
 
@@ -109,27 +112,45 @@ public class PlayerFragment extends Fragment implements DownloadCallback {
         super.onCreate(savedInstanceState);
         track = (Track) getArguments().getSerializable("track");
 
-        DownloadManager.getInstance(getContext()).downloadTrack(track, this);
-        url = track.getUrl();
+        ObjectBox.init(getContext());
+        userBox = ObjectBox.get().boxFor(Database.class);
+
+        if (!isDownloaded()) {
+            DownloadManager.getInstance(getContext()).downloadTrack(track, this);
+            url = track.getUrl();
+            System.out.println("--------------------->False!");
+        }
+
         Log.d("Static: ", "Enter onCreate " + this.hashCode());
         initViews(v);
         return v;
     }
 
+    public boolean isDownloaded() {
+        List<Database> databases = userBox.getAll();
 
-    public void createBox(Database database){
-        ObjectBox.init(getContext());
+        for (Database database : databases) {
+            System.out.println(database);
+            if (database.getId() == track.getId()) {
+                this.url = database.getUrl();
+                System.out.println("--------------------------->True!");
+                return true;
+            }
+        }
+        return false;
+    }
 
-        Box<Database> userBox = ObjectBox.get().boxFor(Database.class);
+
+    public void createBox(Database database) {
         userBox.put(database);
-
-        System.out.println("----->  "+userBox.getAll());
+        System.out.println("----->  " + userBox.getAll());
     }
 
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         fragmentCallback = (FragmentCallback) context;
     }
+
     private void initViews(View v) {
         mVisualizer = v.findViewById(R.id.circleVisualizer);
 
@@ -144,7 +165,7 @@ public class PlayerFragment extends Fragment implements DownloadCallback {
                     mSeekBar.setMax(mPlayer.getDuration());
 
                     int audioSessionId = mPlayer.getAudioSessionId();
-                    if (audioSessionId != -1){
+                    if (audioSessionId != -1) {
 //                        mVisualizer.setAudioSessionId(audioSessionId);
                     }
                 }
@@ -172,10 +193,10 @@ public class PlayerFragment extends Fragment implements DownloadCallback {
         tvTitle.setText(track.getName());
         tvAuthor.setText(track.getUser().getLogin());
         ivPhoto = v.findViewById(R.id.ivPlaylistPhoto);
-        btnBackward = (ImageButton)v.findViewById(R.id.music_backward_btn_2);
-        btnForward = (ImageButton)v.findViewById(R.id.music_forward_btn_2);
+        btnBackward = (ImageButton) v.findViewById(R.id.music_backward_btn_2);
+        btnForward = (ImageButton) v.findViewById(R.id.music_forward_btn_2);
 
-        btnPlayStop = (ImageButton)v.findViewById(R.id.music_play_btn_2);
+        btnPlayStop = (ImageButton) v.findViewById(R.id.music_play_btn_2);
         btnPlayStop.setTag(PLAY_VIEW);
         btnPlayStop.setOnClickListener(new View.OnClickListener() {
 
@@ -224,7 +245,7 @@ public class PlayerFragment extends Fragment implements DownloadCallback {
     public void updateSeekBar() {
         mSeekBar.setProgress(mPlayer.getCurrentPosition());
 
-        if(mPlayer.isPlaying()) {
+        if (mPlayer.isPlaying()) {
             mRunnable = new Runnable() {
                 @Override
                 public void run() {
@@ -264,7 +285,7 @@ public class PlayerFragment extends Fragment implements DownloadCallback {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d("Static: ", "Enter onDestroy " + this.hashCode() );
+        Log.d("Static: ", "Enter onDestroy " + this.hashCode());
         if (mVisualizer != null)
             mVisualizer.release();
 
