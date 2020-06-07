@@ -60,7 +60,7 @@ public class TrackOptionsFragment extends Fragment implements TrackListCallback,
 
 
         bLike = v.findViewById(R.id.like_btn);
-        bLike.setOnClickListener(v1 -> onLikeTrackSelected(1));
+        bLike.setOnClickListener(v1 -> onLikeTrackSelected(1, 0));
         bArtist = v.findViewById(R.id.artist_btn);
         bArtist.setOnClickListener(v1 -> fragmentCallback.onUsersDetails(UserDetailsFragment.getInstance(), track.getUser()));
         bAddSong = v.findViewById(R.id.add_btn);
@@ -137,7 +137,7 @@ public class TrackOptionsFragment extends Fragment implements TrackListCallback,
     }
 
     @Override
-    public void onLikeTrackSelected(int index) {
+    public void onLikeTrackSelected(int index, int option) {
         TrackManager.getInstance(getContext())
                 .addLikeTrack(track.getId(), this);
 
@@ -151,7 +151,7 @@ public class TrackOptionsFragment extends Fragment implements TrackListCallback,
     }
 
     @Override
-    public void onDetailsTrackSelected(int index) {
+    public void onDetailsTrackSelected(int index, int option) {
 
     }
 

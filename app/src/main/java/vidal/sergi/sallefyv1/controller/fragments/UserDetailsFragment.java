@@ -154,7 +154,7 @@ public class UserDetailsFragment extends Fragment implements PlaylistAdapterCall
         tvNumTracks.setText(String.valueOf(user.getTracks()));
 
         LinearLayoutManager managerTracks = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
-        mTrackAdapter = new TrackListAdapter(this, getContext(), null, "");
+        mTrackAdapter = new TrackListAdapter(this, getContext(), null, "", 0);
         rvTrack = v.findViewById(R.id.user_track_recyclerview);
         rvTrack.setLayoutManager(managerTracks);
         rvTrack.setAdapter(mTrackAdapter);
@@ -181,7 +181,7 @@ public class UserDetailsFragment extends Fragment implements PlaylistAdapterCall
     }
 
     @Override
-    public void onLikeTrackSelected(int index) {
+    public void onLikeTrackSelected(int index, int option) {
         pos = index;
         TrackManager.getInstance(getContext())
                 .addLikeTrack(mTracks.get(index).getId(), this);
@@ -189,7 +189,7 @@ public class UserDetailsFragment extends Fragment implements PlaylistAdapterCall
 
 
     @Override
-    public void onDetailsTrackSelected(int index) {
+    public void onDetailsTrackSelected(int index, int option) {
         fragmentCallback.onTrackSelection(TrackOptionsFragment.getInstance(), mTracks.get(index));
     }
 
@@ -216,7 +216,7 @@ public class UserDetailsFragment extends Fragment implements PlaylistAdapterCall
     @Override
     public void onUserTracksReceived(List<Track> tracks) {
         mTracks = (ArrayList<Track>) tracks;
-        mTrackAdapter = new TrackListAdapter(this, getContext(), (ArrayList<Track>) tracks, user.getLogin());
+        mTrackAdapter = new TrackListAdapter(this, getContext(), (ArrayList<Track>) tracks, user.getLogin(), 0);
         rvTrack.setAdapter(mTrackAdapter);
     }
 

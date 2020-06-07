@@ -30,12 +30,14 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
     private TrackListCallback mCallback;
     private int NUM_VIEWHOLDERS = 0;
     private String playlistAuthor;
+    private int option;
 
-    public TrackListAdapter(TrackListCallback callback, Context context, ArrayList<Track> tracks, String playlistAuthor) {
+    public TrackListAdapter(TrackListCallback callback, Context context, ArrayList<Track> tracks, String playlistAuthor, int option) {
         mTracks = tracks;
         mContext = context;
         mCallback = callback;
         this.playlistAuthor = playlistAuthor;
+        this.option = option;
     }
 
     @NonNull
@@ -74,7 +76,7 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
 //                .isLikedTrack(mTracks.get(position).getId(), this);
 
         holder.ibFollowTrack.setOnClickListener(v -> {
-            mCallback.onLikeTrackSelected(position);
+            mCallback.onLikeTrackSelected(position, option);
         });
 
         if (mTracks.get(position).isLiked()) {
@@ -84,7 +86,7 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
 
         }
         holder.ibMoreTrack.setOnClickListener(v -> {
-            mCallback.onDetailsTrackSelected(position);
+            mCallback.onDetailsTrackSelected(position, option);
         });
 
         if (playlistAuthor.equals(Session.getInstance(mContext).getUser().getLogin())) {

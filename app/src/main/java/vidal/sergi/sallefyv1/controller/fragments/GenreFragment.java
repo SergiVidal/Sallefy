@@ -75,7 +75,7 @@ public class GenreFragment extends Fragment implements TrackListCallback, TrackC
     private void initViews(View v) {
         mRecyclerView = v.findViewById(R.id.recyclerView);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
-        adapter = new TrackListAdapter(this, getContext(), null, "");
+        adapter = new TrackListAdapter(this, getContext(), null, "", 0);
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(adapter);
         tvGenreName = v.findViewById(R.id.tvGenreName);
@@ -91,7 +91,7 @@ public class GenreFragment extends Fragment implements TrackListCallback, TrackC
     public void onTracksReceived(List<Track> tracks) {
 //        mTracks = (ArrayList) tracks;
         filterByGenre((ArrayList<Track>) tracks);
-        adapter = new TrackListAdapter(this, getContext(), mTracks, "");
+        adapter = new TrackListAdapter(this, getContext(), mTracks, "", 0);
         mRecyclerView.setAdapter(adapter);
     }
     private void filterByGenre(ArrayList<Track> tracks){
@@ -160,13 +160,12 @@ public class GenreFragment extends Fragment implements TrackListCallback, TrackC
     }
 
     @Override
-    public void onLikeTrackSelected(int index) {
+    public void onLikeTrackSelected(int index, int option) {
 
     }
 
     @Override
-
-    public void onDetailsTrackSelected(int index) {
+    public void onDetailsTrackSelected(int index, int option) {
 //        Intent intent = new Intent(getContext(), TrackOptionsActivity.class);
 //        intent.putExtra("track", mTracks.get(index));
 //        startActivity(intent);

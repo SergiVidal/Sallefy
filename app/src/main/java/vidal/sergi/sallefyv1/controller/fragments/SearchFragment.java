@@ -104,7 +104,7 @@ public class SearchFragment extends Fragment implements UserCallback, SearchCall
 
             LinearLayoutManager manager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
             mRecyclerView = view.findViewById(R.id.rvTracks);
-            adapter = new TrackListAdapter(this, getContext(), null, "");
+            adapter = new TrackListAdapter(this, getContext(), null, "", 0);
             mRecyclerView.setLayoutManager(manager);
             mRecyclerView.setAdapter(adapter);
 
@@ -195,7 +195,7 @@ public class SearchFragment extends Fragment implements UserCallback, SearchCall
         System.out.println(checkboxid);
         search = s;
         if(checkboxid == 0){
-            adapter = new TrackListAdapter(this, getContext(), (ArrayList<Track>) search.getTracks(), "");
+            adapter = new TrackListAdapter(this, getContext(), (ArrayList<Track>) search.getTracks(), "", 0);
             mRecyclerView.setAdapter(adapter);
         }
         if(checkboxid == 1){
@@ -226,14 +226,14 @@ public class SearchFragment extends Fragment implements UserCallback, SearchCall
     }
 
     @Override
-    public void onLikeTrackSelected(int index) {
+    public void onLikeTrackSelected(int index, int option) {
         pos=index;
         TrackManager.getInstance(getContext())
                 .addLikeTrack(search.getTracks().get(index).getId(), this);
     }
 
     @Override
-    public void onDetailsTrackSelected(int index) {
+    public void onDetailsTrackSelected(int index, int option) {
 //        Intent intent = new Intent(getApplicationContext(), TrackOptionsActivity.class);
 //        intent.putExtra("track", search.getTracks().get(index));
 //        startActivity(intent);

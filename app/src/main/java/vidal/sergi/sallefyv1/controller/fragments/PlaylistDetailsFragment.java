@@ -224,7 +224,7 @@ public class PlaylistDetailsFragment extends Fragment implements TrackListCallba
 
 
         LinearLayoutManager managerTracks = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
-        mTracksAdapter = new TrackListAdapter(this, getContext(), mTracks, playlist.getUserLogin());
+        mTracksAdapter = new TrackListAdapter(this, getContext(), mTracks, playlist.getUserLogin(), 0);
         mTracksView = view.findViewById(R.id.search_tracks_recyclerview);
         mTracksView.setLayoutManager(managerTracks);
         mTracksView.setAdapter(mTracksAdapter);
@@ -378,14 +378,14 @@ public class PlaylistDetailsFragment extends Fragment implements TrackListCallba
     }
 
     @Override
-    public void onLikeTrackSelected(int index) {
+    public void onLikeTrackSelected(int index, int option) {
         pos = index;
         TrackManager.getInstance(getContext())
                 .addLikeTrack(mTracks.get(index).getId(), this);
     }
 
     @Override
-    public void onDetailsTrackSelected(int index) {
+    public void onDetailsTrackSelected(int index, int option) {
         fragmentCallback.onTrackSelection(TrackOptionsFragment.getInstance(), mTracks.get(index));
     }
 
@@ -435,7 +435,7 @@ public class PlaylistDetailsFragment extends Fragment implements TrackListCallba
     @Override
     public void onAddTrackToPlaylistSuccess(Playlist playlist) {
         Toast.makeText(getContext(), "Cancion eliminada!", Toast.LENGTH_LONG).show();
-        mTracksAdapter = new TrackListAdapter(this, getContext(), (ArrayList<Track>) playlist.getTracks(), playlist.getUserLogin());
+        mTracksAdapter = new TrackListAdapter(this, getContext(), (ArrayList<Track>) playlist.getTracks(), playlist.getUserLogin(), 0);
         mTracksView.setAdapter(mTracksAdapter);
     }
 

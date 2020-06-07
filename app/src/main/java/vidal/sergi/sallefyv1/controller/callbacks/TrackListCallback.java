@@ -7,7 +7,7 @@ public interface TrackListCallback {
     void onTrackSelected(Track track);
     void onTrackSelected(int index);
 
-    void onLikeTrackSelected(int index);
-    void onDetailsTrackSelected(int index);
+    void onLikeTrackSelected(int index, int option);
+    void onDetailsTrackSelected(int index, int option);
     void onDeleteTrackSelected(int index);
 }

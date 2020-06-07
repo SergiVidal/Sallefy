@@ -25,7 +25,7 @@ import vidal.sergi.sallefyv1.restapi.callback.TrackCallback;
 import vidal.sergi.sallefyv1.restapi.manager.TrackManager;
 import vidal.sergi.sallefyv1.utils.Session;
 
-public class LibraryTrackFragment extends Fragment implements TrackCallback, TrackListCallback  {
+public class LibraryTrackFragment extends Fragment implements TrackCallback, TrackListCallback {
     public static final String TAG = LibraryTrackFragment.class.getName();
 
     public static LibraryTrackFragment getInstance() {
@@ -45,6 +45,8 @@ public class LibraryTrackFragment extends Fragment implements TrackCallback, Tra
     private ArrayList<Track> mTracks;
     private ArrayList<Track> mFavTracks;
     private int pos;
+
+    private int option;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,16 +77,17 @@ public class LibraryTrackFragment extends Fragment implements TrackCallback, Tra
         TrackManager.getInstance(getContext()).getOwnTracks(this);
         TrackManager.getInstance(getContext()).getLikedTracks(this);
     }
+
     private void initViews(View v) {
 
         LinearLayoutManager managerTracks = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
-        mTracksAdapter = new TrackListAdapter(this, getContext(), mTracks, Session.getInstance(getContext()).getUser().getLogin());
+        mTracksAdapter = new TrackListAdapter(this, getContext(), mTracks, Session.getInstance(getContext()).getUser().getLogin(), 0);
         mTracksView = v.findViewById(R.id.search_tracks_recyclerview);
         mTracksView.setLayoutManager(managerTracks);
         mTracksView.setAdapter(mTracksAdapter);
 
         LinearLayoutManager managerTracksFav = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
-        mFavTracksAdapter = new TrackListAdapter(this, getContext(), mFavTracks, Session.getInstance(getContext()).getUser().getLogin());
+        mFavTracksAdapter = new TrackListAdapter(this, getContext(), mFavTracks, Session.getInstance(getContext()).getUser().getLogin(), 1);
         mFavTracksView = v.findViewById(R.id.fav_tracks_recyclerview);
         mFavTracksView.setLayoutManager(managerTracksFav);
         mFavTracksView.setAdapter(mFavTracksAdapter);
@@ -107,9 +110,14 @@ public class LibraryTrackFragment extends Fragment implements TrackCallback, Tra
         getData();
     }
 
-    private void isLikedTrack(Track track){
-        mTracks.get(pos).setLiked(track.isLiked());
-        mTracksAdapter.updateTrackLikeStateIcon(pos, track.isLiked());
+    private void isLikedTrack(Track track) {
+        if (option == 0) {
+            mTracks.get(pos).setLiked(track.isLiked());
+            mTracksAdapter.updateTrackLikeStateIcon(pos, track.isLiked());
+        }else{
+            mFavTracks.get(pos).setLiked(track.isLiked());
+            mFavTracksAdapter.updateTrackLikeStateIcon(pos, track.isLiked());
+        }
     }
 
     @Override
@@ -122,14 +130,26 @@ public class LibraryTrackFragment extends Fragment implements TrackCallback, Tra
         fragmentCallback.onTrackSelection(PlayerFragment.getInstance(), mTracks.get(index));
     }
 
-    public void onLikeTrackSelected(int index) {
-        pos=index;
-        TrackManager.getInstance(getContext())
-                .addLikeTrack(mTracks.get(index).getId(), this);
+    @Override
+    public void onLikeTrackSelected(int index, int option) {
+        pos = index;
+        this.option = option;
+        if (option == 0) {
+            TrackManager.getInstance(getContext())
+                    .addLikeTrack(mTracks.get(index).getId(), this);
+        } else {
+            TrackManager.getInstance(getContext())
+                    .addLikeTrack(mFavTracks.get(index).getId(), this);
+        }
     }
 
-    public void onDetailsTrackSelected(int index) {
-        fragmentCallback.onTrackSelection(TrackOptionsFragment.getInstance(), mTracks.get(index));
+    @Override
+    public void onDetailsTrackSelected(int index, int option) {
+        if (option == 0) {
+            fragmentCallback.onTrackSelection(TrackOptionsFragment.getInstance(), mTracks.get(index));
+        } else {
+            fragmentCallback.onTrackSelection(TrackOptionsFragment.getInstance(), mFavTracks.get(index));
+        }
     }
 
     @Override
@@ -150,7 +170,7 @@ public class LibraryTrackFragment extends Fragment implements TrackCallback, Tra
     @Override
     public void onPersonalTracksReceived(List<Track> tracks) {
         mTracks = (ArrayList<Track>) tracks;
-        mTracksAdapter = new TrackListAdapter(this, getContext(), mTracks, "");
+        mTracksAdapter = new TrackListAdapter(this, getContext(), mTracks, "", 0);
         mTracksView.setAdapter(mTracksAdapter);
     }
 
@@ -177,7 +197,7 @@ public class LibraryTrackFragment extends Fragment implements TrackCallback, Tra
     @Override
     public void onLikedTracksReceived(List<Track> tracks) {
         mFavTracks = (ArrayList<Track>) tracks;
-        mFavTracksAdapter = new TrackListAdapter(this, getContext(), mFavTracks, "");
+        mFavTracksAdapter = new TrackListAdapter(this, getContext(), mFavTracks, "", 1);
         mFavTracksView.setAdapter(mFavTracksAdapter);
     }
 
