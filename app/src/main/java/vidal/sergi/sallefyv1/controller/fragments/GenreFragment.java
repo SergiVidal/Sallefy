@@ -38,6 +38,7 @@ public class GenreFragment extends Fragment implements TrackListCallback, TrackC
     private Genre genre;
     private TrackListAdapter adapter;
     private FragmentCallback fragmentCallback;
+    private int pos;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,6 +88,11 @@ public class GenreFragment extends Fragment implements TrackListCallback, TrackC
         mTracks = new ArrayList<>();
     }
 
+    private void isLikedTrack(Track track) {
+        mTracks.get(pos).setLiked(track.isLiked());
+        adapter.updateTrackLikeStateIcon(pos, track.isLiked());
+    }
+
     @Override
     public void onTracksReceived(List<Track> tracks) {
 //        mTracks = (ArrayList) tracks;
@@ -94,10 +100,11 @@ public class GenreFragment extends Fragment implements TrackListCallback, TrackC
         adapter = new TrackListAdapter(this, getContext(), mTracks, "", 0);
         mRecyclerView.setAdapter(adapter);
     }
-    private void filterByGenre(ArrayList<Track> tracks){
-        for (int i = 0; i < tracks.size();i++){
-            for(int j = 0; j<tracks.get(i).getGenres().size();j++){
-                if(tracks.get(i).getGenres().get(j).getName().equals(genre.getName())){
+
+    private void filterByGenre(ArrayList<Track> tracks) {
+        for (int i = 0; i < tracks.size(); i++) {
+            for (int j = 0; j < tracks.get(i).getGenres().size(); j++) {
+                if (tracks.get(i).getGenres().get(j).getName().equals(genre.getName())) {
                     mTracks.add(tracks.get(i));
                 }
             }
@@ -121,12 +128,12 @@ public class GenreFragment extends Fragment implements TrackListCallback, TrackC
 
     @Override
     public void onLikedTrack(Track track) {
-
+        isLikedTrack(track);
     }
 
     @Override
     public void onIsLikedTrack(Track track) {
-
+        isLikedTrack(track);
     }
 
     @Override
@@ -161,14 +168,15 @@ public class GenreFragment extends Fragment implements TrackListCallback, TrackC
 
     @Override
     public void onLikeTrackSelected(int index, int option) {
+        pos = index;
+        TrackManager.getInstance(getContext())
+                .addLikeTrack(mTracks.get(index).getId(), this);
 
     }
 
     @Override
     public void onDetailsTrackSelected(int index, int option) {
-//        Intent intent = new Intent(getContext(), TrackOptionsActivity.class);
-//        intent.putExtra("track", mTracks.get(index));
-//        startActivity(intent);
+        fragmentCallback.onTrackSelection(TrackOptionsFragment.getInstance(), mTracks.get(index));
     }
 
     @Override
