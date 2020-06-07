@@ -33,7 +33,6 @@ import vidal.sergi.sallefyv1.model.Track;
 import vidal.sergi.sallefyv1.model.User;
 import vidal.sergi.sallefyv1.restapi.callback.PlaylistCallback;
 import vidal.sergi.sallefyv1.restapi.callback.TrackCallback;
-import vidal.sergi.sallefyv1.restapi.manager.PlaylistManager;
 import vidal.sergi.sallefyv1.restapi.manager.TrackManager;
 import vidal.sergi.sallefyv1.restapi.manager.UserManager;
 
@@ -76,20 +75,17 @@ public class UserDetailsFragment extends Fragment implements PlaylistAdapterCall
         user = (User) getArguments().getSerializable("user");
 
         bShare = v.findViewById(R.id.share_btn);
-        bShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                    shareIntent.setType("text/plain");
-                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Sallefy");
-                    String shareMessage= "\n User: "+user.getLogin()+"\n";
-                    shareMessage = shareMessage + "http://sallefy.eu-west-3.elasticbeanstalk.com/user/" + user.getLogin() +"\n\n";
-                    shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
-                    startActivity(Intent.createChooser(shareIntent, "Choose one"));
-                } catch(Exception e) {
-                    //e.toString();
-                }
+        bShare.setOnClickListener(v1 -> {
+            try {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Sallefy");
+                String shareMessage= "\n User: "+user.getLogin()+"\n";
+                shareMessage = shareMessage + "http://sallefy.eu-west-3.elasticbeanstalk.com/user/" + user.getLogin() +"\n\n";
+                shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+                startActivity(Intent.createChooser(shareIntent, "Choose one"));
+            } catch(Exception e) {
+                e.toString();
             }
         });
         initViews(v);

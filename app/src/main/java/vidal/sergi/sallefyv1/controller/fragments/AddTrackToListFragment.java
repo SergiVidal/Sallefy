@@ -24,7 +24,6 @@ import vidal.sergi.sallefyv1.model.Track;
 import vidal.sergi.sallefyv1.restapi.callback.PlaylistCallback;
 import vidal.sergi.sallefyv1.restapi.manager.PlaylistManager;
 
-
 public class AddTrackToListFragment extends Fragment implements PlaylistCallback, PlaylistAdapterCallback {
     public static final String TAG = AddTrackToListFragment.class.getName();
     public static AddTrackToListFragment getInstance() {

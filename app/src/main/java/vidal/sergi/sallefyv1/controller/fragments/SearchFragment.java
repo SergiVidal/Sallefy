@@ -1,7 +1,6 @@
 package vidal.sergi.sallefyv1.controller.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,10 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,54 +98,45 @@ public class SearchFragment extends Fragment implements UserCallback, SearchCall
         fragmentCallback = (FragmentCallback) context;
     }
     private void initViews(View view) {
-
-
-
-        etKeyword = (EditText) view.findViewById(R.id.keyword);
+        etKeyword = view.findViewById(R.id.keyword);
         bSearch = view.findViewById(R.id.search_btn);
         bSearch.setOnClickListener(v -> {
 
-            mRecyclerView = view.findViewById(R.id.rvTracks);
             LinearLayoutManager manager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
+            mRecyclerView = view.findViewById(R.id.rvTracks);
             adapter = new TrackListAdapter(this, getContext(), null, "");
             mRecyclerView.setLayoutManager(manager);
             mRecyclerView.setAdapter(adapter);
 
             LinearLayoutManager managerUsers = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
             mUserAdapter = new UserAdapter(null, getContext(), this);
-            mUsersView = (RecyclerView) view.findViewById(R.id.search_users_recyclerview);
+            mUsersView = view.findViewById(R.id.search_users_recyclerview);
             mUsersView.setLayoutManager(managerUsers);
             mUsersView.setAdapter(mUserAdapter);
 
             LinearLayoutManager managerPlaylists = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
             mPlaylistAdapter = new PlaylistListAdapter(null, getContext(), this, R.layout.item_playlist_short);
-            mPlaylistsView = (RecyclerView) view.findViewById(R.id.search_playlists_recyclerview);
+            mPlaylistsView = view.findViewById(R.id.search_playlists_recyclerview);
             mPlaylistsView.setLayoutManager(managerPlaylists);
             mPlaylistsView.setAdapter(mPlaylistAdapter);
             SearchManager.getInstance(getContext()).getSearch(etKeyword.getText().toString(),this);
         });
-        RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.radioGroup);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-        {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-               View radioButton = radioGroup.findViewById(checkedId);
-               int index = radioGroup.indexOfChild(radioButton);
-                switch(index) {
-                    case 0:
-                            checkboxid = 0;
-                        break;
-                    case 1:
-                            checkboxid = 1;
-                        break;
-                    case 2:
-                            checkboxid = 2;
-                        break;
-                }
+        RadioGroup radioGroup = view.findViewById(R.id.radioGroup);
+        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+           View radioButton = radioGroup.findViewById(checkedId);
+           int index = radioGroup.indexOfChild(radioButton);
+            switch(index) {
+                case 0:
+                        checkboxid = 0;
+                    break;
+                case 1:
+                        checkboxid = 1;
+                    break;
+                case 2:
+                        checkboxid = 2;
+                    break;
             }
         });
-
-
     }
 
 

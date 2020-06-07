@@ -59,42 +59,24 @@ public class TrackOptionsFragment extends Fragment implements TrackListCallback,
         System.out.println(track);
 
 
-        bLike = (ImageButton) v.findViewById(R.id.like_btn);
-        bLike.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onLikeTrackSelected(1);
-            }
-        });
-        bArtist = (ImageButton) v.findViewById(R.id.artist_btn);
-        bArtist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragmentCallback.onUsersDetails(UserDetailsFragment.getInstance(), track.getUser());
-            }
-        });
-        bAddSong = (ImageButton) v.findViewById(R.id.add_btn);
-        bAddSong.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragmentCallback.onTrackSelection(AddTrackToListFragment.getInstance(), track);
-            }
-        });
-        bShare = (ImageButton) v.findViewById(R.id.share_btn);
-        bShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                    shareIntent.setType("text/plain");
-                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Sallefy");
-                    String shareMessage= "\n Song: "+track.getName()+"\n"+"By: "+track.getUser().getLogin()+"\n";
-                    shareMessage = shareMessage + "http://sallefy.eu-west-3.elasticbeanstalk.com/track/" + track.getId() +"\n\n";
-                    shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
-                    startActivity(Intent.createChooser(shareIntent, "Choose one"));
-                } catch(Exception e) {
-                    //e.toString();
-                }
+        bLike = v.findViewById(R.id.like_btn);
+        bLike.setOnClickListener(v1 -> onLikeTrackSelected(1));
+        bArtist = v.findViewById(R.id.artist_btn);
+        bArtist.setOnClickListener(v1 -> fragmentCallback.onUsersDetails(UserDetailsFragment.getInstance(), track.getUser()));
+        bAddSong = v.findViewById(R.id.add_btn);
+        bAddSong.setOnClickListener(v1 -> fragmentCallback.onTrackSelection(AddTrackToListFragment.getInstance(), track));
+        bShare = v.findViewById(R.id.share_btn);
+        bShare.setOnClickListener(v1 -> {
+            try {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Sallefy");
+                String shareMessage= "\n Song: "+track.getName()+"\n"+"By: "+track.getUser().getLogin()+"\n";
+                shareMessage = shareMessage + "http://sallefy.eu-west-3.elasticbeanstalk.com/track/" + track.getId() +"\n\n";
+                shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+                startActivity(Intent.createChooser(shareIntent, "Choose one"));
+            } catch(Exception e) {
+                e.toString();
             }
         });
 

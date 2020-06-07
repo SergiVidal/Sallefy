@@ -1,8 +1,6 @@
 package vidal.sergi.sallefyv1.controller.fragments;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.core.content.ContextCompat;
@@ -37,21 +35,16 @@ public class LibraryTrackFragment extends Fragment implements TrackCallback, Tra
     private RecyclerView mTracksView;
     private RecyclerView mFavTracksView;
 
-
     private TrackListAdapter mTracksAdapter;
     private TrackListAdapter mFavTracksAdapter;
     private Button bPlaylist;
     private Button bUsers;
     private Button baddSong;
     private Button bCanciones;
-    private static final String PLAY_VIEW = "PlayIcon";
-    private static final String STOP_VIEW = "StopIcon";
     private FragmentCallback fragmentCallback;
     private ArrayList<Track> mTracks;
     private ArrayList<Track> mFavTracks;
-    private int currentTrack = 0;
     private int pos;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,36 +52,19 @@ public class LibraryTrackFragment extends Fragment implements TrackCallback, Tra
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_library_track, container, false);
         super.onCreate(savedInstanceState);
         getData();
         initViews(v);
-        bCanciones = (Button) v.findViewById(R.id.item_canciones_button);
-        bUsers = (Button) v.findViewById(R.id.item_artistas_button);
-        bPlaylist = (Button) v.findViewById(R.id.item_playlist_button);
-        baddSong = (Button) v.findViewById(R.id.add_song);
+        bCanciones = v.findViewById(R.id.item_canciones_button);
+        bUsers = v.findViewById(R.id.item_artistas_button);
+        bPlaylist = v.findViewById(R.id.item_playlist_button);
+        baddSong = v.findViewById(R.id.add_song);
 
-        bUsers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragmentCallback.onChangeFragment(LibraryArtistFragment.getInstance());
-            }
-        });
-        bPlaylist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragmentCallback.onChangeFragment(LibraryFragment.getInstance());
-            }
-        });
-        baddSong.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragmentCallback.onChangeFragment(UploadFragment.getInstance());
-            }
-        });
+        bUsers.setOnClickListener(v1 -> fragmentCallback.onChangeFragment(LibraryArtistFragment.getInstance()));
+        bPlaylist.setOnClickListener(v1 -> fragmentCallback.onChangeFragment(LibraryFragment.getInstance()));
+        baddSong.setOnClickListener(v1 -> fragmentCallback.onChangeFragment(UploadFragment.getInstance()));
         bCanciones.setEnabled(false);
         bCanciones.setTextColor(ContextCompat.getColor(getContext(), R.color.opacity));
 
@@ -103,13 +79,13 @@ public class LibraryTrackFragment extends Fragment implements TrackCallback, Tra
 
         LinearLayoutManager managerTracks = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         mTracksAdapter = new TrackListAdapter(this, getContext(), mTracks, Session.getInstance(getContext()).getUser().getLogin());
-        mTracksView = (RecyclerView) v.findViewById(R.id.search_tracks_recyclerview);
+        mTracksView = v.findViewById(R.id.search_tracks_recyclerview);
         mTracksView.setLayoutManager(managerTracks);
         mTracksView.setAdapter(mTracksAdapter);
 
         LinearLayoutManager managerTracksFav = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         mFavTracksAdapter = new TrackListAdapter(this, getContext(), mFavTracks, Session.getInstance(getContext()).getUser().getLogin());
-        mFavTracksView = (RecyclerView) v.findViewById(R.id.fav_tracks_recyclerview);
+        mFavTracksView = v.findViewById(R.id.fav_tracks_recyclerview);
         mFavTracksView.setLayoutManager(managerTracksFav);
         mFavTracksView.setAdapter(mFavTracksAdapter);
     }
@@ -219,5 +195,4 @@ public class LibraryTrackFragment extends Fragment implements TrackCallback, Tra
     public void onFailure(Throwable throwable) {
 
     }
-
 }

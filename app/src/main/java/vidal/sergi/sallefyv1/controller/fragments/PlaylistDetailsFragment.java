@@ -1,27 +1,12 @@
 package vidal.sergi.sallefyv1.controller.fragments;
 
-import android.Manifest;
-import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Handler;
 import android.os.IBinder;
-import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,11 +17,13 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
-/*import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;*/
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,10 +58,8 @@ public class PlaylistDetailsFragment extends Fragment implements TrackListCallba
     private Button bRandom;
     private ImageButton bShare;
 
-
     private RecyclerView mTracksView;
     private TrackListAdapter mTracksAdapter;
-
 
     private static final String PLAY_VIEW = "PlayIcon";
     private static final String STOP_VIEW = "StopIcon";
@@ -91,7 +76,6 @@ public class PlaylistDetailsFragment extends Fragment implements TrackListCallba
     private Runnable mRunnable;
 
     private int mDuration;
-    private RecyclerView mRecyclerView;
 
     // Service
     private MusicService mBoundService;
@@ -100,15 +84,11 @@ public class PlaylistDetailsFragment extends Fragment implements TrackListCallba
     private ArrayList<Track> mTracks;
     private int currentTrack = 0;
 
-    private BottomNavigationView mNav;
-
     private int pos;
 
     private CurrentLoc currentLoc;
 
     private FragmentCallback fragmentCallback;
-
-   // private FusedLocationProviderClient fusedLocationClient;
 
     private ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
@@ -139,32 +119,21 @@ public class PlaylistDetailsFragment extends Fragment implements TrackListCallba
         playlist = (Playlist) getArguments().getSerializable("playlist");
         mTracks = (ArrayList) playlist.getTracks();
 
-        bShare = (ImageButton) v.findViewById(R.id.share_btn);
-        bShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                    shareIntent.setType("text/plain");
-                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Sallefy");
-                    String shareMessage= "\n Playlist: "+playlist.getName()+"\n"+"By: "+playlist.getUser().getLogin()+"\n";
-                    shareMessage = shareMessage + "http://sallefy.eu-west-3.elasticbeanstalk.com/playlist/" + playlist.getId() +"\n\n";
-                    shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
-                    startActivity(Intent.createChooser(shareIntent, "Choose one"));
-                } catch(Exception e) {
-                    //e.toString();
-                }
+        bShare = v.findViewById(R.id.share_btn);
+        bShare.setOnClickListener(v1 -> {
+            try {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Sallefy");
+                String shareMessage= "\n Playlist: "+playlist.getName()+"\n"+"By: "+playlist.getUser().getLogin()+"\n";
+                shareMessage = shareMessage + "http://sallefy.eu-west-3.elasticbeanstalk.com/playlist/" + playlist.getId() +"\n\n";
+                shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+                startActivity(Intent.createChooser(shareIntent, "Choose one"));
+            } catch(Exception e) {
+                e.toString();
             }
         });
 
-        /*fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(getActivity(), location -> {
-                    if (location != null) {
-                        currentLoc = new CurrentLoc(location.getLatitude(), location.getLongitude());
-                    }
-                });
-*/
         initViews(v);
         startStreamingService();
         return v;
@@ -256,7 +225,7 @@ public class PlaylistDetailsFragment extends Fragment implements TrackListCallba
 
         LinearLayoutManager managerTracks = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         mTracksAdapter = new TrackListAdapter(this, getContext(), mTracks, playlist.getUserLogin());
-        mTracksView = (RecyclerView) view.findViewById(R.id.search_tracks_recyclerview);
+        mTracksView = view.findViewById(R.id.search_tracks_recyclerview);
         mTracksView.setLayoutManager(managerTracks);
         mTracksView.setAdapter(mTracksAdapter);
 
@@ -266,40 +235,30 @@ public class PlaylistDetailsFragment extends Fragment implements TrackListCallba
         tvDynamic_title = view.findViewById(R.id.dynamic_title);
         tvDynamic_artist = view.findViewById(R.id.dynamic_artist);
 
-        btnBackward = (ImageButton) view.findViewById(R.id.dynamic_backward_btn);
-        btnBackward.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                currentTrack = ((currentTrack - 1) % (mTracks.size()));
-                currentTrack = currentTrack < 0 ? (mTracks.size() - 1) : currentTrack;
-                updateTrack(currentTrack);
-            }
+        btnBackward = view.findViewById(R.id.dynamic_backward_btn);
+        btnBackward.setOnClickListener(v -> {
+            currentTrack = ((currentTrack - 1) % (mTracks.size()));
+            currentTrack = currentTrack < 0 ? (mTracks.size() - 1) : currentTrack;
+            updateTrack(currentTrack);
         });
-        btnForward = (ImageButton) view.findViewById(R.id.dynamic_forward_btn);
-        btnForward.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                currentTrack = ((currentTrack + 1) % (mTracks.size()));
-                currentTrack = currentTrack >= mTracks.size() ? 0 : currentTrack;
-                updateTrack(currentTrack);
-            }
+        btnForward = view.findViewById(R.id.dynamic_forward_btn);
+        btnForward.setOnClickListener(v -> {
+            currentTrack = ((currentTrack + 1) % (mTracks.size()));
+            currentTrack = currentTrack >= mTracks.size() ? 0 : currentTrack;
+            updateTrack(currentTrack);
         });
 
-        btnPlayStop = (ImageButton) view.findViewById(R.id.dynamic_play_btn);
+        btnPlayStop = view.findViewById(R.id.dynamic_play_btn);
         btnPlayStop.setTag(PLAY_VIEW);
-        btnPlayStop.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (btnPlayStop.getTag().equals(PLAY_VIEW)) {
-                    playAudio();
-                } else {
-                    pauseAudio();
-                }
+        btnPlayStop.setOnClickListener(v -> {
+            if (btnPlayStop.getTag().equals(PLAY_VIEW)) {
+                playAudio();
+            } else {
+                pauseAudio();
             }
         });
 
-        mSeekBar = (SeekBar) view.findViewById(R.id.dynamic_seekBar);
+        mSeekBar = view.findViewById(R.id.dynamic_seekBar);
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -351,12 +310,7 @@ public class PlaylistDetailsFragment extends Fragment implements TrackListCallba
         mSeekBar.setProgress(mBoundService.getCurrrentPosition());
 
         if (mBoundService.isPlaying()) {
-            mRunnable = new Runnable() {
-                @Override
-                public void run() {
-                    updateSeekBar();
-                }
-            };
+            mRunnable = () -> updateSeekBar();
             mHandler.postDelayed(mRunnable, 1000);
         }
     }
@@ -369,7 +323,6 @@ public class PlaylistDetailsFragment extends Fragment implements TrackListCallba
         mBoundService.playStream(mTracks, index);
         btnPlayStop.setImageResource(R.drawable.ic_pause);
         btnPlayStop.setTag(STOP_VIEW);
-        //updateSeekBar();
     }
 
 

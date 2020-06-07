@@ -9,11 +9,15 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;import android.view.LayoutInflater;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
 import java.util.ArrayList;
+
 import vidal.sergi.sallefyv1.R;
 import vidal.sergi.sallefyv1.controller.adapters.PlaylistListAdapter;
 import vidal.sergi.sallefyv1.controller.callbacks.FragmentCallback;
@@ -25,7 +29,9 @@ import vidal.sergi.sallefyv1.restapi.manager.PlaylistManager;
 public class LibraryFragment extends Fragment implements PlaylistCallback, PlaylistAdapterCallback {
     public static final String TAG = LibraryFragment.class.getName();
 
-    public static LibraryFragment getInstance() { return new LibraryFragment(); }
+    public static LibraryFragment getInstance() {
+        return new LibraryFragment();
+    }
 
     private RecyclerView mPlaylistsView;
     private RecyclerView mFavPlaylistView;
@@ -38,11 +44,6 @@ public class LibraryFragment extends Fragment implements PlaylistCallback, Playl
     private Button bCanciones;
     private Button createPlayList;
     private FragmentCallback fragmentCallback;
-    private int pos;
-
-
-
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,51 +56,38 @@ public class LibraryFragment extends Fragment implements PlaylistCallback, Playl
         View v = inflater.inflate(R.layout.fragment_library, container, false);
         getData();
         initViews(v);
-        createPlayList = (Button)v.findViewById(R.id.create_playlist);
-        bPlaylist = (Button) v.findViewById(R.id.item_playlist_button);
-        bArtistas= (Button)v.findViewById(R.id.item_artistas_button);
-        bCanciones=  (Button)v.findViewById(R.id.item_canciones_button);
-        bArtistas.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragmentCallback.onChangeFragment(LibraryArtistFragment.getInstance());
-            }
-        });
-        bCanciones.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragmentCallback.onChangeFragment(LibraryTrackFragment.getInstance());
-            }
-        });
-        createPlayList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragmentCallback.onChangeFragment(CreatePlayListFragment.getInstance());
-            }
-        });
+        createPlayList = v.findViewById(R.id.create_playlist);
+        bPlaylist = v.findViewById(R.id.item_playlist_button);
+        bArtistas = v.findViewById(R.id.item_artistas_button);
+        bCanciones = v.findViewById(R.id.item_canciones_button);
+        bArtistas.setOnClickListener(v1 -> fragmentCallback.onChangeFragment(LibraryArtistFragment.getInstance()));
+        bCanciones.setOnClickListener(v1 -> fragmentCallback.onChangeFragment(LibraryTrackFragment.getInstance()));
+        createPlayList.setOnClickListener(v1 -> fragmentCallback.onChangeFragment(CreatePlayListFragment.getInstance()));
         bPlaylist.setEnabled(false);
-//        createPlayList.setEnabled(false);
         bPlaylist.setTextColor(ContextCompat.getColor(getActivity(), R.color.opacity));
         return v;
     }
+
     private void initViews(View v) {
         LinearLayoutManager managerPlaylists = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
         mPlaylistAdapter = new PlaylistListAdapter(null, getContext(), this, R.layout.item_playlist_short);
 
-        mPlaylistsView = (RecyclerView) v.findViewById(R.id.search_playlists_recyclerview);
+        mPlaylistsView = v.findViewById(R.id.search_playlists_recyclerview);
         mPlaylistsView.setLayoutManager(managerPlaylists);
         mPlaylistsView.setAdapter(mPlaylistAdapter);
 
         LinearLayoutManager managerPlaylistsFav = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
         mFavPlaylistAdapter = new PlaylistListAdapter(null, getContext(), this, R.layout.item_playlist_short);
-        mFavPlaylistView = (RecyclerView) v.findViewById(R.id.fav_playlists_recyclerview);
+        mFavPlaylistView = v.findViewById(R.id.fav_playlists_recyclerview);
         mFavPlaylistView.setLayoutManager(managerPlaylistsFav);
         mFavPlaylistView.setAdapter(mFavPlaylistAdapter);
     }
+
     private void getData() {
         PlaylistManager.getInstance(getContext()).getOwnPlayList(this);
         PlaylistManager.getInstance(getContext()).getFollowingPlayList(this);
     }
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -121,12 +109,7 @@ public class LibraryFragment extends Fragment implements PlaylistCallback, Playl
 
     @Override
     public void onPlaylistClick(Playlist playlist) {
-        /*Intent intent = new Intent(getApplicationContext(), PlaylistDetailsActivity.class);
-        intent.putExtra("Playlist", playlist);
-        startActivity(intent);*/
         fragmentCallback.onPlaylistDetails(PlaylistDetailsFragment.getInstance(), playlist);
-
-
     }
 
     @Override
@@ -198,5 +181,4 @@ public class LibraryFragment extends Fragment implements PlaylistCallback, Playl
     public void onFailure(Throwable throwable) {
 
     }
-
 }

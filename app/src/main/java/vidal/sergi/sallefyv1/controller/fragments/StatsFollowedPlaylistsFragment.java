@@ -25,14 +25,8 @@ import java.util.List;
 import vidal.sergi.sallefyv1.R;
 import vidal.sergi.sallefyv1.controller.callbacks.FragmentCallback;
 import vidal.sergi.sallefyv1.model.Playlist;
-import vidal.sergi.sallefyv1.model.Track;
-import vidal.sergi.sallefyv1.model.User;
-import vidal.sergi.sallefyv1.model.UserToken;
 import vidal.sergi.sallefyv1.restapi.callback.PlaylistCallback;
-import vidal.sergi.sallefyv1.restapi.callback.UserCallback;
 import vidal.sergi.sallefyv1.restapi.manager.PlaylistManager;
-import vidal.sergi.sallefyv1.restapi.manager.UserManager;
-
 
 public class StatsFollowedPlaylistsFragment extends Fragment implements PlaylistCallback {
     public static final String TAG = StatsFollowedPlaylistsFragment.class.getName();
@@ -66,7 +60,7 @@ public class StatsFollowedPlaylistsFragment extends Fragment implements Playlist
         getData();
 //        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/ProductSans.ttf");
 
-        bar = (BarChart)view.findViewById(R.id.bar);
+        bar = view.findViewById(R.id.bar);
 
 
 

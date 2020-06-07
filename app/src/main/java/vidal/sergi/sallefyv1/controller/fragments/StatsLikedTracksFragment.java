@@ -30,7 +30,6 @@ import vidal.sergi.sallefyv1.model.UserToken;
 import vidal.sergi.sallefyv1.restapi.callback.UserCallback;
 import vidal.sergi.sallefyv1.restapi.manager.UserManager;
 
-
 public class StatsLikedTracksFragment extends Fragment implements UserCallback {
     public static final String TAG = StatsFragment.class.getName();
     BarChart bar;
@@ -63,7 +62,7 @@ public class StatsLikedTracksFragment extends Fragment implements UserCallback {
         getData();
 //        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/ProductSans.ttf");
 
-        bar = (BarChart)view.findViewById(R.id.bar);
+        bar = view.findViewById(R.id.bar);
 
 
 

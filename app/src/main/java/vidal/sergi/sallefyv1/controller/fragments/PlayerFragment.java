@@ -12,11 +12,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,9 +21,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.mediarouter.app.MediaRouteButton;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.gauravk.audiovisualizer.visualizer.CircleLineVisualizer;
 import com.google.android.gms.cast.framework.CastButtonFactory;
@@ -35,36 +29,16 @@ import com.google.android.gms.cast.framework.CastSession;
 import com.google.android.gms.cast.framework.SessionManagerListener;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import io.objectbox.Box;
 import vidal.sergi.sallefyv1.R;
-import vidal.sergi.sallefyv1.controller.adapters.PlaylistListAdapter;
-import vidal.sergi.sallefyv1.controller.adapters.TrackListAdapter;
-import vidal.sergi.sallefyv1.controller.adapters.UserAdapter;
 import vidal.sergi.sallefyv1.controller.callbacks.FragmentCallback;
-import vidal.sergi.sallefyv1.controller.callbacks.PlaylistAdapterCallback;
-import vidal.sergi.sallefyv1.controller.callbacks.TrackListCallback;
-import vidal.sergi.sallefyv1.controller.callbacks.UserAdapterCallback;
 import vidal.sergi.sallefyv1.model.Database;
 import vidal.sergi.sallefyv1.model.ObjectBox;
-import vidal.sergi.sallefyv1.model.Playlist;
-import vidal.sergi.sallefyv1.model.Search;
 import vidal.sergi.sallefyv1.model.Track;
-import vidal.sergi.sallefyv1.model.User;
-import vidal.sergi.sallefyv1.model.UserToken;
 import vidal.sergi.sallefyv1.restapi.callback.DownloadCallback;
-import vidal.sergi.sallefyv1.restapi.callback.PlaylistCallback;
-import vidal.sergi.sallefyv1.restapi.callback.SearchCallback;
-import vidal.sergi.sallefyv1.restapi.callback.TrackCallback;
-import vidal.sergi.sallefyv1.restapi.callback.UserCallback;
 import vidal.sergi.sallefyv1.restapi.manager.DownloadManager;
-import vidal.sergi.sallefyv1.restapi.manager.SearchManager;
-import vidal.sergi.sallefyv1.restapi.manager.TrackManager;
-import vidal.sergi.sallefyv1.utils.Session;
-
-import static com.google.android.gms.cast.framework.CastContext.*;
 
 public class PlayerFragment extends Fragment implements SessionManagerListener<CastSession>, DownloadCallback {
 
@@ -104,9 +78,7 @@ public class PlayerFragment extends Fragment implements SessionManagerListener<C
         super.onStart();
         Log.d("Static: ", "Enter onStart " + this.hashCode());
 
-
         mPlayer.prepareAsync(); // might take long! (for buffering, etc)
-
     }
 
     public static final String TAG = PlayerFragment.class.getName();
@@ -182,15 +154,12 @@ public class PlayerFragment extends Fragment implements SessionManagerListener<C
             mPlayer = new MediaPlayer();
             mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mPlayer.setDataSource(url);
-            mPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    mSeekBar.setMax(mPlayer.getDuration());
+            mPlayer.setOnPreparedListener(mp -> {
+                mSeekBar.setMax(mPlayer.getDuration());
 
-                    int audioSessionId = mPlayer.getAudioSessionId();
-                    if (audioSessionId != -1) {
+                int audioSessionId = mPlayer.getAudioSessionId();
+                if (audioSessionId != -1) {
 //                        mVisualizer.setAudioSessionId(audioSessionId);
-                    }
                 }
             });
             mHandler = new Handler();
@@ -199,15 +168,12 @@ public class PlayerFragment extends Fragment implements SessionManagerListener<C
         }
 
 
-        Thread connection = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    mPlayer.setDataSource(url);
-                    mPlayer.prepare(); // might take long! (for buffering, etc)
-                } catch (IOException e) {
+        Thread connection = new Thread(() -> {
+            try {
+                mPlayer.setDataSource(url);
+                mPlayer.prepare(); // might take long! (for buffering, etc)
+            } catch (IOException e) {
 
-                }
             }
         });
 
@@ -216,34 +182,28 @@ public class PlayerFragment extends Fragment implements SessionManagerListener<C
         tvTitle.setText(track.getName());
         tvAuthor.setText(track.getUser().getLogin());
         ivPhoto = v.findViewById(R.id.ivPlaylistPhoto);
-        btnBackward = (ImageButton) v.findViewById(R.id.music_backward_btn_2);
-        btnForward = (ImageButton) v.findViewById(R.id.music_forward_btn_2);
+        btnBackward = v.findViewById(R.id.music_backward_btn_2);
+        btnForward = v.findViewById(R.id.music_forward_btn_2);
 
-        btnPlayStop = (ImageButton) v.findViewById(R.id.music_play_btn_2);
+        btnPlayStop = v.findViewById(R.id.music_play_btn_2);
         btnPlayStop.setTag(PLAY_VIEW);
-        btnPlayStop.setOnClickListener(new View.OnClickListener() {
+        btnPlayStop.setOnClickListener(v1 -> {
+            if (btnPlayStop.getTag().equals(PLAY_VIEW)) {
+                mPlayer.start();
+                updateSeekBar();
+                btnPlayStop.setImageResource(R.drawable.ic_pause);
+                btnPlayStop.setTag(STOP_VIEW);
+                Toast.makeText(getContext(), "Playing Audio", Toast.LENGTH_SHORT).show();
 
-            @Override
-            public void onClick(View v) {
-
-                if (btnPlayStop.getTag().equals(PLAY_VIEW)) {
-                    mPlayer.start();
-                    updateSeekBar();
-                    btnPlayStop.setImageResource(R.drawable.ic_pause);
-                    btnPlayStop.setTag(STOP_VIEW);
-                    Toast.makeText(getContext(), "Playing Audio", Toast.LENGTH_SHORT).show();
-
-                } else {
-                    mPlayer.pause();
-                    btnPlayStop.setImageResource(R.drawable.ic_play);
-                    btnPlayStop.setTag(PLAY_VIEW);
-                    Toast.makeText(getContext(), "Pausing Audio", Toast.LENGTH_SHORT).show();
-                }
-
+            } else {
+                mPlayer.pause();
+                btnPlayStop.setImageResource(R.drawable.ic_play);
+                btnPlayStop.setTag(PLAY_VIEW);
+                Toast.makeText(getContext(), "Pausing Audio", Toast.LENGTH_SHORT).show();
             }
         });
 
-        mSeekBar = (SeekBar) v.findViewById(R.id.seekBar_2);
+        mSeekBar = v.findViewById(R.id.seekBar_2);
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -269,12 +229,7 @@ public class PlayerFragment extends Fragment implements SessionManagerListener<C
         mSeekBar.setProgress(mPlayer.getCurrentPosition());
 
         if (mPlayer.isPlaying()) {
-            mRunnable = new Runnable() {
-                @Override
-                public void run() {
-                    updateSeekBar();
-                }
-            };
+            mRunnable = () -> updateSeekBar();
             mHandler.postDelayed(mRunnable, 1000);
         }
     }

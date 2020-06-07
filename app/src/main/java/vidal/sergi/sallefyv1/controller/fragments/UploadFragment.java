@@ -10,46 +10,27 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import vidal.sergi.sallefyv1.R;
-import vidal.sergi.sallefyv1.controller.adapters.PlaylistListAdapter;
-import vidal.sergi.sallefyv1.controller.adapters.TrackListAdapter;
-import vidal.sergi.sallefyv1.controller.adapters.UserAdapter;
 import vidal.sergi.sallefyv1.controller.callbacks.FragmentCallback;
-import vidal.sergi.sallefyv1.controller.callbacks.PlaylistAdapterCallback;
-import vidal.sergi.sallefyv1.controller.callbacks.TrackListCallback;
-import vidal.sergi.sallefyv1.controller.callbacks.UserAdapterCallback;
 import vidal.sergi.sallefyv1.controller.dialogs.StateDialog;
 import vidal.sergi.sallefyv1.model.Genre;
-import vidal.sergi.sallefyv1.model.Playlist;
-import vidal.sergi.sallefyv1.model.Search;
 import vidal.sergi.sallefyv1.model.Track;
-import vidal.sergi.sallefyv1.model.User;
-import vidal.sergi.sallefyv1.model.UserToken;
 import vidal.sergi.sallefyv1.restapi.callback.GenreCallback;
-import vidal.sergi.sallefyv1.restapi.callback.PlaylistCallback;
-import vidal.sergi.sallefyv1.restapi.callback.SearchCallback;
 import vidal.sergi.sallefyv1.restapi.callback.TrackCallback;
-import vidal.sergi.sallefyv1.restapi.callback.UserCallback;
 import vidal.sergi.sallefyv1.restapi.manager.CloudinaryManager;
 import vidal.sergi.sallefyv1.restapi.manager.GenreManager;
-import vidal.sergi.sallefyv1.restapi.manager.SearchManager;
-import vidal.sergi.sallefyv1.restapi.manager.TrackManager;
 import vidal.sergi.sallefyv1.utils.Constants;
-import vidal.sergi.sallefyv1.utils.Session;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -98,28 +79,20 @@ public class UploadFragment extends Fragment implements GenreCallback, TrackCall
         fragmentCallback = (FragmentCallback) context;
     }
     private void initViews(View v) {
-        etTitle = (EditText) v.findViewById(R.id.create_song_title);
-        mFilename = (TextView) v.findViewById(R.id.create_song_file_name);
+        etTitle = v.findViewById(R.id.create_song_title);
+        mFilename = v.findViewById(R.id.create_song_file_name);
 
-        mSpinner = (Spinner) v.findViewById(R.id.create_song_genre);
+        mSpinner = v.findViewById(R.id.create_song_genre);
 
-        btnFind = (Button) v.findViewById(R.id.create_song_file);
-        btnFind.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getAudioFromStorage();
-            }
-        });
+        btnFind = v.findViewById(R.id.create_song_file);
+        btnFind.setOnClickListener(v1 -> getAudioFromStorage());
 
-        btnAccept = (Button) v.findViewById(R.id.create_song_accept);
-        btnAccept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (checkParameters()) {
-                    etTitle.setFocusable(false);
-                    showStateDialog(false);
-                    uploadToCloudinary();
-                }
+        btnAccept = v.findViewById(R.id.create_song_accept);
+        btnAccept.setOnClickListener(v1 -> {
+            if (checkParameters()) {
+                etTitle.setFocusable(false);
+                showStateDialog(false);
+                uploadToCloudinary();
             }
         });
 

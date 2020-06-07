@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import vidal.sergi.sallefyv1.R;
-import vidal.sergi.sallefyv1.controller.activity.CreatePlaylistActivity;
 import vidal.sergi.sallefyv1.controller.callbacks.FragmentCallback;
 import vidal.sergi.sallefyv1.model.Playlist;
 import vidal.sergi.sallefyv1.restapi.callback.PlaylistCallback;

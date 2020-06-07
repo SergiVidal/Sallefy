@@ -58,27 +58,12 @@ public class ProfileFragment extends Fragment {
         tvFollowings = v.findViewById(R.id.followings);
         tvFollowings.setText("Followings: "+Session.getInstance(getContext()).getUser().getFollowing());
 
-        bShowStats = (Button) v.findViewById(R.id.top_5_songs);
-        bShowStats.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragmentCallback.onChangeFragment(StatsFragment.getInstance());
-            }
-        });
-        bShowStatsLikedTracks = (Button) v.findViewById(R.id.top_5_liked_songs);
-        bShowStatsLikedTracks.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragmentCallback.onChangeFragment(StatsLikedTracksFragment.getInstance());
-            }
-        });
-        bShowStatsFollowedPlaylists = (Button) v.findViewById(R.id.top_5_followed_playlists);
-        bShowStatsFollowedPlaylists.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragmentCallback.onChangeFragment(StatsFollowedPlaylistsFragment.getInstance());
-            }
-        });
+        bShowStats = v.findViewById(R.id.top_5_songs);
+        bShowStats.setOnClickListener(v1 -> fragmentCallback.onChangeFragment(StatsFragment.getInstance()));
+        bShowStatsLikedTracks = v.findViewById(R.id.top_5_liked_songs);
+        bShowStatsLikedTracks.setOnClickListener(v1 -> fragmentCallback.onChangeFragment(StatsLikedTracksFragment.getInstance()));
+        bShowStatsFollowedPlaylists = v.findViewById(R.id.top_5_followed_playlists);
+        bShowStatsFollowedPlaylists.setOnClickListener(v1 -> fragmentCallback.onChangeFragment(StatsFollowedPlaylistsFragment.getInstance()));
     }
     @Override
     public void onAttach(Context context) {
