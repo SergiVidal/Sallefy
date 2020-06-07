@@ -50,6 +50,7 @@ public class PlayerFragment extends Fragment implements SessionManagerListener<C
     private ImageView ivPhoto;
 
     private ImageButton btnBackward;
+    private ImageButton btnDownload;
     private ImageButton btnPlayStop;
     private ImageButton btnForward;
     private MenuItem btnCast;
@@ -104,16 +105,12 @@ public class PlayerFragment extends Fragment implements SessionManagerListener<C
         View v = inflater.inflate(R.layout.fragment_play_song, container, false);
         super.onCreate(savedInstanceState);
         track = (Track) getArguments().getSerializable("track");
-        url = track.getUrl();
         mCastContext = CastContext.getSharedInstance(getContext());
-
         ObjectBox.init(getContext());
         userBox = ObjectBox.get().boxFor(Database.class);
 
-        if (!isDownloaded()) {
-            DownloadManager.getInstance(getContext()).downloadTrack(track, this);
+        if(!isDownloaded()){
             url = track.getUrl();
-            System.out.println("--------------------->False!");
         }
 
         Log.d("Static: ", "Enter onCreate " + this.hashCode());
@@ -149,7 +146,19 @@ public class PlayerFragment extends Fragment implements SessionManagerListener<C
     private void initViews(View v) {
         mVisualizer = v.findViewById(R.id.circleVisualizer);
 
+        btnDownload = v.findViewById(R.id.download_btn);
 
+        btnDownload.setOnClickListener(v1 -> {
+            if (!isDownloaded()) {
+                DownloadManager.getInstance(getContext()).downloadTrack(track, this);
+                url = track.getUrl();
+                System.out.println("--------------------->False!");
+                Toast.makeText(getContext(), "Downloading Audio", Toast.LENGTH_SHORT).show();
+
+            }else {
+                Toast.makeText(getContext(), "Already downloaded", Toast.LENGTH_SHORT).show();
+            }
+        });
         try {
             mPlayer = new MediaPlayer();
             mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -182,8 +191,7 @@ public class PlayerFragment extends Fragment implements SessionManagerListener<C
         tvTitle.setText(track.getName());
         tvAuthor.setText(track.getUser().getLogin());
         ivPhoto = v.findViewById(R.id.ivPlaylistPhoto);
-        btnBackward = v.findViewById(R.id.music_backward_btn_2);
-        btnForward = v.findViewById(R.id.music_forward_btn_2);
+
 
         btnPlayStop = v.findViewById(R.id.music_play_btn_2);
         btnPlayStop.setTag(PLAY_VIEW);
@@ -193,7 +201,11 @@ public class PlayerFragment extends Fragment implements SessionManagerListener<C
                 updateSeekBar();
                 btnPlayStop.setImageResource(R.drawable.ic_pause);
                 btnPlayStop.setTag(STOP_VIEW);
-                Toast.makeText(getContext(), "Playing Audio", Toast.LENGTH_SHORT).show();
+                if(isDownloaded()) {
+                    Toast.makeText(getContext(), "Playing Offline Audio", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(getContext(), "Playing Stream Audio", Toast.LENGTH_SHORT).show();
+                }
 
             } else {
                 mPlayer.pause();

@@ -111,7 +111,7 @@ public class DownloadManager {
                                     Environment.DIRECTORY_MUSIC).toString();
                             System.out.println("test ----->" + myDir);
 
-                            String filename = "/"+ track.getId() + ".mp3";
+                            String filename = "/"+ track.getName() + ".mp3";
                             File file = new File(myDir, filename);
 
                             if (!file.exists()) {

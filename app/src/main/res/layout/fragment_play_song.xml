@@ -106,12 +106,7 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <ImageButton
-                    android:id="@+id/music_backward_btn_2"
-                    android:layout_width="75dp"
-                    android:layout_height="50dp"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/ic_skip_previous" />
+
 
                 <ImageButton
                     android:id="@+id/music_play_btn_2"
@@ -120,12 +115,13 @@
                     android:background="@android:color/transparent"
                     android:src="@drawable/ic_play" />
 
+
                 <ImageButton
-                    android:id="@+id/music_forward_btn_2"
+                    android:id="@+id/download_btn"
                     android:layout_width="75dp"
                     android:layout_height="50dp"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/ic_skip_next" />
+                    android:src="@drawable/ic_file_download" />
 
             </LinearLayout>
         </LinearLayout>
