@@ -167,7 +167,7 @@ public class UserDetailsFragment extends Fragment implements PlaylistAdapterCall
 
     @Override
     public void onPlaylistClick(Playlist playlist) {
-
+        fragmentCallback.onPlaylistDetails(PlaylistDetailsFragment.getInstance(), playlist);
     }
 
     @Override
@@ -177,7 +177,7 @@ public class UserDetailsFragment extends Fragment implements PlaylistAdapterCall
 
     @Override
     public void onTrackSelected(int index, int option) {
-
+        fragmentCallback.onTrackSelection(PlayerFragment.getInstance(), mTracks.get(index));
     }
 
     @Override
