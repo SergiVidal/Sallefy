@@ -145,7 +145,7 @@ public class UserDetailsFragment extends Fragment implements PlaylistAdapterCall
         tvNumPlaylist.setText(String.valueOf(user.getPlaylists()));
 
         LinearLayoutManager managerPlaylists = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
-        mPlaylistAdapter = new PlaylistListAdapter(null, getContext(), this, R.layout.item_playlist_short);
+        mPlaylistAdapter = new PlaylistListAdapter(null, getContext(), this, R.layout.item_playlist);
         rvPlaylist = v.findViewById(R.id.user_playlist_recyclerview);
         rvPlaylist.setLayoutManager(managerPlaylists);
         rvPlaylist.setAdapter(mPlaylistAdapter);
@@ -287,7 +287,7 @@ public class UserDetailsFragment extends Fragment implements PlaylistAdapterCall
 
     @Override
     public void onAllList(ArrayList<Playlist> playlists) {
-        mPlaylistAdapter = new PlaylistListAdapter(playlists, getContext(), this, R.layout.item_playlist_short);
+        mPlaylistAdapter = new PlaylistListAdapter(playlists, getContext(), this, R.layout.item_playlist);
         rvPlaylist.setAdapter(mPlaylistAdapter);
     }
 

@@ -58,7 +58,7 @@ public class AddTrackToListFragment extends Fragment implements PlaylistCallback
     private void initViews(View v) {
 
         LinearLayoutManager managerPlaylists = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
-        mPlaylistAdapter = new PlaylistListAdapter(null, getContext(), this, R.layout.item_playlist_short);
+        mPlaylistAdapter = new PlaylistListAdapter(null, getContext(), this, R.layout.item_playlist);
 
         mPlaylistsView = (RecyclerView) v.findViewById(R.id.search_playlists_recyclerview);
         mPlaylistsView.setLayoutManager(managerPlaylists);
@@ -163,7 +163,7 @@ public class AddTrackToListFragment extends Fragment implements PlaylistCallback
     @Override
     public void onPersonalPlaylistReceived(ArrayList<Playlist> p) {
         mPlaylist = p;
-        mPlaylistAdapter = new PlaylistListAdapter(mPlaylist, getContext(), this, R.layout.item_playlist_short);
+        mPlaylistAdapter = new PlaylistListAdapter(mPlaylist, getContext(), this, R.layout.item_playlist);
         mPlaylistsView.setAdapter(mPlaylistAdapter);
     }
 

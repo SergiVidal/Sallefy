@@ -70,14 +70,14 @@ public class LibraryFragment extends Fragment implements PlaylistCallback, Playl
 
     private void initViews(View v) {
         LinearLayoutManager managerPlaylists = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
-        mPlaylistAdapter = new PlaylistListAdapter(null, getContext(), this, R.layout.item_playlist_short);
+        mPlaylistAdapter = new PlaylistListAdapter(null, getContext(), this, R.layout.item_playlist);
 
         mPlaylistsView = v.findViewById(R.id.search_playlists_recyclerview);
         mPlaylistsView.setLayoutManager(managerPlaylists);
         mPlaylistsView.setAdapter(mPlaylistAdapter);
 
         LinearLayoutManager managerPlaylistsFav = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
-        mFavPlaylistAdapter = new PlaylistListAdapter(null, getContext(), this, R.layout.item_playlist_short);
+        mFavPlaylistAdapter = new PlaylistListAdapter(null, getContext(), this, R.layout.item_playlist);
         mFavPlaylistView = v.findViewById(R.id.fav_playlists_recyclerview);
         mFavPlaylistView.setLayoutManager(managerPlaylistsFav);
         mFavPlaylistView.setAdapter(mFavPlaylistAdapter);
@@ -165,7 +165,7 @@ public class LibraryFragment extends Fragment implements PlaylistCallback, Playl
     @Override
     public void onPersonalPlaylistReceived(ArrayList<Playlist> p) {
         mPlaylist = p;
-        mPlaylistAdapter = new PlaylistListAdapter(mPlaylist, getContext(), this, R.layout.item_playlist_short);
+        mPlaylistAdapter = new PlaylistListAdapter(mPlaylist, getContext(), this, R.layout.item_playlist);
         mPlaylistsView.setAdapter(mPlaylistAdapter);
     }
 
@@ -173,7 +173,7 @@ public class LibraryFragment extends Fragment implements PlaylistCallback, Playl
     @Override
     public void getFollowingPlayList(ArrayList<Playlist> p) {
         mFavPlaylist = p;
-        mFavPlaylistAdapter = new PlaylistListAdapter(mFavPlaylist, getContext(), this, R.layout.item_playlist_short);
+        mFavPlaylistAdapter = new PlaylistListAdapter(mFavPlaylist, getContext(), this, R.layout.item_playlist);
         mFavPlaylistView.setAdapter(mFavPlaylistAdapter);
     }
 

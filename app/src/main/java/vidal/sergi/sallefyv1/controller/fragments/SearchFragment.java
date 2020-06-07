@@ -115,7 +115,7 @@ public class SearchFragment extends Fragment implements UserCallback, SearchCall
             mUsersView.setAdapter(mUserAdapter);
 
             LinearLayoutManager managerPlaylists = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
-            mPlaylistAdapter = new PlaylistListAdapter(null, getContext(), this, R.layout.item_playlist_short);
+            mPlaylistAdapter = new PlaylistListAdapter(null, getContext(), this, R.layout.item_playlist);
             mPlaylistsView = view.findViewById(R.id.search_playlists_recyclerview);
             mPlaylistsView.setLayoutManager(managerPlaylists);
             mPlaylistsView.setAdapter(mPlaylistAdapter);
@@ -199,7 +199,7 @@ public class SearchFragment extends Fragment implements UserCallback, SearchCall
             mRecyclerView.setAdapter(adapter);
         }
         if(checkboxid == 1){
-            mPlaylistAdapter = new PlaylistListAdapter((ArrayList<Playlist>) search.getPlaylists(), getContext(), this, R.layout.item_playlist_short);
+            mPlaylistAdapter = new PlaylistListAdapter((ArrayList<Playlist>) search.getPlaylists(), getContext(), this, R.layout.item_playlist);
             mPlaylistsView.setAdapter(mPlaylistAdapter);
         }
         if(checkboxid == 2){

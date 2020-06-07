@@ -94,7 +94,7 @@ public class HomeFragment extends Fragment implements UserCallback, PlaylistCall
         mUsersView.setAdapter(mUserAdapter);
 
         LinearLayoutManager managerPlaylists = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
-        mPlaylistAdapter = new PlaylistListAdapter(null, getContext(), this, R.layout.item_playlist_short);
+        mPlaylistAdapter = new PlaylistListAdapter(null, getContext(), this, R.layout.item_playlist);
         mPlaylistsView = v.findViewById(R.id.search_playlists_recyclerview);
         mPlaylistsView.setLayoutManager(managerPlaylists);
         mPlaylistsView.setAdapter(mPlaylistAdapter);
@@ -151,7 +151,7 @@ public class HomeFragment extends Fragment implements UserCallback, PlaylistCall
 
     @Override
     public void onAllList(ArrayList<Playlist> playlists) {
-        mPlaylistAdapter = new PlaylistListAdapter(playlists, getContext(), this, R.layout.item_playlist_short);
+        mPlaylistAdapter = new PlaylistListAdapter(playlists, getContext(), this, R.layout.item_playlist);
         mPlaylistsView.setAdapter(mPlaylistAdapter);
     }
 
