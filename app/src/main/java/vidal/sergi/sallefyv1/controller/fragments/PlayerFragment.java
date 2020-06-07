@@ -1,6 +1,8 @@
 package vidal.sergi.sallefyv1.controller.fragments;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -20,6 +22,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.gauravk.audiovisualizer.visualizer.CircleLineVisualizer;
@@ -39,6 +43,8 @@ import vidal.sergi.sallefyv1.model.ObjectBox;
 import vidal.sergi.sallefyv1.model.Track;
 import vidal.sergi.sallefyv1.restapi.callback.DownloadCallback;
 import vidal.sergi.sallefyv1.restapi.manager.DownloadManager;
+import vidal.sergi.sallefyv1.utils.Constants;
+import vidal.sergi.sallefyv1.utils.Session;
 
 public class PlayerFragment extends Fragment implements SessionManagerListener<CastSession>, DownloadCallback {
 
@@ -109,7 +115,7 @@ public class PlayerFragment extends Fragment implements SessionManagerListener<C
         ObjectBox.init(getContext());
         userBox = ObjectBox.get().boxFor(Database.class);
 
-        if(!isDownloaded()){
+        if (!isDownloaded()) {
             url = track.getUrl();
         }
 
@@ -149,14 +155,21 @@ public class PlayerFragment extends Fragment implements SessionManagerListener<C
         btnDownload = v.findViewById(R.id.download_btn);
 
         btnDownload.setOnClickListener(v1 -> {
-            if (!isDownloaded()) {
-                DownloadManager.getInstance(getContext()).downloadTrack(track, this);
-                url = track.getUrl();
-                System.out.println("--------------------->False!");
-                Toast.makeText(getContext(), "Downloading Audio", Toast.LENGTH_SHORT).show();
 
-            }else {
-                Toast.makeText(getContext(), "Already downloaded", Toast.LENGTH_SHORT).show();
+            if (ContextCompat.checkSelfPermission(getContext(),
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            } else {
+                if (!isDownloaded()) {
+                    DownloadManager.getInstance(getContext()).downloadTrack(track, this);
+                    url = track.getUrl();
+                    System.out.println("--------------------->False!");
+                    Toast.makeText(getContext(), "Downloading Audio", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getContext(), "Already downloaded", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         try {
