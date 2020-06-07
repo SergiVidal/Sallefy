@@ -66,7 +66,7 @@ import vidal.sergi.sallefyv1.utils.Session;
 
 import static com.google.android.gms.cast.framework.CastContext.*;
 
-public class PlayerFragment extends Fragment implements SessionManagerListener<CastSession> {
+public class PlayerFragment extends Fragment implements SessionManagerListener<CastSession>, DownloadCallback {
 
     private static final String PLAY_VIEW = "PlayIcon";
     private static final String STOP_VIEW = "StopIcon";
