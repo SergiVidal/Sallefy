@@ -176,7 +176,7 @@ public class UserDetailsFragment extends Fragment implements PlaylistAdapterCall
     }
 
     @Override
-    public void onTrackSelected(int index) {
+    public void onTrackSelected(int index, int option) {
 
     }
 

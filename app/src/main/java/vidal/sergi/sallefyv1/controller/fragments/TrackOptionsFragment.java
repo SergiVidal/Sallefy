@@ -132,7 +132,7 @@ public class TrackOptionsFragment extends Fragment implements TrackListCallback,
     }
 
     @Override
-    public void onTrackSelected(int index) {
+    public void onTrackSelected(int index, int option) {
 
     }
 

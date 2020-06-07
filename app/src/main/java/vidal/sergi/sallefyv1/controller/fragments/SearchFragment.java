@@ -221,7 +221,7 @@ public class SearchFragment extends Fragment implements UserCallback, SearchCall
     }
 
     @Override
-    public void onTrackSelected(int index) {
+    public void onTrackSelected(int index, int option) {
         fragmentCallback.onTrackSelection(PlayerFragment.getInstance(), search.getTracks().get(index));
     }
 

@@ -126,8 +126,12 @@ public class LibraryTrackFragment extends Fragment implements TrackCallback, Tra
     }
 
     @Override
-    public void onTrackSelected(int index) {
-        fragmentCallback.onTrackSelection(PlayerFragment.getInstance(), mTracks.get(index));
+    public void onTrackSelected(int index, int option) {
+        if(option == 0) {
+            fragmentCallback.onTrackSelection(PlayerFragment.getInstance(), mTracks.get(index));
+        }else{
+            fragmentCallback.onTrackSelection(PlayerFragment.getInstance(), mFavTracks.get(index));
+        }
     }
 
     @Override

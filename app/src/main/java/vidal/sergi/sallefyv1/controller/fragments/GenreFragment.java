@@ -162,7 +162,7 @@ public class GenreFragment extends Fragment implements TrackListCallback, TrackC
     }
 
     @Override
-    public void onTrackSelected(int index) {
+    public void onTrackSelected(int index, int option) {
         fragmentCallback.onTrackSelection(PlayerFragment.getInstance(), mTracks.get(index));
     }
 

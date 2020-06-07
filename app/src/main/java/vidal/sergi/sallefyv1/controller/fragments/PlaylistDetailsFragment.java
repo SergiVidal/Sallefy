@@ -372,7 +372,7 @@ public class PlaylistDetailsFragment extends Fragment implements TrackListCallba
 
 
     @Override
-    public void onTrackSelected(int index) {
+    public void onTrackSelected(int index, int option) {
         updateTrack(index);
         TrackManager.getInstance(getContext()).addPlayTrack(mTracks.get(index).getId(), currentLoc, this);
     }
