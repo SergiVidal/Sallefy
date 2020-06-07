@@ -158,7 +158,7 @@ public class PlaylistDetailsFragment extends Fragment implements TrackListCallba
     public void onPause() {
         super.onPause();
         if (mServiceBound) {
-            //pauseAudio();
+            pauseAudio();
         }
 
     }
