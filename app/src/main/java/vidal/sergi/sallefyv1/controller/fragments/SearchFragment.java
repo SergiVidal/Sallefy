@@ -103,8 +103,8 @@ public class SearchFragment extends Fragment implements UserCallback, SearchCall
         bSearch.setOnClickListener(v -> {
 
             LinearLayoutManager manager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
-            mRecyclerView = view.findViewById(R.id.rvTracks);
             adapter = new TrackListAdapter(this, getContext(), null, "", 0);
+            mRecyclerView = view.findViewById(R.id.rvTracks);
             mRecyclerView.setLayoutManager(manager);
             mRecyclerView.setAdapter(adapter);
 
@@ -234,9 +234,7 @@ public class SearchFragment extends Fragment implements UserCallback, SearchCall
 
     @Override
     public void onDetailsTrackSelected(int index, int option) {
-//        Intent intent = new Intent(getApplicationContext(), TrackOptionsActivity.class);
-//        intent.putExtra("track", search.getTracks().get(index));
-//        startActivity(intent);
+        fragmentCallback.onTrackSelection(TrackOptionsFragment.getInstance(), search.getTracks().get(index));
     }
 
     @Override
