@@ -33,6 +33,9 @@ import vidal.sergi.sallefyv1.controller.fragments.PlayerFragment;
 import vidal.sergi.sallefyv1.controller.fragments.PlaylistDetailsFragment;
 import vidal.sergi.sallefyv1.controller.fragments.ProfileFragment;
 import vidal.sergi.sallefyv1.controller.fragments.SearchFragment;
+import vidal.sergi.sallefyv1.controller.fragments.StatsFollowedPlaylistsFragment;
+import vidal.sergi.sallefyv1.controller.fragments.StatsFragment;
+import vidal.sergi.sallefyv1.controller.fragments.StatsLikedTracksFragment;
 import vidal.sergi.sallefyv1.controller.fragments.UploadFragment;
 import vidal.sergi.sallefyv1.controller.fragments.UserDetailsFragment;
 import vidal.sergi.sallefyv1.model.Genre;
@@ -153,7 +156,6 @@ public class MainActivity extends FragmentActivity implements FragmentCallback, 
                         .replace(R.id.fragment_container, currentFragment, fragmentTag)
                         .addToBackStack(null)
                         .commit();
-
             }
         } else {
             mFragmentManager.beginTransaction()
@@ -190,6 +192,12 @@ public class MainActivity extends FragmentActivity implements FragmentCallback, 
             return AddTrackToListFragment.TAG;
         } else if (fragment instanceof CreatePlayListFragment) {
             return CreatePlayListFragment.TAG;
+        }else if(fragment instanceof StatsFragment){
+            return StatsFragment.TAG;
+        }else if(fragment instanceof StatsLikedTracksFragment){
+            return StatsLikedTracksFragment.TAG;
+        }else if(fragment instanceof StatsFollowedPlaylistsFragment){
+            return StatsFollowedPlaylistsFragment.TAG;
         }
 
         return "";
@@ -238,7 +246,10 @@ public class MainActivity extends FragmentActivity implements FragmentCallback, 
 
     @Override
     public void onGenreSelection(Fragment fragment, Genre genre) {
-
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("Genre", genre);
+        fragment.setArguments(bundle);
+        replaceFragment(fragment);
     }
 
 
@@ -306,6 +317,11 @@ public class MainActivity extends FragmentActivity implements FragmentCallback, 
 
     @Override
     public void onLoginSuccess(UserToken userToken) {
+
+    }
+
+    @Override
+    public void onMeTracksSuccess(List<Track> trackList) {
 
     }
 

@@ -68,5 +68,12 @@ dependencies {
     implementation 'com.google.android.gms:play-services-cast-framework:17.0.0'
     implementation 'com.android.volley:volley:1.1.1'
 
+    //charts
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.1'
 
+    //Boxes
+    apply plugin: 'com.android.application'
+    apply plugin: 'io.objectbox'
 }
+

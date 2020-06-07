@@ -1,5 +1,6 @@
 package vidal.sergi.sallefyv1.controller.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -24,6 +25,7 @@ import java.util.List;
 import vidal.sergi.sallefyv1.R;
 import vidal.sergi.sallefyv1.controller.adapters.PlaylistListAdapter;
 import vidal.sergi.sallefyv1.controller.adapters.TrackListAdapter;
+import vidal.sergi.sallefyv1.controller.callbacks.FragmentCallback;
 import vidal.sergi.sallefyv1.controller.callbacks.PlaylistAdapterCallback;
 import vidal.sergi.sallefyv1.controller.callbacks.TrackListCallback;
 import vidal.sergi.sallefyv1.model.Playlist;
@@ -57,6 +59,11 @@ public class UserDetailsFragment extends Fragment implements PlaylistAdapterCall
     private RecyclerView rvTrack;
     private TrackListAdapter mTrackAdapter;
 
+    private ArrayList<Track> mTracks;
+    private int pos;
+
+    private FragmentCallback fragmentCallback;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,9 +73,8 @@ public class UserDetailsFragment extends Fragment implements PlaylistAdapterCall
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_user_details, container, false);
-
         user = (User) getArguments().getSerializable("user");
-        System.out.println(user);
+
         bShare = v.findViewById(R.id.share_btn);
         bShare.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,6 +109,16 @@ public class UserDetailsFragment extends Fragment implements PlaylistAdapterCall
         super.onPause();
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        fragmentCallback = (FragmentCallback) context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+    }
 
     public void getData() {
         UserManager.getInstance(getContext()).getUserTracks(user.getLogin(), this);
@@ -132,25 +148,25 @@ public class UserDetailsFragment extends Fragment implements PlaylistAdapterCall
         tvNumPlaylist = v.findViewById(R.id.tvNumPlaylist);
         tvNumPlaylist.setText(String.valueOf(user.getPlaylists()));
 
-        // TODO: Recyrcler View Playlist
-
         LinearLayoutManager managerPlaylists = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
         mPlaylistAdapter = new PlaylistListAdapter(null, getContext(), this, R.layout.item_playlist_short);
         rvPlaylist = v.findViewById(R.id.user_playlist_recyclerview);
         rvPlaylist.setLayoutManager(managerPlaylists);
         rvPlaylist.setAdapter(mPlaylistAdapter);
 
-
         tvNumTracks = v.findViewById(R.id.tvNumTracks);
         tvNumTracks.setText(String.valueOf(user.getTracks()));
-
-        // TODO: Recyrcler View Tracks
 
         LinearLayoutManager managerTracks = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         mTrackAdapter = new TrackListAdapter(this, getContext(), null, "");
         rvTrack = v.findViewById(R.id.user_track_recyclerview);
         rvTrack.setLayoutManager(managerTracks);
         rvTrack.setAdapter(mTrackAdapter);
+    }
+
+    private void isLikedTrack(Track track) {
+        mTracks.get(pos).setLiked(track.isLiked());
+        mTrackAdapter.updateTrackLikeStateIcon(pos, track.isLiked());
     }
 
     @Override
@@ -170,12 +186,15 @@ public class UserDetailsFragment extends Fragment implements PlaylistAdapterCall
 
     @Override
     public void onLikeTrackSelected(int index) {
-
+        pos = index;
+        TrackManager.getInstance(getContext())
+                .addLikeTrack(mTracks.get(index).getId(), this);
     }
+
 
     @Override
     public void onDetailsTrackSelected(int index) {
-
+        fragmentCallback.onTrackSelection(TrackOptionsFragment.getInstance(), mTracks.get(index));
     }
 
     @Override
@@ -200,18 +219,19 @@ public class UserDetailsFragment extends Fragment implements PlaylistAdapterCall
 
     @Override
     public void onUserTracksReceived(List<Track> tracks) {
+        mTracks = (ArrayList<Track>) tracks;
         mTrackAdapter = new TrackListAdapter(this, getContext(), (ArrayList<Track>) tracks, user.getLogin());
         rvTrack.setAdapter(mTrackAdapter);
     }
 
     @Override
     public void onLikedTrack(Track track) {
-
+        isLikedTrack(track);
     }
 
     @Override
     public void onIsLikedTrack(Track track) {
-
+        isLikedTrack(track);
     }
 
     @Override

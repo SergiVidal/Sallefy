@@ -169,6 +169,11 @@ public class SearchFragment extends Fragment implements UserCallback, SearchCall
     }
 
     @Override
+    public void onMeTracksSuccess(List<Track> trackList) {
+
+    }
+
+    @Override
     public void onLoginFailure(Throwable throwable) {
 
     }

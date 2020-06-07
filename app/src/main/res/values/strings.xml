@@ -105,6 +105,15 @@
     <string name="user_numFollowers">Followers: </string>
     <string name="user_numFollowing">Following: </string>
     <string name="user_none">None</string>
+    <string name="top_5_songs">MOSTRAR TOP 5 CANCIONES POR REPRODUCIONES</string>
+    <string name="top_5_liked_songs">MOSTRAR TOP 5 CANCIONES POR LIKES</string>
+    <string name="top_5_followed_playlists">MOSTRAR TOP 5 PLAYLISTS POR FOLLOWERS</string>
+
+    <!-- ACTIVITY [ Stats ] -->
+    <string name="top_played_songs">TOP 5 CANCIONES MAS REPRODUCIDAS</string>
+    <string name="top_liked_songs">TOP 5 CANCIONES CON MAS LIKES</string>
+    <string name="top_followers_playlists">TOP 5 PLAYLISTS CON MAS FOLLOWERS</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

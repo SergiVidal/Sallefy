@@ -129,7 +129,30 @@ public class UserManager extends BaseManager{
             }
         });
     }
+    public synchronized void getMeTracks(final UserCallback userCallback) {
+//        UserToken userToken = Session.getInstance(mContext).getUserToken();
 
+        Call<List<Track>> call = mService.getMeTracks();
+        call.enqueue(new Callback<List<Track>>() {
+            @Override
+            public void onResponse(Call<List<Track>> call, Response<List<Track>> response) {
+                int code = response.code();
+
+                if (response.isSuccessful()) {
+                    userCallback.onMeTracksSuccess(response.body());
+                }else{
+                    Log.d(TAG, "Error Failure: " + response.toString());
+                    userCallback.onFailure(new Throwable("ERROR " + response.raw().message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Track>> call, Throwable t) {
+                Log.d(TAG, "Error Failure: " + t.getMessage());
+                userCallback.onFailure(new Throwable("ERROR " + t.getStackTrace()));
+            }
+        });
+    }
 
     /********************   REGISTRATION    ********************/
 //    public synchronized void registerAttempt (String email, String username, String password, final UserCallback userCallback) {

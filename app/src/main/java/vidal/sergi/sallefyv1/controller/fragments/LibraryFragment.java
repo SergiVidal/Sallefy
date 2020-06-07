@@ -78,6 +78,7 @@ public class LibraryFragment extends Fragment implements PlaylistCallback, Playl
             }
         });
         bPlaylist.setEnabled(false);
+//        createPlayList.setEnabled(false);
         bPlaylist.setTextColor(ContextCompat.getColor(getActivity(), R.color.opacity));
         return v;
     }

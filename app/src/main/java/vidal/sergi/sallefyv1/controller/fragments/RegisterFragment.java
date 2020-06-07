@@ -20,6 +20,7 @@ import java.util.List;
 import vidal.sergi.sallefyv1.R;
 import vidal.sergi.sallefyv1.controller.activity.MainActivity;
 import vidal.sergi.sallefyv1.controller.callbacks.FragmentCallback;
+import vidal.sergi.sallefyv1.model.Track;
 import vidal.sergi.sallefyv1.model.User;
 import vidal.sergi.sallefyv1.model.UserRegister;
 import vidal.sergi.sallefyv1.model.UserToken;
@@ -97,6 +98,11 @@ public class RegisterFragment extends Fragment implements UserCallback {
         PreferenceUtils.saveUser(getContext(), etLogin.getText().toString());
         PreferenceUtils.savePassword(getContext(), etPassword.getText().toString());
         UserManager.getInstance(getContext()).getUserData(etLogin.getText().toString(), this);
+
+    }
+
+    @Override
+    public void onMeTracksSuccess(List<Track> trackList) {
 
     }
 

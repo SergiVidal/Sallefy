@@ -12,6 +12,9 @@ public class Playlist implements Serializable {
     @SerializedName("description")
     private String description;
 
+    @SerializedName("followers")
+    private Integer followers;
+
     @SerializedName("id")
     private Integer id;
 
@@ -41,6 +44,14 @@ public class Playlist implements Serializable {
 
     public String getCover() {
         return cover;
+    }
+
+    public Integer getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(Integer followers) {
+        this.followers = followers;
     }
 
     public void setCover(String cover) {

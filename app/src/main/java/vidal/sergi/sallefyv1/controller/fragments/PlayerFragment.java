@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.objectbox.Box;
 import vidal.sergi.sallefyv1.R;
 import vidal.sergi.sallefyv1.controller.adapters.PlaylistListAdapter;
 import vidal.sergi.sallefyv1.controller.adapters.TrackListAdapter;
@@ -46,15 +47,19 @@ import vidal.sergi.sallefyv1.controller.callbacks.FragmentCallback;
 import vidal.sergi.sallefyv1.controller.callbacks.PlaylistAdapterCallback;
 import vidal.sergi.sallefyv1.controller.callbacks.TrackListCallback;
 import vidal.sergi.sallefyv1.controller.callbacks.UserAdapterCallback;
+import vidal.sergi.sallefyv1.model.Database;
+import vidal.sergi.sallefyv1.model.ObjectBox;
 import vidal.sergi.sallefyv1.model.Playlist;
 import vidal.sergi.sallefyv1.model.Search;
 import vidal.sergi.sallefyv1.model.Track;
 import vidal.sergi.sallefyv1.model.User;
 import vidal.sergi.sallefyv1.model.UserToken;
+import vidal.sergi.sallefyv1.restapi.callback.DownloadCallback;
 import vidal.sergi.sallefyv1.restapi.callback.PlaylistCallback;
 import vidal.sergi.sallefyv1.restapi.callback.SearchCallback;
 import vidal.sergi.sallefyv1.restapi.callback.TrackCallback;
 import vidal.sergi.sallefyv1.restapi.callback.UserCallback;
+import vidal.sergi.sallefyv1.restapi.manager.DownloadManager;
 import vidal.sergi.sallefyv1.restapi.manager.SearchManager;
 import vidal.sergi.sallefyv1.restapi.manager.TrackManager;
 import vidal.sergi.sallefyv1.utils.Session;
@@ -77,7 +82,7 @@ public class PlayerFragment extends Fragment implements SessionManagerListener<C
     private SeekBar mSeekBar;
     private Handler mHandler;
     private Runnable mRunnable;
-    Track track;
+    private Track track;
 
     private FragmentCallback fragmentCallback;
 
@@ -88,9 +93,20 @@ public class PlayerFragment extends Fragment implements SessionManagerListener<C
     private CastContext mCastContext;
     private MenuItem mediaRouteMenuItem;
 
+    private Box<Database> userBox;
 
     public static PlayerFragment getInstance() {
         return new PlayerFragment();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d("Static: ", "Enter onStart " + this.hashCode());
+
+
+        mPlayer.prepareAsync(); // might take long! (for buffering, etc)
+
     }
 
     public static final String TAG = PlayerFragment.class.getName();
@@ -107,6 +123,7 @@ public class PlayerFragment extends Fragment implements SessionManagerListener<C
         inflater.inflate(R.menu.browse, menu);
         mediaRouteMenuItem = CastButtonFactory.setUpMediaRouteButton(getActivity(), menu , R.id.share_btn);
 
+
     }
 
     @Nullable
@@ -117,16 +134,46 @@ public class PlayerFragment extends Fragment implements SessionManagerListener<C
         track = (Track) getArguments().getSerializable("track");
         url = track.getUrl();
         mCastContext = CastContext.getSharedInstance(getContext());
+
+        ObjectBox.init(getContext());
+        userBox = ObjectBox.get().boxFor(Database.class);
+
+        if (!isDownloaded()) {
+            DownloadManager.getInstance(getContext()).downloadTrack(track, this);
+            url = track.getUrl();
+            System.out.println("--------------------->False!");
+        }
+
         Log.d("Static: ", "Enter onCreate " + this.hashCode());
         initViews(v);
         return v;
     }
 
+    public boolean isDownloaded() {
+        List<Database> databases = userBox.getAll();
+
+        for (Database database : databases) {
+            System.out.println(database);
+            if (database.getId() == track.getId()) {
+                this.url = database.getUrl();
+                System.out.println("--------------------------->True!");
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public void createBox(Database database) {
+        userBox.put(database);
+        System.out.println("----->  " + userBox.getAll());
+    }
 
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         fragmentCallback = (FragmentCallback) context;
     }
+
     private void initViews(View v) {
         mVisualizer = v.findViewById(R.id.circleVisualizer);
 
@@ -141,7 +188,7 @@ public class PlayerFragment extends Fragment implements SessionManagerListener<C
                     mSeekBar.setMax(mPlayer.getDuration());
 
                     int audioSessionId = mPlayer.getAudioSessionId();
-                    if (audioSessionId != -1){
+                    if (audioSessionId != -1) {
 //                        mVisualizer.setAudioSessionId(audioSessionId);
                     }
                 }
@@ -169,10 +216,10 @@ public class PlayerFragment extends Fragment implements SessionManagerListener<C
         tvTitle.setText(track.getName());
         tvAuthor.setText(track.getUser().getLogin());
         ivPhoto = v.findViewById(R.id.ivPlaylistPhoto);
-        btnBackward = (ImageButton)v.findViewById(R.id.music_backward_btn_2);
-        btnForward = (ImageButton)v.findViewById(R.id.music_forward_btn_2);
+        btnBackward = (ImageButton) v.findViewById(R.id.music_backward_btn_2);
+        btnForward = (ImageButton) v.findViewById(R.id.music_forward_btn_2);
 
-        btnPlayStop = (ImageButton)v.findViewById(R.id.music_play_btn_2);
+        btnPlayStop = (ImageButton) v.findViewById(R.id.music_play_btn_2);
         btnPlayStop.setTag(PLAY_VIEW);
         btnPlayStop.setOnClickListener(new View.OnClickListener() {
 
@@ -221,7 +268,7 @@ public class PlayerFragment extends Fragment implements SessionManagerListener<C
     public void updateSeekBar() {
         mSeekBar.setProgress(mPlayer.getCurrentPosition());
 
-        if(mPlayer.isPlaying()) {
+        if (mPlayer.isPlaying()) {
             mRunnable = new Runnable() {
                 @Override
                 public void run() {
@@ -261,9 +308,24 @@ public class PlayerFragment extends Fragment implements SessionManagerListener<C
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d("Static: ", "Enter onDestroy " + this.hashCode() );
+        Log.d("Static: ", "Enter onDestroy " + this.hashCode());
         if (mVisualizer != null)
             mVisualizer.release();
+
+    }
+
+    @Override
+    public void onSongDownload(Database database) {
+        createBox(database);
+    }
+
+    @Override
+    public void onSongDownloadFailure(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onFailure(Throwable throwable) {
 
     }
 
