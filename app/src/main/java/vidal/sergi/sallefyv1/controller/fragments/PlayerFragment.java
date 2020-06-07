@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -21,10 +24,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.mediarouter.app.MediaRouteButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gauravk.audiovisualizer.visualizer.CircleLineVisualizer;
+import com.google.android.gms.cast.framework.CastButtonFactory;
+import com.google.android.gms.cast.framework.CastContext;
+import com.google.android.gms.cast.framework.CastSession;
+import com.google.android.gms.cast.framework.SessionManagerListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,7 +59,9 @@ import vidal.sergi.sallefyv1.restapi.manager.SearchManager;
 import vidal.sergi.sallefyv1.restapi.manager.TrackManager;
 import vidal.sergi.sallefyv1.utils.Session;
 
-public class PlayerFragment extends Fragment  {
+import static com.google.android.gms.cast.framework.CastContext.*;
+
+public class PlayerFragment extends Fragment implements SessionManagerListener<CastSession> {
 
     private static final String PLAY_VIEW = "PlayIcon";
     private static final String STOP_VIEW = "StopIcon";
@@ -63,6 +73,7 @@ public class PlayerFragment extends Fragment  {
     private ImageButton btnBackward;
     private ImageButton btnPlayStop;
     private ImageButton btnForward;
+    private MenuItem btnCast;
     private SeekBar mSeekBar;
     private Handler mHandler;
     private Runnable mRunnable;
@@ -74,6 +85,8 @@ public class PlayerFragment extends Fragment  {
 
     private MediaPlayer mPlayer;
     private String url;
+    private CastContext mCastContext;
+    private MenuItem mediaRouteMenuItem;
 
 
     public static PlayerFragment getInstance() {
@@ -86,6 +99,14 @@ public class PlayerFragment extends Fragment  {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mCastContext = CastContext.getSharedInstance(getContext()); // inicio del proceso de casteo
+        setHasOptionsMenu(true);
+    }
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.browse, menu);
+        mediaRouteMenuItem = CastButtonFactory.setUpMediaRouteButton(getActivity(), menu , R.id.share_btn);
+
     }
 
     @Nullable
@@ -95,6 +116,7 @@ public class PlayerFragment extends Fragment  {
         super.onCreate(savedInstanceState);
         track = (Track) getArguments().getSerializable("track");
         url = track.getUrl();
+        mCastContext = CastContext.getSharedInstance(getContext());
         Log.d("Static: ", "Enter onCreate " + this.hashCode());
         initViews(v);
         return v;
@@ -242,6 +264,51 @@ public class PlayerFragment extends Fragment  {
         Log.d("Static: ", "Enter onDestroy " + this.hashCode() );
         if (mVisualizer != null)
             mVisualizer.release();
+
+    }
+
+    @Override
+    public void onSessionStarting(CastSession castSession) {
+
+    }
+
+    @Override
+    public void onSessionStarted(CastSession castSession, String s) {
+
+    }
+
+    @Override
+    public void onSessionStartFailed(CastSession castSession, int i) {
+
+    }
+
+    @Override
+    public void onSessionEnding(CastSession castSession) {
+
+    }
+
+    @Override
+    public void onSessionEnded(CastSession castSession, int i) {
+
+    }
+
+    @Override
+    public void onSessionResuming(CastSession castSession, String s) {
+
+    }
+
+    @Override
+    public void onSessionResumed(CastSession castSession, boolean b) {
+
+    }
+
+    @Override
+    public void onSessionResumeFailed(CastSession castSession, int i) {
+
+    }
+
+    @Override
+    public void onSessionSuspended(CastSession castSession, int i) {
 
     }
 }

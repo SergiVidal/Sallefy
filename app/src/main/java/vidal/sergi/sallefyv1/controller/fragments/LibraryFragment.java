@@ -55,7 +55,7 @@ public class LibraryFragment extends Fragment implements PlaylistCallback, Playl
         View v = inflater.inflate(R.layout.fragment_library, container, false);
         getData();
         initViews(v);
-        createPlayList = bArtistas= (Button)v.findViewById(R.id.create_playlist);
+        createPlayList = (Button)v.findViewById(R.id.create_playlist);
         bPlaylist = (Button) v.findViewById(R.id.item_playlist_button);
         bArtistas= (Button)v.findViewById(R.id.item_artistas_button);
         bCanciones=  (Button)v.findViewById(R.id.item_canciones_button);
@@ -74,7 +74,7 @@ public class LibraryFragment extends Fragment implements PlaylistCallback, Playl
         createPlayList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragmentCallback.onChangeFragment(LibraryTrackFragment.getInstance());// cambiar fragment
+                fragmentCallback.onChangeFragment(CreatePlayListFragment.getInstance());
             }
         });
         bPlaylist.setEnabled(false);
@@ -109,6 +109,7 @@ public class LibraryFragment extends Fragment implements PlaylistCallback, Playl
     public void onResume() {
         super.onResume();
         getData();
+
     }
 
     @Override

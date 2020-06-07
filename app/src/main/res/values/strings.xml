@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Sallefy</string>
     <string name="track_list">Lista</string>
-
+    <string name="app_id">4F8B3483</string>
 
     <!-- DEFAULT TRACK -->
     <string name="default_track_title">Título canción</string>

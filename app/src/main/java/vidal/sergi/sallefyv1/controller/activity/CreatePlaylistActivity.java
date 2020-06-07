@@ -16,6 +16,7 @@ import java.util.List;
 import vidal.sergi.sallefyv1.R;
 import vidal.sergi.sallefyv1.controller.adapters.PlaylistListAdapter;
 import vidal.sergi.sallefyv1.controller.adapters.TrackListAdapter;
+import vidal.sergi.sallefyv1.controller.callbacks.FragmentCallback;
 import vidal.sergi.sallefyv1.model.Playlist;
 import vidal.sergi.sallefyv1.model.Track;
 import vidal.sergi.sallefyv1.restapi.callback.PlaylistCallback;
@@ -30,10 +31,11 @@ public class CreatePlaylistActivity extends AppCompatActivity implements Playlis
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_playlist);
+       //setContentView(R.layout.activity_create_playlist);
         playlistList = Session.getInstance(getApplicationContext()).getPlaylistList();
 
         initViews();

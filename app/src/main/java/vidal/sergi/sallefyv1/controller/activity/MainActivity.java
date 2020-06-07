@@ -22,6 +22,8 @@ import java.util.List;
 import vidal.sergi.sallefyv1.R;
 import vidal.sergi.sallefyv1.controller.callbacks.FragmentCallback;
 import vidal.sergi.sallefyv1.controller.callbacks.SharedCallback;
+import vidal.sergi.sallefyv1.controller.fragments.AddTrackToListFragment;
+import vidal.sergi.sallefyv1.controller.fragments.CreatePlayListFragment;
 import vidal.sergi.sallefyv1.controller.fragments.GenreFragment;
 import vidal.sergi.sallefyv1.controller.fragments.HomeFragment;
 import vidal.sergi.sallefyv1.controller.fragments.LibraryArtistFragment;
@@ -47,7 +49,7 @@ import vidal.sergi.sallefyv1.restapi.manager.UserManager;
 import vidal.sergi.sallefyv1.utils.Constants;
 import vidal.sergi.sallefyv1.utils.Session;
 
-public class MainActivity extends FragmentActivity implements FragmentCallback , TrackCallback, UserCallback, PlaylistCallback{
+public class MainActivity extends FragmentActivity implements FragmentCallback, TrackCallback, UserCallback, PlaylistCallback {
 
     private FragmentManager mFragmentManager;
     private FragmentCallback fragmentCallback;
@@ -67,28 +69,26 @@ public class MainActivity extends FragmentActivity implements FragmentCallback ,
         setContentView(R.layout.activity_main);
         Intent intent = getIntent();
         Uri data = intent.getData();
+        if (data != null) {
+            String[] segments = data.getPath().split("/");
+            String path = segments[segments.length - 2];
+            String id = segments[segments.length - 1];
 
-
-            if (data != null) {
-                String[] segments = data.getPath().split("/");
-                String path = segments[segments.length - 2];
-                String id = segments[segments.length - 1];
-
-                if(Session.getInstance(this).getUserToken() == null) {
-                    Intent intent1 = new Intent(getApplicationContext(), LoginActivity.class);
-                    startActivity(intent1);
-                }
-
-                    if (path.equals("track")) {
-                        long idPass = Long.parseLong(id);
-                        trackListener.getInstance(getApplicationContext()).shareTrack(idPass, this);
-                    } else if (path.equals("playlist")) {
-                        long idPass = Long.parseLong(id);
-                        playlistListener.getInstance(getApplicationContext()).getPlaylistAttempt(idPass, this);
-                    } else if (path.equals("user")) {
-                        userListener.getInstance(getApplicationContext()).getUserData(id, this);
-                    }
+            if (Session.getInstance(this).getUserToken() == null) {
+                Intent intent1 = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent1);
             }
+
+            if (path.equals("track")) {
+                long idPass = Long.parseLong(id);
+                trackListener.getInstance(getApplicationContext()).shareTrack(idPass, this);
+            } else if (path.equals("playlist")) {
+                long idPass = Long.parseLong(id);
+                playlistListener.getInstance(getApplicationContext()).getPlaylistAttempt(idPass, this);
+            } else if (path.equals("user")) {
+                userListener.getInstance(getApplicationContext()).getUserData(id, this);
+            }
+        }
         initViews();
         setInitialFragment();
         requestPermissions();
@@ -180,12 +180,16 @@ public class MainActivity extends FragmentActivity implements FragmentCallback ,
             return LibraryArtistFragment.TAG;
         } else if (fragment instanceof LibraryTrackFragment) {
             return LibraryTrackFragment.TAG;
-        } else if(fragment instanceof UploadFragment){
+        } else if (fragment instanceof UploadFragment) {
             return UploadFragment.TAG;
-        }else if(fragment instanceof PlayerFragment){
+        } else if (fragment instanceof PlayerFragment) {
             return PlayerFragment.TAG;
-        }else if(fragment instanceof GenreFragment){
+        } else if (fragment instanceof GenreFragment) {
             return GenreFragment.TAG;
+        } else if (fragment instanceof AddTrackToListFragment) {
+            return AddTrackToListFragment.TAG;
+        } else if (fragment instanceof CreatePlayListFragment) {
+            return CreatePlayListFragment.TAG;
         }
 
         return "";
@@ -282,16 +286,18 @@ public class MainActivity extends FragmentActivity implements FragmentCallback ,
     public void onPlayedTrack(Track track) {
 
     }
-//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void onSharedTrack(Track track) {
         Fragment fragment = null;
         System.out.println(track.getName() + "<----- NOMBRE CANCION");
         fragment = PlayerFragment.getInstance();
-        onTrackSelection(fragment,track);
+        onTrackSelection(fragment, track);
     }
-/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void onFailure(Throwable throwable) {
@@ -317,6 +323,7 @@ public class MainActivity extends FragmentActivity implements FragmentCallback ,
     public void onRegisterFailure(Throwable throwable) {
 
     }
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
@@ -325,8 +332,9 @@ public class MainActivity extends FragmentActivity implements FragmentCallback ,
         user = userData;
         System.out.println(user + "<----- NOMBRE USER");
         fragment = UserDetailsFragment.getInstance();
-        onUsersDetails(fragment,userData);
+        onUsersDetails(fragment, userData);
     }
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
@@ -358,15 +366,17 @@ public class MainActivity extends FragmentActivity implements FragmentCallback ,
     public void onAddTrackToPlaylistFailure(Throwable throwable) {
 
     }
-//////////////////////////////////////////////////////////////////////////////////
+
+    //////////////////////////////////////////////////////////////////////////////////
     @Override
     public void onGetPlaylistReceivedSuccess(Playlist playlist) {
         Fragment fragment = null;
         System.out.println(playlist.getName() + "<----- NOMBRE PLAYLIST");
         fragment = PlaylistDetailsFragment.getInstance();
-        onPlaylistDetails(fragment,playlist);
+        onPlaylistDetails(fragment, playlist);
     }
-/////////////////////////////////////////////////////////////////////////////////
+
+    /////////////////////////////////////////////////////////////////////////////////
     @Override
     public void onGetPlaylistReceivedFailure(Throwable throwable) {
 

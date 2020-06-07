@@ -48,6 +48,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".controller.activity.CreatePlaylistActivity" />
+        <meta-data
+            android:name="com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME"
+            android:value="vidal.sergi.sallefyv1.utils.CastOptionsProvider" />
     </application>
 
 </manifest>
