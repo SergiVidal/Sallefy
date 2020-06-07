@@ -68,7 +68,7 @@
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/btn_random_radius"
-                android:src="@drawable/ic_plus"
+                android:src="@drawable/ic_star"
                 android:textAlignment="center" />
 
             <ImageButton
@@ -109,7 +109,7 @@
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/btn_random_radius"
-                android:src="@drawable/ic_shared_btn_black"
+                android:src="@drawable/ic_share_48"
                 android:textAlignment="center" />
 
         </LinearLayout>

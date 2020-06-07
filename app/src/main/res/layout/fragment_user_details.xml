@@ -45,8 +45,8 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:layout_marginLeft="20dp"
-            android:background="@drawable/btn_random_radius"
-            android:src="@drawable/ic_shared_btn_black"
+            android:background="@drawable/btn_random_radius_white"
+            android:src="@drawable/ic_share"
             android:textAlignment="center" />
     </LinearLayout>
 
