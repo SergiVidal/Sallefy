@@ -31,12 +31,14 @@ import vidal.sergi.sallefyv1.controller.callbacks.TrackListCallback;
 import vidal.sergi.sallefyv1.model.Playlist;
 import vidal.sergi.sallefyv1.model.Track;
 import vidal.sergi.sallefyv1.model.User;
+import vidal.sergi.sallefyv1.model.UserToken;
 import vidal.sergi.sallefyv1.restapi.callback.PlaylistCallback;
 import vidal.sergi.sallefyv1.restapi.callback.TrackCallback;
+import vidal.sergi.sallefyv1.restapi.callback.UserCallback;
 import vidal.sergi.sallefyv1.restapi.manager.TrackManager;
 import vidal.sergi.sallefyv1.restapi.manager.UserManager;
 
-public class UserDetailsFragment extends Fragment implements PlaylistAdapterCallback, TrackListCallback, TrackCallback, PlaylistCallback {
+public class UserDetailsFragment extends Fragment implements PlaylistAdapterCallback, TrackListCallback, TrackCallback, PlaylistCallback, UserCallback {
     public static final String TAG = UserDetailsFragment.class.getName();
 
     public static UserDetailsFragment getInstance() {
@@ -74,6 +76,7 @@ public class UserDetailsFragment extends Fragment implements PlaylistAdapterCall
         View v = inflater.inflate(R.layout.fragment_user_details, container, false);
         user = (User) getArguments().getSerializable("user");
 
+        System.out.println("----------------> " + user);
         bShare = v.findViewById(R.id.share_btn);
         bShare.setOnClickListener(v1 -> {
             try {
@@ -117,9 +120,17 @@ public class UserDetailsFragment extends Fragment implements PlaylistAdapterCall
     }
 
     public void getData() {
+        UserManager.getInstance(getContext()).getUserData(user.getLogin(), this);
         UserManager.getInstance(getContext()).getUserTracks(user.getLogin(), this);
         UserManager.getInstance(getContext()).getUserPlaylists(user.getLogin(), this);
 
+    }
+
+    private void setUserData(){
+        tvUsername.setText(user.getLogin());
+        tvNumFollowers.setText(String.valueOf(user.getFollowers()));
+        tvNumFollowing.setText(String.valueOf(user.getFollowing()));
+        tvNumPlaylist.setText(String.valueOf(user.getPlaylists()));
     }
 
     private void initViews(View v) {
@@ -133,16 +144,11 @@ public class UserDetailsFragment extends Fragment implements PlaylistAdapterCall
         }
 
         tvUsername = v.findViewById(R.id.tvUsername);
-        tvUsername.setText(user.getLogin());
-
         tvNumFollowers = v.findViewById(R.id.tvNumFollowers);
-        tvNumFollowers.setText(String.valueOf(user.getFollowers()));
-
         tvNumFollowing = v.findViewById(R.id.tvNumFollowing);
-        tvNumFollowing.setText(String.valueOf(user.getFollowing()));
-
         tvNumPlaylist = v.findViewById(R.id.tvNumPlaylist);
-        tvNumPlaylist.setText(String.valueOf(user.getPlaylists()));
+
+        setUserData();
 
         LinearLayoutManager managerPlaylists = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
         mPlaylistAdapter = new PlaylistListAdapter(null, getContext(), this, R.layout.item_playlist);
@@ -313,6 +319,47 @@ public class UserDetailsFragment extends Fragment implements PlaylistAdapterCall
 
     @Override
     public void getFollowingPlayList(ArrayList<Playlist> tracks) {
+
+    }
+
+    @Override
+    public void onLoginSuccess(UserToken userToken) {
+
+    }
+
+    @Override
+    public void onMeTracksSuccess(List<Track> trackList) {
+
+    }
+
+    @Override
+    public void onLoginFailure(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onRegisterSuccess() {
+
+    }
+
+    @Override
+    public void onRegisterFailure(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onUserInfoReceived(User userData) {
+        user = userData;
+        setUserData();
+    }
+
+    @Override
+    public void onUsersReceived(List<User> users) {
+
+    }
+
+    @Override
+    public void onUsersFailure(Throwable throwable) {
 
     }
 }
