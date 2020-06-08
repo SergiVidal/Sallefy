@@ -297,10 +297,10 @@ public class PlaylistDetailsFragment extends Fragment implements TrackListCallba
     private void pauseAudio() {
         if (mBoundService.isPlaying()) {
             mBoundService.togglePlayer();
+            Toast.makeText(getContext(), "Pausing Audio", Toast.LENGTH_SHORT).show();
         }
         btnPlayStop.setImageResource(R.drawable.ic_play);
         btnPlayStop.setTag(PLAY_VIEW);
-        Toast.makeText(getContext(), "Pausing Audio", Toast.LENGTH_SHORT).show();
     }
 
     public void updateSeekBar() {
